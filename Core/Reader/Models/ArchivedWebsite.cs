@@ -1,9 +1,9 @@
 ﻿using Core.Shared;
 using System;
 
-namespace Core.Reader.Models
+namespace Core.Reader
 {
-    public class ReaderResult<ArchiveType> : BaseItemResult
+    public class ArchivedWebsite : BaseItemResult
     {
         public Guid PublicId { get; set; }
         public string ShortId { get; set; }
@@ -12,6 +12,6 @@ namespace Core.Reader.Models
         public Status Status { get; set; }
         public Uri SourceUrl { get; set; }
         public Uri ArchiveUrl { get; set; }
-        public string PrettyUrl { get; set; }
+        public ArchiveType ArchiveType { get; set; }
     }
 }

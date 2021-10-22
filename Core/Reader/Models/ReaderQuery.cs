@@ -1,6 +1,6 @@
 ﻿using Core.Shared;
 
-namespace Core.Reader.Models
+namespace Core.Reader
 {
     public class ReaderQuery : IQueryObject
     {
