@@ -10,8 +10,8 @@ namespace Core.Reader
         public string Name { get; set; }
         public string Description { get; set; }
         public Status Status { get; set; }
-        public Uri SourceUrl { get; set; }
-        public Uri ArchiveUrl { get; set; }
+        public string SourceUrl { get; set; }
+        public string ArchiveUrl { get; set; }
         public ArchiveType ArchiveType { get; set; }
     }
 }
