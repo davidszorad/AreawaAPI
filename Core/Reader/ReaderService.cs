@@ -58,10 +58,11 @@ namespace Core.Reader
                 Name = "Name 2",
                 Updated = DateTime.UtcNow
             };
-            var items = new List<ArchivedWebsite>();
-            items.Add(item1);
-            items.Add(item2);
-            return items;
+            return new List<ArchivedWebsite>
+            {
+                item1,
+                item2
+            };
         }
     }
 }
