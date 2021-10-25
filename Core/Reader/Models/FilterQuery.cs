@@ -10,5 +10,7 @@ namespace Core.Reader
 
         public Guid? PublicId { get; internal set; }
         public string ShortId { get; internal set; }
+
+        // todo: add pagind and ordering query
     }
 }

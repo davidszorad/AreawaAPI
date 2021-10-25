@@ -2,7 +2,7 @@
 
 namespace Core.Reader
 {
-    public class ReaderQuery : IQueryObject
+    public class PagingOrderingQuery : IQueryObject
     {
         public SortBy SortBy { get; set; }
         public bool IsSortAscending { get; set; }
