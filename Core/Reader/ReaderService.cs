@@ -30,6 +30,11 @@ namespace Core.Reader
             return result;
         }
 
+        public async Task<QueryResult<ArchivedWebsite>> GetAsync(FilterQuery filterQuery, CancellationToken cancellationToken = default)
+        {
+            return await GetAsync(cancellationToken).ConfigureAwait(false);
+        }
+
         private ICollection<ArchivedWebsite> GetFakes()
         {
             var item1 = new ArchivedWebsite

@@ -1,12 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Core.Scheduler
 {
-    class SchedulerService
+    public class SchedulerService : ISchedulerService
     {
+        public async Task<Guid> CreateAsync(ArchivedWebsite command, CancellationToken cancellationToken = default)
+        {
+            await Task.FromResult(0);
+
+            return Guid.Empty;
+        }
     }
 }

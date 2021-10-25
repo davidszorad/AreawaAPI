@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Core.Scheduler
 {
-    interface ISchedulerService
+    public interface ISchedulerService
     {
+        Task<Guid> CreateAsync(ArchivedWebsite command, CancellationToken cancellationToken = default);
     }
 }
