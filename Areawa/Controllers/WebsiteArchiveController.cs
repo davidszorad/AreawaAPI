@@ -26,7 +26,7 @@ namespace Areawa.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result = _readerService.GetAsync();
+            var result = await _readerService.GetAsync();
             return Ok(result);
         }
     }

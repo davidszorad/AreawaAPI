@@ -2,9 +2,9 @@
 {
     public interface IQueryObject
     {
-        SortBy SortBy { get; set; }
-        bool IsSortAscending { get; set; }
-        int Page { get; set; }
-        int PageSize { get; set; }
+        SortBy SortBy { get; }
+        bool IsSortDescending { get; }
+        int Page { get; }
+        int PageSize { get; }
     }
 }
