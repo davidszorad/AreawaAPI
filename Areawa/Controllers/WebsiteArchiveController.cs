@@ -35,7 +35,7 @@ namespace Areawa.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Core.Scheduler.ArchivedWebsite archivedWebsite)
+        public async Task<IActionResult> Create([FromBody] CreateArchivedWebsiteCommand createArchivedWebsiteCommand)
         {
             if (!ModelState.IsValid)
             {
@@ -44,7 +44,7 @@ namespace Areawa.Controllers
 
 
 
-            return Ok(await _schedulerService.CreateAsync(archivedWebsite).ConfigureAwait(false));
+            return Ok(await _schedulerService.CreateAsync(createArchivedWebsiteCommand).ConfigureAwait(false));
         }
     }
 }

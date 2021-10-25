@@ -3,7 +3,7 @@ using Core.Shared;
 
 namespace Core.Scheduler
 {
-    public class ArchivedWebsite
+    public class CreateArchivedWebsiteCommand
     {
         [Required]
         [StringLength(255)]

@@ -9,35 +9,35 @@ namespace Core.Reader
 {
     public class ReaderService : IReaderService
     {
-        public async Task<ArchivedWebsite> GetAsync(Guid publicId, CancellationToken cancellationToken = default)
+        public async Task<GetArchivedWebsiteQuery> GetAsync(Guid publicId, CancellationToken cancellationToken = default)
         {
             await Task.FromResult(0);
             return GetFakes().First();
         }
 
-        public async Task<ArchivedWebsite> GetAsync(string shortId, CancellationToken cancellationToken = default)
+        public async Task<GetArchivedWebsiteQuery> GetAsync(string shortId, CancellationToken cancellationToken = default)
         {
             await Task.FromResult(0);
             return GetFakes().First(x => x.ShortId == shortId);
         }
 
-        public async Task<QueryResult<ArchivedWebsite>> GetAsync(CancellationToken cancellationToken = default)
+        public async Task<QueryResult<GetArchivedWebsiteQuery>> GetAsync(CancellationToken cancellationToken = default)
         {
             await Task.FromResult(0);
-            var result = new QueryResult<ArchivedWebsite>();
+            var result = new QueryResult<GetArchivedWebsiteQuery>();
             result.AllCount = GetFakes().Count;
             result.Items = GetFakes();
             return result;
         }
 
-        public async Task<QueryResult<ArchivedWebsite>> GetAsync(FilterQuery filterQuery, CancellationToken cancellationToken = default)
+        public async Task<QueryResult<GetArchivedWebsiteQuery>> GetAsync(FilterQuery filterQuery, CancellationToken cancellationToken = default)
         {
             return await GetAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        private ICollection<ArchivedWebsite> GetFakes()
+        private ICollection<GetArchivedWebsiteQuery> GetFakes()
         {
-            var item1 = new ArchivedWebsite
+            var item1 = new GetArchivedWebsiteQuery
             {
                 PublicId = Guid.NewGuid(),
                 ShortId = "XXX-XXX-XXX",
@@ -50,7 +50,7 @@ namespace Core.Reader
                 Name = "Name 1",
                 Updated = DateTime.UtcNow
             };
-            var item2 = new ArchivedWebsite
+            var item2 = new GetArchivedWebsiteQuery
             {
                 PublicId = Guid.NewGuid(),
                 ShortId = "YYY-YYY-YYY",
@@ -63,7 +63,7 @@ namespace Core.Reader
                 Name = "Name 2",
                 Updated = DateTime.UtcNow
             };
-            return new List<ArchivedWebsite>
+            return new List<GetArchivedWebsiteQuery>
             {
                 item1,
                 item2

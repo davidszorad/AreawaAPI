@@ -7,10 +7,10 @@ namespace Core.Reader
 {
     public interface IReaderService
     {
-        Task<ArchivedWebsite> GetAsync(Guid publicId, CancellationToken cancellationToken = default);
-        Task<ArchivedWebsite> GetAsync(string shortId, CancellationToken cancellationToken = default);
-        Task<QueryResult<ArchivedWebsite>> GetAsync(CancellationToken cancellationToken = default);
+        Task<GetArchivedWebsiteQuery> GetAsync(Guid publicId, CancellationToken cancellationToken = default);
+        Task<GetArchivedWebsiteQuery> GetAsync(string shortId, CancellationToken cancellationToken = default);
+        Task<QueryResult<GetArchivedWebsiteQuery>> GetAsync(CancellationToken cancellationToken = default);
 
-        Task<QueryResult<ArchivedWebsite>> GetAsync(FilterQuery filterQuery, CancellationToken cancellationToken = default);
+        Task<QueryResult<GetArchivedWebsiteQuery>> GetAsync(FilterQuery filterQuery, CancellationToken cancellationToken = default);
     }
 }

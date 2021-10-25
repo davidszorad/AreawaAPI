@@ -6,7 +6,7 @@ namespace Core.Scheduler
 {
     public class SchedulerService : ISchedulerService
     {
-        public async Task<Guid> CreateAsync(ArchivedWebsite command, CancellationToken cancellationToken = default)
+        public async Task<Guid> CreateAsync(CreateArchivedWebsiteCommand command, CancellationToken cancellationToken = default)
         {
             await Task.FromResult(0);
 

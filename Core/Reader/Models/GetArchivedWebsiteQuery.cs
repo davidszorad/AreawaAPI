@@ -3,7 +3,7 @@ using System;
 
 namespace Core.Reader
 {
-    public class ArchivedWebsite : BaseItemResult
+    public class GetArchivedWebsiteQuery : BaseItemResult
     {
         public Guid PublicId { get; set; }
         public string ShortId { get; set; }
