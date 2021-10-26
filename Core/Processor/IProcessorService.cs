@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Processor
 {
-    interface IProcessorService
+    public interface IProcessorService
     {
     }
 }
