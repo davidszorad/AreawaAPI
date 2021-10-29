@@ -1,4 +1,4 @@
-﻿namespace Core.Shared
+﻿namespace Core.Database.Entities.Enums
 {
     public enum ArchiveType
     {

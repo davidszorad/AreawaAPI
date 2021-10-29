@@ -1,6 +1,6 @@
-﻿namespace Core.Shared.Entities
+﻿namespace Core.Database.Entities.Enums
 {
-    internal enum EntityStatus
+    public enum EntityStatus
     {
         Error = 0,
         Pending = 1,
