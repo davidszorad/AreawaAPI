@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Configuration;
+using Core.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace Areawa
 {
@@ -28,7 +30,9 @@ namespace Areawa
         public void ConfigureServices(IServiceCollection services)
         {
             services.RegisterDependencies();
-            
+
+            services.AddDbContext<AreawaDbContext>(options => options.UseSqlServer("TODO_CONNECTION_STRING"));
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
