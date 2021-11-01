@@ -1,0 +1,19 @@
+using Core.Database.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Core.Database.Configurations
+{
+    internal class EntityStatusConfiguration : ConfigurationBase, IEntityTypeConfiguration<EntityStatus>
+    {
+        public void Configure(EntityTypeBuilder<EntityStatus> builder)
+        {
+            builder.ToTable(nameof(EntityStatus), Schema);
+
+            builder.HasKey(x => x.EntityStatusId);
+            builder.Property( x => x.EntityStatusId).ValueGeneratedNever();
+
+            builder.Property(a => a.Name).HasMaxLength(255).IsRequired();
+        }
+    }
+}

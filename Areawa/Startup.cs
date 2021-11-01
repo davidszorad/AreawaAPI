@@ -47,7 +47,7 @@ namespace Areawa
             };
             var client = new SecretClient(new Uri("https://areawa.vault.azure.net/"), new DefaultAzureCredential(), options);
 
-            KeyVaultSecret secret= client.GetSecret("sqldbconnectionstring");
+            KeyVaultSecret secret= client.GetSecret("dbconnectionstring");
 
             string secretValue = secret.Value;
             #endregion
