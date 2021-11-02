@@ -14,9 +14,6 @@ using System.Threading.Tasks;
 using Core.Configuration;
 using Core.Database;
 using Microsoft.EntityFrameworkCore;
-using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
-using Azure.Core;
 
 namespace Areawa
 {
@@ -32,27 +29,9 @@ namespace Areawa
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.RegisterDependencies();
-            
-            #region key vault
-            var options = new SecretClientOptions
-            {
-                Retry =
-                {
-                    Delay= TimeSpan.FromSeconds(2),
-                    MaxDelay = TimeSpan.FromSeconds(16),
-                    MaxRetries = 5,
-                    Mode = RetryMode.Exponential
-                }
-            };
-            var client = new SecretClient(new Uri("https://areawa.vault.azure.net/"), new DefaultAzureCredential(), options);
+            services.RegisterCoreDependencies();
 
-            KeyVaultSecret secret= client.GetSecret("dbconnectionstring");
-
-            string secretValue = secret.Value;
-            #endregion
-
-            services.AddDbContext<AreawaDbContext>(options => options.UseSqlServer(secretValue));
+            //services.AddDbContext<AreawaDbContext>(options => options.UseSqlServer(secretValue));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -64,24 +43,6 @@ namespace Areawa
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            #region key vault
-            // var options = new SecretClientOptions
-            // {
-            //     Retry =
-            //     {
-            //         Delay= TimeSpan.FromSeconds(2),
-            //         MaxDelay = TimeSpan.FromSeconds(16),
-            //         MaxRetries = 5,
-            //         Mode = RetryMode.Exponential
-            //     }
-            // };
-            // var client = new SecretClient(new Uri("https://areawa.vault.azure.net/"), new DefaultAzureCredential(), options);
-            //
-            // KeyVaultSecret secret= client.GetSecret("sqldbconnectionstring");
-            //
-            // string secretValue = secret.Value;
-            #endregion
-            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
