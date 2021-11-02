@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core.Database.Migrations
 {
     [DbContext(typeof(AreawaDbContext))]
-    [Migration("20211101224036_InitialDatabase")]
+    [Migration("20211102193522_InitialDatabase")]
     partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -108,21 +108,17 @@ namespace Core.Database.Migrations
 
             modelBuilder.Entity("Core.Database.Entities.WebsiteArchive", b =>
                 {
-                    b.HasOne("Core.Database.Entities.ArchiveType", "ArchiveType")
+                    b.HasOne("Core.Database.Entities.ArchiveType", null)
                         .WithMany("WebsiteArchives")
                         .HasForeignKey("ArchiveTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Core.Database.Entities.EntityStatus", "EntityStatus")
+                    b.HasOne("Core.Database.Entities.EntityStatus", null)
                         .WithMany("WebsiteArchives")
                         .HasForeignKey("EntityStatusId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("ArchiveType");
-
-                    b.Navigation("EntityStatus");
                 });
 
             modelBuilder.Entity("Core.Database.Entities.ArchiveType", b =>

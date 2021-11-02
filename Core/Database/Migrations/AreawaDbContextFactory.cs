@@ -2,9 +2,9 @@ using Core.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Core.Database
+namespace Core.Database.Migrations
 {
-    public class AreawaDbContextFactory : IDesignTimeDbContextFactory<AreawaDbContext>
+    internal class AreawaDbContextFactory : IDesignTimeDbContextFactory<AreawaDbContext>
     {
         public AreawaDbContext CreateDbContext(string[] args)
         {

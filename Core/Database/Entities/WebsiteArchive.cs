@@ -11,11 +11,7 @@ namespace Core.Database.Entities
         public string Description { get; set; }
         public string SourceUrl { get; set; }
         public string ArchiveUrl { get; set; }
-
-        public int ArchiveTypeId { get; set; }
-        public ArchiveType ArchiveType { get; set; }
-
-        public int EntityStatusId { get; set; }
-        public EntityStatus EntityStatus { get; set; }
+        public Enums.ArchiveType ArchiveTypeId { get; set; }
+        public Enums.EntityStatus EntityStatusId { get; set; }
     }
 }

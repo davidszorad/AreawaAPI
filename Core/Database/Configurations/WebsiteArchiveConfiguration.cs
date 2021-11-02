@@ -20,20 +20,6 @@ namespace Core.Database.Configurations
             builder.Property(a => a.SourceUrl).IsRequired();
             builder.Property(c => c.ArchiveTypeId).IsRequired().HasDefaultValue(Entities.Enums.ArchiveType.Pdf);
             builder.Property(c => c.EntityStatusId).IsRequired().HasDefaultValue(Entities.Enums.EntityStatus.Error);
-
-            builder
-                .HasOne(x => x.ArchiveType)
-                .WithMany(x => x.WebsiteArchives)
-                .HasForeignKey(x => x.ArchiveTypeId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
-                .HasOne(x => x.EntityStatus)
-                .WithMany(x => x.WebsiteArchives)
-                .HasForeignKey(x => x.EntityStatusId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

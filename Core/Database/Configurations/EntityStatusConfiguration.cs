@@ -14,6 +14,13 @@ namespace Core.Database.Configurations
             builder.Property( x => x.EntityStatusId).ValueGeneratedNever();
 
             builder.Property(a => a.Name).HasMaxLength(255).IsRequired();
+            
+            builder
+                .HasMany(x => x.WebsiteArchives)
+                .WithOne()
+                .HasForeignKey(x => x.EntityStatusId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
