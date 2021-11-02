@@ -1,4 +1,6 @@
-﻿namespace Core.Shared
+﻿using Domain.Enums;
+
+namespace Core.Shared
 {
     public interface IQueryObject
     {
