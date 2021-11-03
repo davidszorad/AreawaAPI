@@ -1,4 +1,4 @@
-﻿namespace Core.Shared
+﻿namespace Domain.Enums
 {
     public enum Status
     {

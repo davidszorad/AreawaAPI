@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Core.Shared;
+using Domain.Enums;
 
 namespace Core.Scheduler
 {

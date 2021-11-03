@@ -1,8 +1,8 @@
-﻿namespace Core.Shared
+﻿namespace Core.Database.Entities.Enums
 {
     public enum ArchiveType
     {
         Pdf = 1,
-        Image = 2
+        Png = 2
     }
 }

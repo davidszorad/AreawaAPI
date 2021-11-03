@@ -7,7 +7,7 @@ namespace Core.Configuration
 {
     public static class DependencyInjectionConfiguration
     {
-        public static IServiceCollection RegisterDependencies(this IServiceCollection services)
+        public static IServiceCollection RegisterCoreDependencies(this IServiceCollection services)
         {
             services.AddTransient<IReaderService, ReaderService>();
             services.AddTransient<ISchedulerService, SchedulerService>();

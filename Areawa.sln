@@ -5,7 +5,11 @@ VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Areawa", "Areawa\Areawa.csproj", "{BC9CCB15-1906-43F4-A634-11ED27613D1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{9A57A224-0165-4DE1-B38D-F725B6378311}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{9A57A224-0165-4DE1-B38D-F725B6378311}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{DABF719B-28ED-4FFA-9332-134FC56D1B39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{EE20A6C2-D7A8-498C-8573-986D48148E65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{9A57A224-0165-4DE1-B38D-F725B6378311}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A57A224-0165-4DE1-B38D-F725B6378311}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A57A224-0165-4DE1-B38D-F725B6378311}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DABF719B-28ED-4FFA-9332-134FC56D1B39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DABF719B-28ED-4FFA-9332-134FC56D1B39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DABF719B-28ED-4FFA-9332-134FC56D1B39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DABF719B-28ED-4FFA-9332-134FC56D1B39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE20A6C2-D7A8-498C-8573-986D48148E65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE20A6C2-D7A8-498C-8573-986D48148E65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE20A6C2-D7A8-498C-8573-986D48148E65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE20A6C2-D7A8-498C-8573-986D48148E65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

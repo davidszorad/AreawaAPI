@@ -1,18 +1,17 @@
-﻿using Core.Shared;
-using System;
-using Domain.Enums;
+﻿using System;
 
-namespace Core.Reader
+namespace Core.Database.Entities
 {
-    public class GetArchivedWebsiteQuery : BaseItemResult
+    public class WebsiteArchive
     {
+        public long WebsiteArchiveId { get; set; }
         public Guid PublicId { get; set; }
         public string ShortId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public Status Status { get; set; }
         public string SourceUrl { get; set; }
         public string ArchiveUrl { get; set; }
-        public ArchiveType ArchiveType { get; set; }
+        public Enums.ArchiveType ArchiveTypeId { get; set; }
+        public Enums.EntityStatus EntityStatusId { get; set; }
     }
 }
