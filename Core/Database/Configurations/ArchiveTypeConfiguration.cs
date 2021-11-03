@@ -8,7 +8,7 @@ namespace Core.Database.Configurations
     {
         public void Configure(EntityTypeBuilder<ArchiveType> builder)
         {
-            builder.ToTable(nameof(ArchiveType), Schema);
+            builder.ToTable(nameof(ArchiveType), SchemaType);
 
             builder.HasKey(x => x.ArchiveTypeId);
             builder.Property( x => x.ArchiveTypeId).ValueGeneratedNever();

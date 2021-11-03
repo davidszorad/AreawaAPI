@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Core.Database.Configurations
 {
-    internal class WebsiteArchiveConfiguration : ConfigurationBase, IEntityTypeConfiguration<WebsiteArchive>
+    internal class WebsiteArchiveConfiguration : IEntityTypeConfiguration<WebsiteArchive>
     {
         public void Configure(EntityTypeBuilder<WebsiteArchive> builder)
         {
-            builder.ToTable(nameof(WebsiteArchive), Schema);
+            builder.ToTable(nameof(WebsiteArchive));
 
             builder.HasKey(x => x.WebsiteArchiveId);
             builder.HasIndex(b => b.PublicId).IsUnique();

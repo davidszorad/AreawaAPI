@@ -2,6 +2,7 @@
 {
     internal abstract class ConfigurationBase
     {
-        public const string Schema = "areawa";
+        public const string SchemaAreawa = "areawa";
+        public const string SchemaType = "type";
     }
 }

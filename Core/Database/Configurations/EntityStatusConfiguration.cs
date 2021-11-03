@@ -8,7 +8,7 @@ namespace Core.Database.Configurations
     {
         public void Configure(EntityTypeBuilder<EntityStatus> builder)
         {
-            builder.ToTable(nameof(EntityStatus), Schema);
+            builder.ToTable(nameof(EntityStatus), SchemaType);
 
             builder.HasKey(x => x.EntityStatusId);
             builder.Property( x => x.EntityStatusId).ValueGeneratedNever();

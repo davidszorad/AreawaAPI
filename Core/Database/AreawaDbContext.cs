@@ -38,7 +38,7 @@ namespace Core.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema(ConfigurationBase.Schema);
+            modelBuilder.HasDefaultSchema(ConfigurationBase.SchemaAreawa);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             base.OnModelCreating(modelBuilder);
