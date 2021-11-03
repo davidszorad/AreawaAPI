@@ -19,7 +19,7 @@ namespace Infrastructure
                     Mode = RetryMode.Exponential
                 }
             };
-            var client = new SecretClient(new Uri("https://areawa.vault.azure.net/"), new DefaultAzureCredential(), options);
+            var client = new SecretClient(new Uri(InfrastructureConstants.KEY_VAULT_ADDRESS), new DefaultAzureCredential(), options);
 
             KeyVaultSecret secret = client.GetSecret(key);
 
