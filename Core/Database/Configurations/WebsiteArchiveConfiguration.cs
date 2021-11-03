@@ -13,7 +13,7 @@ namespace Core.Database.Configurations
             builder.HasKey(x => x.WebsiteArchiveId);
             builder.HasIndex(b => b.PublicId).IsUnique();
             builder.HasIndex(b => b.ShortId).IsUnique();
-            
+
             builder.Property(a => a.PublicId).IsRequired();
             builder.Property(a => a.ShortId).IsRequired();
             builder.Property(a => a.Name).HasMaxLength(255).IsRequired();
