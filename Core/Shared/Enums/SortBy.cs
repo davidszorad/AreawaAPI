@@ -1,4 +1,4 @@
-﻿namespace Domain.Enums
+﻿namespace Core.Shared
 {
     public enum SortBy
     {

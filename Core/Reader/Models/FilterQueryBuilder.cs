@@ -1,6 +1,5 @@
 ﻿using Core.Shared;
 using System;
-using Domain.Enums;
 
 namespace Core.Reader
 {
