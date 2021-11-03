@@ -1,4 +1,4 @@
-using Core.Shared;
+using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 

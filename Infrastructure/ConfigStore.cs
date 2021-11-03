@@ -1,9 +1,9 @@
-using System;
-using Azure.Core;
+﻿using Azure.Core;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
+using System;
 
-namespace Core.Shared
+namespace Infrastructure
 {
     public static class ConfigStore
     {
@@ -21,7 +21,7 @@ namespace Core.Shared
             };
             var client = new SecretClient(new Uri("https://areawa.vault.azure.net/"), new DefaultAzureCredential(), options);
 
-            KeyVaultSecret secret= client.GetSecret(key);
+            KeyVaultSecret secret = client.GetSecret(key);
 
             return secret.Value;
         }

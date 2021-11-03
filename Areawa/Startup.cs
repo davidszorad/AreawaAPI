@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Core.Configuration;
 using Core.Database;
 using Microsoft.EntityFrameworkCore;
+using Infrastructure;
 
 namespace Areawa
 {
@@ -31,7 +32,7 @@ namespace Areawa
         {
             services.RegisterCoreDependencies();
 
-            //services.AddDbContext<AreawaDbContext>(options => options.UseSqlServer(secretValue));
+            services.AddDbContext<AreawaDbContext>(options => options.UseSqlServer(ConfigStore.GetValue("dbconnectionstring")));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
