@@ -14,7 +14,7 @@ namespace Core.Database.Configurations
             builder.Property( x => x.ArchiveTypeId).ValueGeneratedNever();
 
             builder.Property(a => a.Name).HasMaxLength(255).IsRequired();
-            
+
             builder
                 .HasMany(x => x.WebsiteArchives)
                 .WithOne()
