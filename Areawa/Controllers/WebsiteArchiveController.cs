@@ -41,9 +41,7 @@ namespace Areawa.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-
-
+            
             return Ok(await _schedulerService.CreateAsync(createArchivedWebsiteCommand).ConfigureAwait(false));
         }
     }
