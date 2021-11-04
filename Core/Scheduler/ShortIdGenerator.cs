@@ -9,8 +9,8 @@ namespace Core.Scheduler
         
         public static string Generate()
         {
-            return $"{DateTime.UtcNow.Year}-{DateTime.UtcNow.Month:MM}-{DateTime.UtcNow.Date:dd}-" +
-                   $"{DateTime.UtcNow.Hour:hh}-{DateTime.UtcNow.Minute:mm}-" +
+            return $"{DateTime.UtcNow.Year}-{DateTime.UtcNow:MM}-{DateTime.UtcNow:dd}-" +
+                   $"{DateTime.UtcNow:HH}-{DateTime.UtcNow:mm}-" +
                    $"{GenerateRandomString(4)}";
         }
         
