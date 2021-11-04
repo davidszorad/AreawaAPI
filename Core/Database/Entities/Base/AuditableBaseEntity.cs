@@ -2,7 +2,7 @@
 
 namespace Core.Database.Entities
 {
-    internal class AuditableBaseEntity
+    public class AuditableBaseEntity
     {
         public DateTime CreatedOn { get; set; }
         public DateTime UpdatedOn { get; set; }

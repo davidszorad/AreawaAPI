@@ -2,7 +2,7 @@
 
 namespace Core.Database.Entities
 {
-    public class WebsiteArchive
+    public class WebsiteArchive : AuditableBaseEntity
     {
         public long WebsiteArchiveId { get; set; }
         public Guid PublicId { get; set; }
