@@ -16,18 +16,18 @@ namespace Core.Reader
                 return query;
             }
 
-            query = AddIdFilter(query, filterQuery);
+            query = query.AddIdFilter(filterQuery);
 
             if (isPagingAndOrderingEnabled)
             {
-                query = ApplyOrdering(query, filterQuery);
-                query = ApplyPaging(query, filterQuery);
+                query = query.ApplyOrdering(filterQuery, GetColumnsMap());
+                query = query.ApplyPaging(filterQuery);
             }
 
             return query;
         }
 
-        private static IQueryable<WebsiteArchive> AddIdFilter(IQueryable<WebsiteArchive> query, FilterQuery filterQuery)
+        private static IQueryable<WebsiteArchive> AddIdFilter(this IQueryable<WebsiteArchive> query, FilterQuery filterQuery)
         {
             if (filterQuery.PublicId.HasValue)
             {
@@ -42,30 +42,15 @@ namespace Core.Reader
             return query;
         }
 
-        private static IQueryable<WebsiteArchive> ApplyPaging(IQueryable<WebsiteArchive> query, FilterQuery filterQuery)
+        private static Dictionary<int, Expression<Func<WebsiteArchive, object>>> GetColumnsMap()
         {
-            if (filterQuery.Page <= 0)
-                filterQuery.Page = PagingConstants.DEFAULT_PAGE;
-
-            if (filterQuery.PageSize <= 0)
-                filterQuery.PageSize = PagingConstants.DEFAULT_PAGE_SIZE;
-
-            return query.Skip((filterQuery.Page - 1) * filterQuery.PageSize).Take(filterQuery.PageSize);
-        }
-
-        private static IQueryable<WebsiteArchive> ApplyOrdering(IQueryable<WebsiteArchive> query, FilterQuery filterQuery)
-        {
-            var columnsMap = new Dictionary<SortBy, Expression<Func<WebsiteArchive, object>>>()
+            return new Dictionary<int, Expression<Func<WebsiteArchive, object>>>()
             {
-                [SortBy.Default] = p => p.Name,
-                [SortBy.Name] = p => p.Name,
-                [SortBy.Date] = p => p.UpdatedOn,
-                [SortBy.Status] = p => p.EntityStatusId
+                [(int)SortBy.Default] = p => p.Name,
+                [(int)SortBy.Name] = p => p.Name,
+                [(int)SortBy.Date] = p => p.UpdatedOn,
+                [(int)SortBy.Status] = p => p.EntityStatusId
             };
-
-            return filterQuery.IsSortDescending
-                ? query.OrderByDescending(columnsMap[filterQuery.SortBy])
-                : query.OrderBy(columnsMap[filterQuery.SortBy]);
         }
     }
 }
