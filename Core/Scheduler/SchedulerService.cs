@@ -15,7 +15,7 @@ namespace Core.Scheduler
         {
             _areawaDbContext = areawaDbContext;
         }
-        
+
         public async Task<Guid> CreateAsync(CreateArchivedWebsiteCommand command, CancellationToken cancellationToken = default)
         {
             var websiteArchiveEntity = new WebsiteArchive
@@ -31,7 +31,7 @@ namespace Core.Scheduler
 
             _areawaDbContext.WebsiteArchive.Add(websiteArchiveEntity);
             await _areawaDbContext.SaveChangesAsync(cancellationToken);
-            
+
             return websiteArchiveEntity.PublicId;
         }
     }
