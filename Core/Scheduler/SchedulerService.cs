@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core.Database;
 using Core.Database.Entities;
+using Domain.Enums;
 
 namespace Core.Scheduler
 {
@@ -25,7 +26,7 @@ namespace Core.Scheduler
                 ArchiveTypeId = command.ArchiveType,
                 PublicId = Guid.NewGuid(),
                 ShortId = ShortIdGenerator.Generate(),
-                EntityStatusId = Database.Entities.Enums.EntityStatus.Pending
+                EntityStatusId = Status.Pending
             };
 
             _areawaDbContext.WebsiteArchive.Add(websiteArchiveEntity);

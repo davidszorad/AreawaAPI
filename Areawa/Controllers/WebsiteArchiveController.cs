@@ -37,6 +37,11 @@ namespace Areawa.Controllers
                 filterQueryBuilder.SetPublicId(websiteArchiveQuery.PublicId.Value);
             }
 
+            if (websiteArchiveQuery.Status.HasValue)
+            {
+                filterQueryBuilder.SetStatus(websiteArchiveQuery.Status.Value);
+            }
+
             if (!string.IsNullOrWhiteSpace(websiteArchiveQuery.ShortId))
             {
                 filterQueryBuilder.SetShortId(websiteArchiveQuery.ShortId);

@@ -1,4 +1,5 @@
 ﻿using Core.Shared;
+using Domain.Enums;
 using System;
 
 namespace Areawa.Models
@@ -7,6 +8,7 @@ namespace Areawa.Models
     {
         public Guid? PublicId { get; set; }
         public string ShortId { get; set; }
+        public Status? Status { get; set; }
 
         public SortBy SortBy { get; set; }
         public bool IsSortDescending { get; set; }

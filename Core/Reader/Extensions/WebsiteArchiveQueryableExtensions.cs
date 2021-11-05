@@ -17,6 +17,7 @@ namespace Core.Reader
             }
 
             query = query.AddIdFilter(filterQuery);
+            query = query.AddStatusFilter(filterQuery);
 
             if (isPagingAndOrderingEnabled)
             {
@@ -37,6 +38,16 @@ namespace Core.Reader
             if (!string.IsNullOrWhiteSpace(filterQuery.ShortId))
             {
                 query = query.Where(x => x.ShortId == filterQuery.ShortId);
+            }
+
+            return query;
+        }
+
+        private static IQueryable<WebsiteArchive> AddStatusFilter(this IQueryable<WebsiteArchive> query, FilterQuery filterQuery)
+        {
+            if (filterQuery.EntityStatus.HasValue)
+            {
+                query = query.Where(x => x.EntityStatusId == filterQuery.EntityStatus.Value);
             }
 
             return query;

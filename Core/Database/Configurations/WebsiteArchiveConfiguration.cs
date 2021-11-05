@@ -19,7 +19,7 @@ namespace Core.Database.Configurations
             builder.Property(a => a.Name).HasMaxLength(255).IsRequired();
             builder.Property(a => a.SourceUrl).IsRequired();
             builder.Property(c => c.ArchiveTypeId).IsRequired().HasDefaultValue(Domain.Enums.ArchiveType.Pdf);
-            builder.Property(c => c.EntityStatusId).IsRequired().HasDefaultValue(Entities.Enums.EntityStatus.Error);
+            builder.Property(c => c.EntityStatusId).IsRequired().HasDefaultValue(Domain.Enums.Status.Error);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Core.Shared;
+using Domain.Enums;
 using System;
 
 namespace Core.Reader
@@ -19,6 +20,13 @@ namespace Core.Reader
         {
             _filterQuery.ShortId = value;
             _isGettingAllItems = false;
+            return this;
+        }
+
+        public FilterQueryBuilder SetStatus(Status value)
+        {
+            _filterQuery.EntityStatus = value;
+
             return this;
         }
 
