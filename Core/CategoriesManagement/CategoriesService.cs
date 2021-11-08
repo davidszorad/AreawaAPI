@@ -58,11 +58,6 @@ namespace Core.CategoriesManagement
             var category = await _areawaDbContext.Category
                 .FirstAsync(x => x.PublicId.Equals(publicId), cancellationToken);
 
-            if (category == null)
-            {
-                // TODO
-            }
-
             category.Name = command.Name;
             category.CategoryGroup = null;
 
@@ -91,7 +86,7 @@ namespace Core.CategoriesManagement
             return categoryGroup.PublicId;
         }
 
-        public async Task DeleteCategoryAsync(Guid publicId, CancellationToken cancellationToken = default)
+        public async Task<bool> DeleteCategoryAsync(Guid publicId, CancellationToken cancellationToken = default)
         {
             var isCategoryUsed = await _areawaDbContext.WebsiteArchive
                 .Include(x => x.WebsiteArchiveCategories)
@@ -101,7 +96,7 @@ namespace Core.CategoriesManagement
 
             if (isCategoryUsed)
             {
-                // TODO
+                return false;
             }
             
             var category = await _areawaDbContext.Category
@@ -109,11 +104,23 @@ namespace Core.CategoriesManagement
 
             _areawaDbContext.Category.Remove(category);
             await _areawaDbContext.SaveChangesAsync(cancellationToken);
+            return true;
         }
 
-        public async Task DeleteCategoryGroupAsync(Guid publicId, CancellationToken cancellationToken = default)
+        public async Task<bool> DeleteCategoryGroupAsync(Guid publicId, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var categoryGroup = await _areawaDbContext.CategoryGroup
+                .Include(x => x.Categories)
+                .FirstAsync(c => c.PublicId.Equals(publicId), cancellationToken);
+
+            if (categoryGroup.Categories.Count > 0)
+            {
+                return false;
+            }
+            
+            _areawaDbContext.CategoryGroup.Remove(categoryGroup);
+            await _areawaDbContext.SaveChangesAsync(cancellationToken);
+            return true;
         }
     }
 }

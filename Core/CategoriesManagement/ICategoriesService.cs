@@ -10,7 +10,7 @@ namespace Core.CategoriesManagement
         Task<Guid> CreateCategoryGroupAsync(UpsertCategoryGroupCommand command, CancellationToken cancellationToken = default);
         Task<Guid> UpdateCategoryAsync(Guid publicId, UpsertCategoryCommand command, CancellationToken cancellationToken = default);
         Task<Guid> UpdateCategoryGroupAsync(Guid publicId, UpsertCategoryGroupCommand command, CancellationToken cancellationToken = default);
-        Task DeleteCategoryAsync(Guid publicId, CancellationToken cancellationToken = default);
-        Task DeleteCategoryGroupAsync(Guid publicId, CancellationToken cancellationToken = default);
+        Task<bool> DeleteCategoryAsync(Guid publicId, CancellationToken cancellationToken = default);
+        Task<bool> DeleteCategoryGroupAsync(Guid publicId, CancellationToken cancellationToken = default);
     }
 }

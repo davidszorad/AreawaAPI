@@ -38,7 +38,7 @@ namespace Areawa.Controllers
             return Ok(await _categoriesService.CreateCategoryGroupAsync(command));
         }
         
-        [HttpPut("update/{publicId}")]
+        [HttpPut("update/{publicId:guid}")]
         public async Task<IActionResult> Update(Guid publicId, [FromBody] UpsertCategoryCommand command)
         {
             if (!ModelState.IsValid)
@@ -49,7 +49,7 @@ namespace Areawa.Controllers
             return Ok(await _categoriesService.UpdateCategoryAsync(publicId, command));
         }
         
-        [HttpPut("group/update/{publicId}")]
+        [HttpPut("group/update/{publicId:guid}")]
         public async Task<IActionResult> UpdateGroup(Guid publicId, [FromBody] UpsertCategoryGroupCommand command)
         {
             if (!ModelState.IsValid)
@@ -60,20 +60,16 @@ namespace Areawa.Controllers
             return Ok(await _categoriesService.UpdateCategoryGroupAsync(publicId, command));
         }
 
-        [HttpDelete("{publicId}")]
-        public async Task<IActionResult> Delete([FromBody] Guid publicId)
+        [HttpDelete("{publicId:guid}")]
+        public async Task<IActionResult> Delete(Guid publicId)
         {
-            await _categoriesService.DeleteCategoryAsync(publicId);
-            
-            return Ok();
+            return Ok(await _categoriesService.DeleteCategoryAsync(publicId));
         }
         
-        [HttpDelete("group/{publicId}")]
-        public async Task<IActionResult> DeleteGroup([FromBody] Guid publicId)
+        [HttpDelete("group/{publicId:guid}")]
+        public async Task<IActionResult> DeleteGroup(Guid publicId)
         {
-            await _categoriesService.DeleteCategoryGroupAsync(publicId);
-            
-            return Ok();
+            return Ok(await _categoriesService.DeleteCategoryGroupAsync(publicId));
         }
     }
 }

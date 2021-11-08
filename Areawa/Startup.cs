@@ -56,6 +56,8 @@ namespace Areawa
             app.UseRouting();
 
             app.UseAuthorization();
+            
+            app.ConfigureExceptionHandler(/*logger*/);
 
             app.UseEndpoints(endpoints =>
             {
