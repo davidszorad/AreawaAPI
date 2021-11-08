@@ -16,7 +16,7 @@ namespace Core.Shared
             try
             {
                 var checkingResponse = await Client.GetAsync(url, cancellationToken);
-                return checkingResponse.IsSuccessStatusCode;
+                return checkingResponse.IsSuccessStatusCode && checkingResponse.RequestMessage.RequestUri.Equals(url);
             }
             catch
             {
