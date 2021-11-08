@@ -17,15 +17,13 @@ namespace Core.Shared
             try
             {
                 var checkingResponse = await Client.GetAsync(url, cancellationToken);
-                return checkingResponse.IsSuccessStatusCode && checkingResponse.RequestMessage.RequestUri.Equals(url);
+                return checkingResponse.IsSuccessStatusCode &&
+                       checkingResponse.RequestMessage?.RequestUri != null &&
+                       checkingResponse.RequestMessage.RequestUri.Equals(new Uri(url));
             }
             catch (HttpRequestException ex)
             {
-                if (ex.Message.Contains("No such host is known", StringComparison.OrdinalIgnoreCase))
-                {
-                    return false;
-                }
-                throw;
+                return false;
             }
             catch (Exception)
             {
