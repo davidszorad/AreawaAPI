@@ -35,6 +35,69 @@ namespace Core.Database.Migrations
                     b.ToTable("ArchiveType", "type");
                 });
 
+            modelBuilder.Entity("Core.Database.Entities.Category", b =>
+                {
+                    b.Property<long>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long?>("CategoryGroupId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<Guid>("PublicId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("CategoryId");
+
+                    b.HasIndex("CategoryGroupId");
+
+                    b.HasIndex("PublicId")
+                        .IsUnique();
+
+                    b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("Core.Database.Entities.CategoryGroup", b =>
+                {
+                    b.Property<long>("CategoryGroupId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<Guid>("PublicId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("CategoryGroupId");
+
+                    b.HasIndex("PublicId")
+                        .IsUnique();
+
+                    b.ToTable("CategoryGroup");
+                });
+
             modelBuilder.Entity("Core.Database.Entities.EntityStatus", b =>
                 {
                     b.Property<int>("EntityStatusId")
@@ -110,6 +173,31 @@ namespace Core.Database.Migrations
                     b.ToTable("WebsiteArchive");
                 });
 
+            modelBuilder.Entity("Core.Database.Entities.WebsiteArchiveCategory", b =>
+                {
+                    b.Property<long>("WebsiteArchiveId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("CategoryId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("WebsiteArchiveId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("WebsiteArchiveCategory");
+                });
+
+            modelBuilder.Entity("Core.Database.Entities.Category", b =>
+                {
+                    b.HasOne("Core.Database.Entities.CategoryGroup", "CategoryGroup")
+                        .WithMany("Categories")
+                        .HasForeignKey("CategoryGroupId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CategoryGroup");
+                });
+
             modelBuilder.Entity("Core.Database.Entities.WebsiteArchive", b =>
                 {
                     b.HasOne("Core.Database.Entities.ArchiveType", null)
@@ -125,14 +213,48 @@ namespace Core.Database.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Core.Database.Entities.WebsiteArchiveCategory", b =>
+                {
+                    b.HasOne("Core.Database.Entities.Category", "Category")
+                        .WithMany("WebsiteArchiveCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Database.Entities.WebsiteArchive", "WebsiteArchive")
+                        .WithMany("WebsiteArchiveCategories")
+                        .HasForeignKey("WebsiteArchiveId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("WebsiteArchive");
+                });
+
             modelBuilder.Entity("Core.Database.Entities.ArchiveType", b =>
                 {
                     b.Navigation("WebsiteArchives");
                 });
 
+            modelBuilder.Entity("Core.Database.Entities.Category", b =>
+                {
+                    b.Navigation("WebsiteArchiveCategories");
+                });
+
+            modelBuilder.Entity("Core.Database.Entities.CategoryGroup", b =>
+                {
+                    b.Navigation("Categories");
+                });
+
             modelBuilder.Entity("Core.Database.Entities.EntityStatus", b =>
                 {
                     b.Navigation("WebsiteArchives");
+                });
+
+            modelBuilder.Entity("Core.Database.Entities.WebsiteArchive", b =>
+                {
+                    b.Navigation("WebsiteArchiveCategories");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Core.Database.Entities
 {
@@ -13,5 +14,6 @@ namespace Core.Database.Entities
         public string ArchiveUrl { get; set; }
         public Domain.Enums.ArchiveType ArchiveTypeId { get; set; }
         public Domain.Enums.Status EntityStatusId { get; set; }
+        public ICollection<WebsiteArchiveCategory> WebsiteArchiveCategories { get; set; }
     }
 }
