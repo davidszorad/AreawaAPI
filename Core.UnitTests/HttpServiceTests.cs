@@ -15,7 +15,6 @@ namespace Core.UnitTests
             _httpService = new HttpService();
         }
 
-
         [Test]
         [TestCase("https://www.google.com")]
         [TestCase("https://www.hanselman.com/blog/dynamically-generating-robotstxt-for-aspnet-core-sites-based-on-environment")]
