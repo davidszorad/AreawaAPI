@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace Core.UnitTests
 {
+    [TestFixture]
     public class HttpServiceTests
     {
         private HttpService _httpService;
