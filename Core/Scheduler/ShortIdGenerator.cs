@@ -1,11 +1,14 @@
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Core.UnitTests")]
 
 namespace Core.Scheduler
 {
     internal static class ShortIdGenerator
     {
-        private static Random random = new();
+        private static readonly Random Random = new();
         
         public static string Generate()
         {
@@ -18,7 +21,7 @@ namespace Core.Scheduler
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             return new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
+                .Select(s => s[Random.Next(s.Length)]).ToArray());
         }
     }
 }

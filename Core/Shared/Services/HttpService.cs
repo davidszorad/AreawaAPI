@@ -10,7 +10,7 @@ namespace Core.Shared
 {
     internal class HttpService
     {
-        private static HttpClient Client = new();
+        private static readonly HttpClient Client = new();
 
         public async Task<bool> IsStatusOkAsync(string url, CancellationToken cancellationToken = default)
         {
