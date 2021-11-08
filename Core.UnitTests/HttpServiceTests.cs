@@ -1,32 +1,43 @@
 ﻿using Core.Shared;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.UnitTests
 {
     public class HttpServiceTests
     {
+        private HttpService _httpService;
+
+        [SetUp]
+        public void Setup()
+        {
+            _httpService = new HttpService();
+        }
+
         [Test]
         public async Task IsStatusOkAsync_PageReturns200_ReturnsTrue()
         {
             // Arrange
-            var httpService = new HttpService();
+            var liveUrl = "https://www.google.com";
 
             // Act
-            var result = await httpService.IsStatusOkAsync("http://www.diuhefiuhrefiuhreiufhreif.com");
+            var result = await _httpService.IsStatusOkAsync(liveUrl);
 
             // Assert
             Assert.That(result, Is.EqualTo(true));
         }
 
         [Test]
-        public void IsStatusOkAsync_PageReturns404_ReturnsFalse()
+        public async Task IsStatusOkAsync_PageReturns404_ReturnsFalse()
         {
-            Assert.Pass();
+            // Arrange
+            var deadUrl = "https://j1if2re7oj.com";
+
+            // Act
+            var result = await _httpService.IsStatusOkAsync(deadUrl);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(false));
         }
     }
 }

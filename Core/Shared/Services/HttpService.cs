@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,10 +9,19 @@ namespace Core.Shared
 {
     internal class HttpService
     {
+        private static HttpClient Client = new();
+
         public async Task<bool> IsStatusOkAsync(string url, CancellationToken cancellationToken = default)
         {
-            await Task.FromResult(0);
-            return true;
+            try
+            {
+                var checkingResponse = await Client.GetAsync(url, cancellationToken);
+                return checkingResponse.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
