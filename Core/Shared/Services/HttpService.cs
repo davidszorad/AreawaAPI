@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -18,9 +19,17 @@ namespace Core.Shared
                 var checkingResponse = await Client.GetAsync(url, cancellationToken);
                 return checkingResponse.IsSuccessStatusCode && checkingResponse.RequestMessage.RequestUri.Equals(url);
             }
-            catch
+            catch (HttpRequestException ex)
             {
-                return false;
+                if (ex.Message.Contains("No such host is known", StringComparison.OrdinalIgnoreCase))
+                {
+                    return false;
+                }
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }
