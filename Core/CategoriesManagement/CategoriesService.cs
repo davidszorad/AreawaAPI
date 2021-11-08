@@ -88,19 +88,14 @@ namespace Core.CategoriesManagement
 
         public async Task<bool> DeleteCategoryAsync(Guid publicId, CancellationToken cancellationToken = default)
         {
-            var isCategoryUsed = await _areawaDbContext.WebsiteArchive
+            var category = await _areawaDbContext.Category
                 .Include(x => x.WebsiteArchiveCategories)
-                .ThenInclude(c => c.Category)
-                .Where(x => x.WebsiteArchiveCategories.Any(c => c.Category.PublicId.Equals(publicId)))
-                .AnyAsync(cancellationToken);
+                .FirstAsync(x => x.PublicId.Equals(publicId), cancellationToken);
 
-            if (isCategoryUsed)
+            if (category.WebsiteArchiveCategories.Any())
             {
                 return false;
             }
-            
-            var category = await _areawaDbContext.Category
-                .FirstAsync(x => x.PublicId.Equals(publicId), cancellationToken);
 
             _areawaDbContext.Category.Remove(category);
             await _areawaDbContext.SaveChangesAsync(cancellationToken);
