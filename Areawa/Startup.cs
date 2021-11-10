@@ -11,10 +11,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Configuration;
 using Core.Configuration;
 using Core.Database;
-using Microsoft.EntityFrameworkCore;
+using Core.Shared;
 using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace Areawa
 {
@@ -31,8 +33,9 @@ namespace Areawa
         public void ConfigureServices(IServiceCollection services)
         {
             services.RegisterCoreDependencies();
+            services.AddTransient<IScreenshotCreator, ScreenshotCreator>();
 
-            services.AddDbContext<AreawaDbContext>(options => options.UseSqlServer(ConfigStore.GetValue("dbconnectionstring")));
+            services.AddDbContext<AreawaDbContext>(options => options.UseSqlServer(ConfigStore.GetDbConnectionString()));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -56,6 +59,8 @@ namespace Areawa
             app.UseRouting();
 
             app.UseAuthorization();
+            
+            app.ConfigureExceptionHandler(/*logger*/);
 
             app.UseEndpoints(endpoints =>
             {

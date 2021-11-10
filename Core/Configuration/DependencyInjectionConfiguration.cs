@@ -1,3 +1,4 @@
+using Core.CategoriesManagement;
 using Core.Processor;
 using Core.Reader;
 using Core.Scheduler;
@@ -12,6 +13,7 @@ namespace Core.Configuration
             services.AddTransient<IReaderService, ReaderService>();
             services.AddTransient<ISchedulerService, SchedulerService>();
             services.AddTransient<IProcessorService, ProcessorService>();
+            services.AddTransient<ICategoriesService, CategoriesService>();
             return services;
         }
     }

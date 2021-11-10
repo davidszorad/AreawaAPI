@@ -1,9 +1,8 @@
 ﻿using Azure.Core;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
-using System;
 
-namespace Infrastructure
+namespace Configuration
 {
     public static class ConfigStore
     {
@@ -19,11 +18,16 @@ namespace Infrastructure
                     Mode = RetryMode.Exponential
                 }
             };
-            var client = new SecretClient(new Uri(InfrastructureConstants.KEY_VAULT_ADDRESS), new DefaultAzureCredential(), options);
+            var client = new SecretClient(new Uri(ConfigurationConstants.KEY_VAULT_ADDRESS), new DefaultAzureCredential(), options);
 
             KeyVaultSecret secret = client.GetSecret(key);
 
             return secret.Value;
+        }
+
+        public static string GetDbConnectionString()
+        {
+            return GetValue(ConfigurationConstants.DB_CONNECTION_STRING);
         }
     }
 }

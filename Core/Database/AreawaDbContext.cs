@@ -17,6 +17,8 @@ namespace Core.Database
         public DbSet<WebsiteArchive> WebsiteArchive { get; set; }
         public DbSet<ArchiveType> ArchiveType { get; set; }
         public DbSet<EntityStatus> EntityStatus { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<CategoryGroup> CategoryGroup { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
