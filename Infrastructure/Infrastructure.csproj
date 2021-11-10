@@ -9,4 +9,8 @@
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="PuppeteerSharp" Version="5.1.0" />
+  </ItemGroup>
+
 </Project>
