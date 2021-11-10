@@ -24,5 +24,10 @@ namespace Configuration
 
             return secret.Value;
         }
+
+        public static string GetDbConnectionString()
+        {
+            return GetValue(ConfigurationConstants.DB_CONNECTION_STRING);
+        }
     }
 }

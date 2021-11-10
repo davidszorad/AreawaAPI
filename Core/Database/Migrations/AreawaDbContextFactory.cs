@@ -9,7 +9,7 @@ namespace Core.Database.Migrations
         public AreawaDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<AreawaDbContext>();
-            optionsBuilder.UseSqlServer(ConfigStore.GetValue("dbconnectionstring"));
+            optionsBuilder.UseSqlServer(ConfigStore.GetDbConnectionString());
 
             return new AreawaDbContext(optionsBuilder.Options);
         }

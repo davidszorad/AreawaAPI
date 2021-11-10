@@ -35,7 +35,7 @@ namespace Areawa
             services.RegisterCoreDependencies();
             services.AddTransient<IScreenshotCreator, ScreenshotCreator>();
 
-            services.AddDbContext<AreawaDbContext>(options => options.UseSqlServer(ConfigStore.GetValue("dbconnectionstring")));
+            services.AddDbContext<AreawaDbContext>(options => options.UseSqlServer(ConfigStore.GetDbConnectionString()));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
