@@ -1,4 +1,4 @@
-using Infrastructure;
+using Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
