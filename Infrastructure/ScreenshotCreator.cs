@@ -10,8 +10,14 @@ namespace Infrastructure
     {
         public async Task<string> CreateAsync(string sourceUrl, CancellationToken cancellationToken = default)
         {
-            var outputFile = Path.Combine(@"/output", "Usage.png");
-            var outputFilePdf = Path.Combine(@"/output", "Usage.pdf");
+            string folder = "output";
+            if (!Directory.Exists(Path.GetFullPath(folder)))
+            {
+                Directory.CreateDirectory(Path.GetFullPath(folder));
+            }
+
+            var outputFile = Path.Combine(folder, Path.GetFileName("Usage.png"));
+            var outputFilePdf = Path.Combine(folder,Path.GetFileName("Usage.pdf"));
             var fileInfo = new FileInfo(outputFile);
             if (fileInfo.Exists)
             {
