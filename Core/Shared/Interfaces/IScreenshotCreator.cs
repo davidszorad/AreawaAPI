@@ -1,10 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Core.Shared
+namespace Core.Shared;
+
+public interface IScreenshotCreator
 {
-    public interface IScreenshotCreator
-    {
-        Task<string> CreateAsync(string sourceUrl, CancellationToken cancellationToken = default);
-    }
+    Task<string> CreateAsync(ArchiveFile file, CancellationToken cancellationToken = default);
 }

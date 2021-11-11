@@ -25,10 +25,6 @@ namespace Core.Shared
             {
                 return false;
             }
-            catch (Exception)
-            {
-                throw;
-            }
         }
     }
 }
