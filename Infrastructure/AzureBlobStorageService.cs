@@ -11,6 +11,8 @@ public class AzureBlobStorageService : IStorageService
 {
     public async Task<string> CreateAsync(string folder, string file, CancellationToken cancellationToken = default)
     {
+        // Docs - https://www.nuget.org/packages/Azure.Storage.Blobs
+        
         // if (CloudStorageAccount.TryParse(settings.StorageSettings.AzureStorage, out CloudStorageAccount storageAccount))
         // {
         //     string fileName = Path.GetFileName(file);
