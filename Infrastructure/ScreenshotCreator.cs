@@ -44,6 +44,6 @@ public class ScreenshotCreator : IScreenshotCreator
                 throw new ArgumentOutOfRangeException();
         }
 
-        return "TODO";
+        return outputFile;
     }
 }

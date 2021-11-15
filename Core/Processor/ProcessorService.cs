@@ -9,17 +9,25 @@ using Core.Database.Entities;
 using Core.Shared;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using ArchiveType = Domain.Enums.ArchiveType;
 
 namespace Core.Processor
 {
     public class ProcessorService : IProcessorService
     {
         private readonly AreawaDbContext _areawaDbContext;
+        private readonly IScreenshotCreator _screenshotCreator;
+        private readonly IStorageService _storageService;
         private readonly HttpService _httpService;
 
-        public ProcessorService(AreawaDbContext areawaDbContext)
+        public ProcessorService(
+            AreawaDbContext areawaDbContext,
+            IScreenshotCreator screenshotCreator,
+            IStorageService storageService)
         {
             _areawaDbContext = areawaDbContext;
+            _screenshotCreator = screenshotCreator;
+            _storageService = storageService;
             _httpService = new HttpService();
         }
         
@@ -44,6 +52,15 @@ namespace Core.Processor
                 await ChangeStatusAsync(websiteArchive, Status.Processing, cancellationToken);
                 
                 // TODO: print website to pdf/image
+                var archiveFile = new ArchiveFile
+                {
+                    SourceUrl = websiteArchive.SourceUrl,
+                    Extension = websiteArchive.ArchiveTypeId,
+                    Folder = websiteArchive.ShortId,
+                    Filename = websiteArchive.Name.Trim().Replace(" ", "-").ToLower()
+                };
+                var screenshotPath = await _screenshotCreator.CreateAsync(archiveFile, cancellationToken);
+                await _storageService.CreateAsync(screenshotPath, archiveFile.Folder, archiveFile.Filename, cancellationToken);
                 // TODO: upload printed result to storage
                 
                 await ChangeStatusAsync(websiteArchive, Status.Ok, cancellationToken);
