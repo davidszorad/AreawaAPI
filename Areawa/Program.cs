@@ -22,8 +22,6 @@ namespace Areawa
     {
         public static void Main(string[] args)
         {
-            //CreateHostBuilder(args).Build().Run();
-            
             var builder = WebApplication.CreateBuilder(args);
             
             
