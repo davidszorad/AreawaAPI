@@ -9,17 +9,25 @@ using Core.Database.Entities;
 using Core.Shared;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using ArchiveType = Domain.Enums.ArchiveType;
 
 namespace Core.Processor
 {
     public class ProcessorService : IProcessorService
     {
         private readonly AreawaDbContext _areawaDbContext;
+        private readonly IScreenshotCreator _screenshotCreator;
+        private readonly IStorageService _storageService;
         private readonly HttpService _httpService;
 
-        public ProcessorService(AreawaDbContext areawaDbContext)
+        public ProcessorService(
+            AreawaDbContext areawaDbContext,
+            IScreenshotCreator screenshotCreator,
+            IStorageService storageService)
         {
             _areawaDbContext = areawaDbContext;
+            _screenshotCreator = screenshotCreator;
+            _storageService = storageService;
             _httpService = new HttpService();
         }
         
@@ -43,10 +51,18 @@ namespace Core.Processor
                 
                 await ChangeStatusAsync(websiteArchive, Status.Processing, cancellationToken);
                 
-                // TODO: print website to pdf/image
-                // TODO: upload printed result to storage
-                
+                var archiveFile = new ArchiveFile
+                {
+                    SourceUrl = websiteArchive.SourceUrl,
+                    Extension = websiteArchive.ArchiveTypeId,
+                    Folder = websiteArchive.ShortId,
+                    Filename = websiteArchive.Name.Trim().Replace(" ", "-").ToLower()
+                };
+                var screenshotPath = await _screenshotCreator.TakeScreenshotAsync(archiveFile, cancellationToken);
+                var archivePath = await _storageService.UploadAsync(screenshotPath, archiveFile.Folder, archiveFile.Filename, cancellationToken);
+                await ChangeArchivePathAsync(websiteArchive, archivePath, cancellationToken);
                 await ChangeStatusAsync(websiteArchive, Status.Ok, cancellationToken);
+                _screenshotCreator.Cleanup(screenshotPath);
                 return (isSuccess: true, Status.Ok);
             }
             catch (Exception e)
@@ -65,6 +81,12 @@ namespace Core.Processor
         private async Task ChangeStatusAsync(WebsiteArchive websiteArchive, Status status, CancellationToken cancellationToken = default)
         {
             websiteArchive.EntityStatusId = status;
+            await _areawaDbContext.SaveChangesAsync(cancellationToken);
+        }
+        
+        private async Task ChangeArchivePathAsync(WebsiteArchive websiteArchive, string archivePath, CancellationToken cancellationToken = default)
+        {
+            websiteArchive.ArchiveUrl = archivePath;
             await _areawaDbContext.SaveChangesAsync(cancellationToken);
         }
     }

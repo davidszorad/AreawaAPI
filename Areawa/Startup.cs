@@ -34,6 +34,7 @@ namespace Areawa
         {
             services.RegisterCoreDependencies();
             services.AddTransient<IScreenshotCreator, ScreenshotCreator>();
+            services.AddTransient<IStorageService, FileSystemStorageService>();
 
             services.AddDbContext<AreawaDbContext>(options => options.UseSqlServer(ConfigStore.GetDbConnectionString()));
 
