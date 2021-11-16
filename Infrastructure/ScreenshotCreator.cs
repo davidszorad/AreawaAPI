@@ -10,15 +10,15 @@ namespace Infrastructure;
 
 public class ScreenshotCreator : IScreenshotCreator
 {
-    private readonly FileSystemService _fileSystemService;
+    private readonly LocalFileService _localFileService;
     public ScreenshotCreator(IWebHostEnvironment host)
     {
-        _fileSystemService = new FileSystemService(host.WebRootPath);
+        _localFileService = new LocalFileService(host.WebRootPath);
     }
     
-    public async Task<string> CreateAsync(ArchiveFile file, CancellationToken cancellationToken = default)
+    public async Task<string> TakeScreenshotAsync(ArchiveFile file, CancellationToken cancellationToken = default)
     {
-        var outputFile = _fileSystemService.PrepareFile(file);
+        var outputFile = _localFileService.PrepareEmptyFile(file);
             
         var browserFetcher = new BrowserFetcher();
         await browserFetcher.DownloadAsync();
@@ -45,5 +45,10 @@ public class ScreenshotCreator : IScreenshotCreator
         }
 
         return outputFile;
+    }
+
+    public void Cleanup(string screenshotPath)
+    {
+        _localFileService.CleanUp(screenshotPath);
     }
 }

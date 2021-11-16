@@ -12,7 +12,7 @@ namespace Infrastructure.UnitTests
     public class ScreenshotCreatorTests
     {
         [Test]
-        public async Task CreateAsync_ScreenshotIsGenerated_GeneratesPdfOutput()
+        public async Task TakeScreenshotAsync_ScreenshotIsGenerated_GeneratesPdfOutput()
         {
             var mockEnvironment = new Mock<IWebHostEnvironment>();
             mockEnvironment
@@ -29,7 +29,7 @@ namespace Infrastructure.UnitTests
 
             var screenshotCreator = new ScreenshotCreator(mockEnvironment.Object);
 
-            var result = await screenshotCreator.CreateAsync(archiveFile);
+            var result = await screenshotCreator.TakeScreenshotAsync(archiveFile);
 
             Assert.That(result, Is.EqualTo("TODO"));
         }

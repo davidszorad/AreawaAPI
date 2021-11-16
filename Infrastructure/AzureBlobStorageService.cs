@@ -9,7 +9,7 @@ namespace Infrastructure;
 
 public class AzureBlobStorageService : IStorageService
 {
-    public async Task<string> CreateAsync(string folder, string filePath, CancellationToken cancellationToken = default)
+    public async Task<string> UploadAsync(string screenshotPath, string folder, string file, CancellationToken cancellationToken = default)
     {
         // Docs - https://www.nuget.org/packages/Azure.Storage.Blobs
         

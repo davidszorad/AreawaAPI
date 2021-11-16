@@ -51,7 +51,6 @@ namespace Core.Processor
                 
                 await ChangeStatusAsync(websiteArchive, Status.Processing, cancellationToken);
                 
-                // TODO: print website to pdf/image
                 var archiveFile = new ArchiveFile
                 {
                     SourceUrl = websiteArchive.SourceUrl,
@@ -59,11 +58,11 @@ namespace Core.Processor
                     Folder = websiteArchive.ShortId,
                     Filename = websiteArchive.Name.Trim().Replace(" ", "-").ToLower()
                 };
-                var screenshotPath = await _screenshotCreator.CreateAsync(archiveFile, cancellationToken);
-                await _storageService.CreateAsync(screenshotPath, archiveFile.Folder, archiveFile.Filename, cancellationToken);
-                // TODO: upload printed result to storage
-                
+                var screenshotPath = await _screenshotCreator.TakeScreenshotAsync(archiveFile, cancellationToken);
+                var archivePath = await _storageService.UploadAsync(screenshotPath, archiveFile.Folder, archiveFile.Filename, cancellationToken);
+                await ChangeArchivePathAsync(websiteArchive, archivePath, cancellationToken);
                 await ChangeStatusAsync(websiteArchive, Status.Ok, cancellationToken);
+                _screenshotCreator.Cleanup(screenshotPath);
                 return (isSuccess: true, Status.Ok);
             }
             catch (Exception e)
@@ -82,6 +81,12 @@ namespace Core.Processor
         private async Task ChangeStatusAsync(WebsiteArchive websiteArchive, Status status, CancellationToken cancellationToken = default)
         {
             websiteArchive.EntityStatusId = status;
+            await _areawaDbContext.SaveChangesAsync(cancellationToken);
+        }
+        
+        private async Task ChangeArchivePathAsync(WebsiteArchive websiteArchive, string archivePath, CancellationToken cancellationToken = default)
+        {
+            websiteArchive.ArchiveUrl = archivePath;
             await _areawaDbContext.SaveChangesAsync(cancellationToken);
         }
     }

@@ -6,16 +6,16 @@ using Domain.Enums;
 
 namespace Infrastructure;
 
-internal class FileSystemService
+internal class LocalFileService
 {
     private readonly string _webRootPath;
     
-    public FileSystemService(string webRootPath)
+    public LocalFileService(string webRootPath)
     {
         _webRootPath = webRootPath;
     }
     
-    public string PrepareFile(ArchiveFile file)
+    public string PrepareEmptyFile(ArchiveFile file)
     {
         var uploadsDirectory = CreateDirectory(file.Folder);
         var outputFile = Path.Combine(uploadsDirectory, Path.GetFileName($@"{file.Filename}{GetExtension(file.Extension)}"));
@@ -26,6 +26,21 @@ internal class FileSystemService
         }
         
         return outputFile;
+    }
+    
+    public void CleanUp(string filePath)
+    {
+        var directory = Path.GetDirectoryName(filePath);
+        if (string.IsNullOrWhiteSpace(directory))
+        {
+            throw new ArgumentNullException($"{nameof(LocalFileService)} - filePath: {filePath}");
+        }
+        
+        if (!Directory.Exists(directory))
+        {
+            throw new DirectoryNotFoundException($"{nameof(LocalFileService)} - {directory}");
+        }
+        Directory.Delete(directory, true);
     }
 
     private string GetExtension(ArchiveType fileExtension)
@@ -47,13 +62,5 @@ internal class FileSystemService
         }
 
         return dir;
-    }
-    
-    private void DeleteDirectory(string directory)
-    {
-        if (Directory.Exists(directory))
-        {
-            Directory.Delete(directory, true);
-        }
     }
 }

@@ -15,17 +15,17 @@ public class FileSystemStorageService : IStorageService
         _host = host;
     }
     
-    public async Task<string> CreateAsync(string folder, string file, CancellationToken cancellationToken = default)
+    public async Task<string> UploadAsync(string screenshotPath, string folder, string file, CancellationToken cancellationToken = default)
     {
         if (!Directory.Exists(Path.GetFullPath(folder)))
         {
             Directory.CreateDirectory(Path.GetFullPath(folder));
         }
 
-        string? fileName = Path.GetFileName(file);
+        string fileName = Path.GetFileName(file);
         string filePath = Path.Combine(folder, fileName);
                 
-        File.Copy(file, filePath, overwrite: true);
+        File.Copy(screenshotPath, filePath, overwrite: true);
 
         return fileName;
     }
