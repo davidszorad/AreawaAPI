@@ -21,7 +21,7 @@ namespace Core.Shared
                        checkingResponse.RequestMessage?.RequestUri != null &&
                        checkingResponse.RequestMessage.RequestUri.Equals(new Uri(url));
             }
-            catch (HttpRequestException ex)
+            catch (HttpRequestException)
             {
                 return false;
             }
