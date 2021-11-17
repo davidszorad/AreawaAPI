@@ -65,7 +65,7 @@ namespace Core.Processor
                 _screenshotCreator.Cleanup(screenshotPath);
                 return (isSuccess: true, Status.Ok);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 await ChangeStatusAsync(websiteArchive, Status.Error, cancellationToken);
                 
