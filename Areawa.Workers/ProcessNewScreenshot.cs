@@ -14,3 +14,8 @@ public static class ProcessNewScreenshot
         
     }
 }
+
+
+//[FunctionName("BlablaLoader")]
+//public async Task Run([QueueTrigger("blablabla", Connection = "AreawaStorageConnectionStringRaw")] string queueItem, int dequeueCount, ILogger logger, CancellationToken cancellationToken)
+//{
