@@ -55,7 +55,7 @@ internal class LocalFileService
 
     private string CreateDirectory(string folder)
     {
-        var dir = Path.Combine(_webRootPath, ApplicationConstants.UPLOADS_ROOT, folder);
+        var dir = Path.Combine(_webRootPath, ConfigurationConstants.UploadsRoot, folder);
         if (!Directory.Exists(dir))
         {
             Directory.CreateDirectory(dir);

@@ -1,8 +1,13 @@
 ﻿namespace Configuration
 {
-    internal static class ConfigurationConstants
+    public static class ConfigurationConstants
     {
-        public const string KEY_VAULT_ADDRESS = "https://areawa.vault.azure.net/";
-        public const string DB_CONNECTION_STRING = "dbconnectionstring";
+        internal const string KeyVaultAddress = "https://areawa.vault.azure.net/";
+        internal const string DbConnectionString = "dbconnectionstring";
+        
+        public const string UploadsRoot = "uploads";
+        public const string AzureStorageConnectionString = "StorageConnectionString";
+        public const string QueueIncomingProcessorRequests = "QueueIncomingProcessorRequests";
+        public const string PoisonQueueIncomingProcessorRequests = "PoisonQueueIncomingProcessorRequests";
     }
 }

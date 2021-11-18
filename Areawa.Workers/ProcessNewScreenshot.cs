@@ -7,8 +7,7 @@ namespace Areawa.Workers;
 public static class ProcessNewScreenshot
 {
     [Function("ProcessNewScreenshot")]
-    public static void Run([QueueTrigger("myqueue", Connection = "")] string myQueueItem,
-        FunctionContext context)
+    public static void Run([QueueTrigger("myqueue", Connection = "")] string myQueueItem, FunctionContext context)
     {
         var logger = context.GetLogger("ProcessNewScreenshot");
         logger.LogInformation($"C# Queue trigger function processed: {myQueueItem}");
