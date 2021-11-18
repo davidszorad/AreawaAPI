@@ -58,11 +58,13 @@ namespace Core.Processor
                     Folder = websiteArchive.ShortId,
                     Filename = websiteArchive.Name.Trim().Replace(" ", "-").ToLower()
                 };
-                var screenshotPath = await _screenshotCreator.TakeScreenshotAsync(archiveFile, cancellationToken);
-                var archivePath = await _storageService.UploadAsync(screenshotPath, archiveFile.Folder, archiveFile.Filename, cancellationToken);
+                //var screenshotPath = await _screenshotCreator.TakeScreenshotAsync(archiveFile, cancellationToken);
+                //var archivePath = await _storageService.UploadAsync(screenshotPath, archiveFile.Folder, archiveFile.Filename, cancellationToken);
+                var screenshotStream = await _screenshotCreator.TakeScreenshotStreamAsync(archiveFile, cancellationToken);
+                var archivePath = await _storageService.UploadAsync(screenshotStream, archiveFile.Folder, archiveFile.Filename, cancellationToken);
                 await ChangeArchivePathAsync(websiteArchive, archivePath, cancellationToken);
                 await ChangeStatusAsync(websiteArchive, Status.Ok, cancellationToken);
-                _screenshotCreator.Cleanup(screenshotPath);
+                //_screenshotCreator.Cleanup(screenshotPath);
                 return (isSuccess: true, Status.Ok);
             }
             catch (Exception)

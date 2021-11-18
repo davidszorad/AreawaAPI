@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <AzureFunctionsVersion>V3</AzureFunctionsVersion>
+        <AzureFunctionsVersion>V4</AzureFunctionsVersion>
         <OutputType>Exe</OutputType>
     </PropertyGroup>
     <ItemGroup>
@@ -17,5 +17,10 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Configuration\Configuration.csproj" />
+      <ProjectReference Include="..\Core\Core.csproj" />
+      <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     </ItemGroup>
 </Project>

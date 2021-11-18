@@ -6,8 +6,8 @@
         internal const string DbConnectionString = "dbconnectionstring";
         
         public const string UploadsRoot = "uploads";
-        public const string AzureStorageConnectionString = "StorageConnectionString";
-        public const string QueueIncomingProcessorRequests = "QueueIncomingProcessorRequests";
-        public const string PoisonQueueIncomingProcessorRequests = "PoisonQueueIncomingProcessorRequests";
+        public const string AzureStorageConnectionString = "AzureStorageConnectionString";
+        public const string QueueIncomingProcessorRequests = "incoming-processor-requests";
+        public const int MaxDequeueCount = 5;
     }
 }

@@ -1,13 +1,12 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Storage.Queues;
-using Azure.Storage.Queues.Models;
 using Configuration;
+using Core.Shared;
 
 namespace Infrastructure;
 
-public class AzureStorageQueueService
+public class AzureStorageQueueService : IQueueService
 {
     public async Task InsertMessageAsync(string queueName, string message, CancellationToken cancellationToken = default)
     {
@@ -20,36 +19,12 @@ public class AzureStorageQueueService
         }
     }
     
-    public async Task ReceiveMessageAsync(string queueName, CancellationToken cancellationToken = default)
-    {
-        var queueClient = CreateQueueClient(queueName);
-
-        if (await queueClient.ExistsAsync(cancellationToken))
-        { 
-            QueueProperties properties = await queueClient.GetPropertiesAsync(cancellationToken);
-            int cachedMessagesCount = properties.ApproximateMessagesCount;
-
-            if (cachedMessagesCount > 20)
-            {
-                
-            }
-            
-            QueueMessage[] retrievedMessage = await queueClient.ReceiveMessagesAsync(20, TimeSpan.FromMinutes(5), cancellationToken);
-
-            var messageContent = retrievedMessage[0].Body.ToString();
-
-            if (retrievedMessage[0].DequeueCount > 3)
-            {
-                await queueClient.DeleteMessageAsync(retrievedMessage[0].MessageId, retrievedMessage[0].PopReceipt, cancellationToken);   
-            }
-
-            //return messageContent;
-        }
-    }
-    
     private QueueClient CreateQueueClient(string queueName)
     {
         string connectionString = ConfigStore.GetValue(ConfigurationConstants.AzureStorageConnectionString);
-        return new QueueClient(connectionString, queueName);
+        return new QueueClient(connectionString, queueName, new QueueClientOptions
+        {
+            MessageEncoding = QueueMessageEncoding.Base64
+        });;
     }
 }

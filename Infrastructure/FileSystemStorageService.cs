@@ -29,6 +29,27 @@ public class FileSystemStorageService : IStorageService
 
         return fileName;
     }
+    
+    public async Task<string> UploadAsync(Stream stream, string folder, string file, CancellationToken cancellationToken = default)
+    {
+        if (!Directory.Exists(Path.GetFullPath(folder)))
+        {
+            Directory.CreateDirectory(Path.GetFullPath(folder));
+        }
+
+        string fileName = Path.GetFileName(file);
+        string filePath = Path.Combine(folder, fileName);
+
+        await using (var destinationFileStream = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite))
+        {
+            while (stream.Position < stream.Length) 
+            {
+                destinationFileStream.WriteByte((byte)stream.ReadByte());
+            }
+        }
+
+        return fileName;
+    }
 
     public async Task DeleteFileAsync(string folder, string fileName, CancellationToken cancellationToken = default)
     {

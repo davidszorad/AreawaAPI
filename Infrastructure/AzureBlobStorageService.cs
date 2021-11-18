@@ -44,6 +44,11 @@ public class AzureBlobStorageService : IStorageService
         throw new System.NotImplementedException();
     }
 
+    public Task<string> UploadAsync(Stream stream, string folder, string file, CancellationToken cancellationToken = default)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public async Task DeleteFileAsync(string folder, string fileName, CancellationToken cancellationToken = default)
     {
         throw new System.NotImplementedException();

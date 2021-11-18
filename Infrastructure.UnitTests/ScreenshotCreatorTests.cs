@@ -27,7 +27,8 @@ namespace Infrastructure.UnitTests
                 Extension = ArchiveType.Pdf
             };
 
-            var screenshotCreator = new ScreenshotCreator(mockEnvironment.Object);
+            //var screenshotCreator = new ScreenshotCreator(mockEnvironment.Object);
+            var screenshotCreator = new ScreenshotCreator();
 
             var result = await screenshotCreator.TakeScreenshotAsync(archiveFile);
 
