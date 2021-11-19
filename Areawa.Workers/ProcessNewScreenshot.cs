@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Configuration;
 using Core.Processor;
 using Core.Shared;
+using Domain.Enums;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 
@@ -37,6 +38,10 @@ public class ProcessNewScreenshot
             var result = await _processorService.ProcessAsync(Guid.Parse(queueItem), cancellationToken);
             if (!result.isSuccess)
             {
+                if (result.status == Status.Ok)
+                {
+                    throw new Exception($"{ nameof(ProcessNewScreenshotAsync) }: Exception - Item was already processed");
+                }
                 throw new Exception($"{ nameof(ProcessNewScreenshotAsync) }: Exception - { result.status }");
             }
         }
