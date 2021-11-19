@@ -20,7 +20,7 @@ namespace Areawa.Workers
                     x.RegisterCoreDependencies();
                     x.AddTransient<IQueueService, AzureStorageQueueService>();
                     x.AddTransient<IScreenshotCreator, ScreenshotCreator>();
-                    x.AddTransient<IStorageService, FileSystemStorageService>();
+                    x.AddTransient<IStorageService, AzureBlobStorageService>();
                     x.AddDbContext<AreawaDbContext>(options => options.UseSqlServer(ConfigStore.GetDbConnectionString()));
                 })
                 .Build();

@@ -26,8 +26,8 @@ public class ProcessNewScreenshot
     public async Task ProcessNewScreenshotAsync([QueueTrigger("incoming-processor-requests", Connection = "AzureStorageConnectionString")]
         string queueItem, int dequeueCount, FunctionContext context, CancellationToken cancellationToken = default)
     {
-        var logger = context.GetLogger("ProcessNewScreenshot");
-        logger.LogInformation($"C# Queue trigger function processed: {queueItem}");
+        //var logger = context.GetLogger("ProcessNewScreenshot");
+        //logger.LogInformation($"C# Queue trigger function processed: {queueItem}");
 
         try
         {

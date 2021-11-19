@@ -6,8 +6,6 @@ namespace Core.Shared;
 
 public interface IStorageService
 {
-    Task<string> UploadAsync(string screenshotPath, string folder, string file, CancellationToken cancellationToken = default);
     Task<string> UploadAsync(Stream stream, string folder, string file, CancellationToken cancellationToken = default);
-    Task DeleteFileAsync(string folder, string fileName, CancellationToken cancellationToken = default);
     Task DeleteFolderAsync(string folder, CancellationToken cancellationToken = default);
 }
