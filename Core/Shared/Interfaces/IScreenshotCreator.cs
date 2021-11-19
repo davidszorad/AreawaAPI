@@ -1,10 +1,10 @@
-﻿using System.Threading;
+﻿using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Core.Shared;
 
 public interface IScreenshotCreator
 {
-    Task<string> TakeScreenshotAsync(ArchiveFile file, CancellationToken cancellationToken = default);
-    void Cleanup(string screenshotPath);
+    Task<Stream> TakeScreenshotStreamAsync(ArchiveFile file, CancellationToken cancellationToken = default);
 }

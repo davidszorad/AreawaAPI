@@ -2,6 +2,7 @@ using Core.CategoriesManagement;
 using Core.Processor;
 using Core.Reader;
 using Core.Scheduler;
+using Core.Shared;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.Configuration
@@ -14,6 +15,7 @@ namespace Core.Configuration
             services.AddTransient<ISchedulerService, SchedulerService>();
             services.AddTransient<IProcessorService, ProcessorService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
+            services.AddTransient<IPoisonQueueService, PoisonQueueService>();
             return services;
         }
     }

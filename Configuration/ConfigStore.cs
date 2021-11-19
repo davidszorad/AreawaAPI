@@ -18,7 +18,7 @@ namespace Configuration
                     Mode = RetryMode.Exponential
                 }
             };
-            var client = new SecretClient(new Uri(ConfigurationConstants.KEY_VAULT_ADDRESS), new DefaultAzureCredential(), options);
+            var client = new SecretClient(new Uri(ConfigurationConstants.KeyVaultAddress), new DefaultAzureCredential(), options);
 
             KeyVaultSecret secret = client.GetSecret(key);
 
@@ -27,7 +27,7 @@ namespace Configuration
 
         public static string GetDbConnectionString()
         {
-            return GetValue(ConfigurationConstants.DB_CONNECTION_STRING);
+            return GetValue(ConfigurationConstants.DbConnectionString);
         }
     }
 }

@@ -1,25 +1,17 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Core.Shared;
 using Domain.Enums;
-using Microsoft.AspNetCore.Hosting;
 using PuppeteerSharp;
 
 namespace Infrastructure;
 
 public class ScreenshotCreator : IScreenshotCreator
 {
-    private readonly LocalFileService _localFileService;
-    public ScreenshotCreator(IWebHostEnvironment host)
+    public async Task<Stream> TakeScreenshotStreamAsync(ArchiveFile file, CancellationToken cancellationToken = default)
     {
-        _localFileService = new LocalFileService(host.WebRootPath);
-    }
-    
-    public async Task<string> TakeScreenshotAsync(ArchiveFile file, CancellationToken cancellationToken = default)
-    {
-        var outputFile = _localFileService.PrepareEmptyFile(file);
-            
         var browserFetcher = new BrowserFetcher();
         await browserFetcher.DownloadAsync();
         await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true });
@@ -35,20 +27,11 @@ public class ScreenshotCreator : IScreenshotCreator
         switch (file.Extension)
         {
             case ArchiveType.Pdf:
-                await page.PdfAsync(outputFile);
-                break;
+                return await page.PdfStreamAsync();
             case ArchiveType.Png:
-                await page.ScreenshotAsync(outputFile);
-                break;
+                return await page.ScreenshotStreamAsync();
             default:
                 throw new ArgumentOutOfRangeException();
         }
-
-        return outputFile;
-    }
-
-    public void Cleanup(string screenshotPath)
-    {
-        _localFileService.CleanUp(screenshotPath);
     }
 }
