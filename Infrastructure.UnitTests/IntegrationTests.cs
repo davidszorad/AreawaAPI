@@ -12,7 +12,7 @@ namespace Infrastructure.UnitTests;
 public class IntegrationTests
 {
     [Test]
-    //[TestCase("4FE15D57-3DD2-49B0-B4A0-ED026A4CED13")]
+    [TestCase("4FE15D57-3DD2-49B0-B4A0-ED026A4CED13")]
     //[TestCase("8C78F403-F119-4291-A60F-9B1FD7F7067D")]
     public async Task InsertMessageAsync_InsertGuidAsMsg_InsertsNewMsgToQueue(string message)
     {
@@ -21,7 +21,7 @@ public class IntegrationTests
     }
 
     [Test]
-    [TestCase("devtrips-mediatr", "2021-11-04-21-19-TZSH", "https://dev-trips.com/dev/mediator-pattern-with-mediatr-in-net-core")]
+    //[TestCase("devtrips-mediatr", "2021-11-04-21-19-TZSH", "https://dev-trips.com/dev/mediator-pattern-with-mediatr-in-net-core")]
     public async Task ProcessAsync_ProcessesGuidAsIfFromQueue_GeneratesAndUploadsPrintedWebsiteToBlob(string filename, string folder, string url)
     {
         var screenshotCreator = new ScreenshotCreator();
