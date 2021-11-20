@@ -24,6 +24,7 @@ namespace Core.CategoriesManagement
             var categories = await _areawaDbContext
                 .Category
                 .Include(x => x.CategoryGroup)
+                .Include(x => x.WebsiteArchiveCategories)
                 .ToListAsync(cancellationToken: cancellationToken);
 
             return categories.ConvertAll(x => x.Map());
