@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.CategoriesManagement.Extensions;
 using Core.Database;
 using Core.Database.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -16,8 +18,18 @@ namespace Core.CategoriesManagement
         {
             _areawaDbContext = areawaDbContext;
         }
-        
-        public async Task<Guid> CreateCategoryAsync(UpsertCategoryCommand command, CancellationToken cancellationToken = default)
+
+        public async Task<ICollection<GetCategoryQuery>> GetCategoriesAsync(Guid userPublicId, CancellationToken cancellationToken = default)
+        {
+            var categories = await _areawaDbContext
+                .Category
+                .Include(x => x.CategoryGroup)
+                .ToListAsync(cancellationToken: cancellationToken);
+
+            return categories.ConvertAll(x => x.Map());
+        }
+
+        public async Task<Guid> CreateCategoryAsync(Guid userPublicId, UpsertCategoryCommand command, CancellationToken cancellationToken = default)
         {
             var category = new Category
             {
@@ -39,7 +51,7 @@ namespace Core.CategoriesManagement
             return category.PublicId;
         }
 
-        public async Task<Guid> CreateCategoryGroupAsync(UpsertCategoryGroupCommand command, CancellationToken cancellationToken = default)
+        public async Task<Guid> CreateCategoryGroupAsync(Guid userPublicId, UpsertCategoryGroupCommand command, CancellationToken cancellationToken = default)
         {
             var categoryGroup = new CategoryGroup
             {
@@ -53,7 +65,7 @@ namespace Core.CategoriesManagement
             return categoryGroup.PublicId;
         }
 
-        public async Task<Guid> UpdateCategoryAsync(Guid publicId, UpsertCategoryCommand command, CancellationToken cancellationToken = default)
+        public async Task<Guid> UpdateCategoryAsync(Guid userPublicId, Guid publicId, UpsertCategoryCommand command, CancellationToken cancellationToken = default)
         {
             var category = await _areawaDbContext.Category
                 .FirstAsync(x => x.PublicId.Equals(publicId), cancellationToken);
@@ -74,7 +86,7 @@ namespace Core.CategoriesManagement
             return category.PublicId;
         }
 
-        public async Task<Guid> UpdateCategoryGroupAsync(Guid publicId, UpsertCategoryGroupCommand command, CancellationToken cancellationToken = default)
+        public async Task<Guid> UpdateCategoryGroupAsync(Guid userPublicId, Guid publicId, UpsertCategoryGroupCommand command, CancellationToken cancellationToken = default)
         {
             var categoryGroup = await _areawaDbContext.CategoryGroup
                 .FirstAsync(x => x.PublicId.Equals(publicId), cancellationToken);
@@ -86,7 +98,7 @@ namespace Core.CategoriesManagement
             return categoryGroup.PublicId;
         }
 
-        public async Task<bool> DeleteCategoryAsync(Guid publicId, CancellationToken cancellationToken = default)
+        public async Task<bool> DeleteCategoryAsync(Guid userPublicId, Guid publicId, CancellationToken cancellationToken = default)
         {
             var category = await _areawaDbContext.Category
                 .Include(x => x.WebsiteArchiveCategories)
@@ -102,7 +114,7 @@ namespace Core.CategoriesManagement
             return true;
         }
 
-        public async Task<bool> DeleteCategoryGroupAsync(Guid publicId, CancellationToken cancellationToken = default)
+        public async Task<bool> DeleteCategoryGroupAsync(Guid userPublicId, Guid publicId, CancellationToken cancellationToken = default)
         {
             var categoryGroup = await _areawaDbContext.CategoryGroup
                 .Include(x => x.Categories)

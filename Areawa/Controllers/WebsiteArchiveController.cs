@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Areawa.Models;
 using Core.Reader;
 using Core.Scheduler;
@@ -29,7 +30,10 @@ public class WebsiteArchiveController : ControllerBase
     [HttpPost("search")]
     public async Task<IActionResult> Search([FromBody] WebsiteArchiveQuery websiteArchiveQuery)
     {
-        Guid userPublicId = Guid.Empty;
+        if (!HeaderParser.TryGetGetApiKey(Request, out var userPublicId))
+        {
+            return BadRequest();
+        }
             
         var filterQueryBuilder = new FilterQueryBuilder()
             .SetUserPublicId(userPublicId)
@@ -60,12 +64,15 @@ public class WebsiteArchiveController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] CreateArchivedWebsiteCommand createArchivedWebsiteCommand)
     {
+        if (!HeaderParser.TryGetGetApiKey(Request, out var userPublicId))
+        {
+            return BadRequest();
+        }
+        
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-
-        Guid userPublicId = Guid.Empty;
 
         return Ok(await _schedulerService.CreateAsync(createArchivedWebsiteCommand, userPublicId));
     }

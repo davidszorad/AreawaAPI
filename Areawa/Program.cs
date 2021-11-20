@@ -39,6 +39,7 @@ namespace Areawa
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Areawa", Version = "v1" });
+                c.OperationFilter<CustomHeaderSwaggerAttribute>();
             });
 
             var app = builder.Build();
