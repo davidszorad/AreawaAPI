@@ -15,7 +15,7 @@ public class UserService : IUserService
         _areawaDbContext = areawaDbContext;
     }
     
-    public async Task<Guid> CreateAsync(CreateUserCommand command, CancellationToken cancellationToken = default)
+    public async Task CreateAsync(CreateUserCommand command, CancellationToken cancellationToken = default)
     {
         var user = new ApiUser
         {
@@ -29,7 +29,5 @@ public class UserService : IUserService
 
         _areawaDbContext.ApiUser.Add(user);
         await _areawaDbContext.SaveChangesAsync(cancellationToken);
-
-        return user.PublicId;
     }
 }

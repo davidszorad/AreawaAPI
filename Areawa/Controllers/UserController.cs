@@ -23,6 +23,8 @@ public class UserController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        return Ok(await _userService.CreateAsync(command));
+        await _userService.CreateAsync(command);
+        
+        return Ok();
     }
 }
