@@ -7,7 +7,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Areawa;
 
-public class CustomHeaderSwaggerAttribute : IOperationFilter
+public class ApiKeyHeaderSwaggerAttribute : IOperationFilter
 {
 
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
