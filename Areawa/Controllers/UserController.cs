@@ -25,6 +25,6 @@ public class UserController : ControllerBase
 
         await _userService.CreateAsync(command);
         
-        return Ok();
+        return Ok("Your request is pending. We will email you with your API KEY after approving by administrator.");
     }
 }
