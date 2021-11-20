@@ -14,6 +14,8 @@ namespace Core.Database.Entities
         public string ArchiveUrl { get; set; }
         public Domain.Enums.ArchiveType ArchiveTypeId { get; set; }
         public Domain.Enums.Status EntityStatusId { get; set; }
+        public long ApiUserId { get; set; }
+        public ApiUser ApiUser { get; set; }
         public ICollection<WebsiteArchiveCategory> WebsiteArchiveCategories { get; set; }
     }
 }

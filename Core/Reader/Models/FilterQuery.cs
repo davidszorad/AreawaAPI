@@ -10,6 +10,7 @@ namespace Core.Reader
         {
         }
 
+        public Guid? UserPublicId { get; set; }
         public Guid? PublicId { get; internal set; }
         public string ShortId { get; internal set; }
         public Status? EntityStatus { get; set; }

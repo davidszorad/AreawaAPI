@@ -14,10 +14,17 @@ internal class ApiUserConfiguration : ConfigurationBase, IEntityTypeConfiguratio
         builder.HasIndex(x => x.PublicId).IsUnique();
         
         builder.Property(x => x.PublicId).IsRequired();
-        builder.Property(x => x.ApiKey).IsRequired();
         builder.Property(x => x.FirstName).HasMaxLength(255).IsRequired();
         builder.Property(x => x.LastName).HasMaxLength(255).IsRequired();
         builder.Property(x => x.Email).HasMaxLength(50).IsRequired();
         builder.Property(x => x.IsActive).HasDefaultValue(false).IsRequired();
+        builder.Property(x => x.IsPremium).HasDefaultValue(false).IsRequired();
+
+        builder
+            .HasMany(x => x.WebsiteArchives)
+            .WithOne(x => x.ApiUser)
+            .HasForeignKey(x => x.ApiUserId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

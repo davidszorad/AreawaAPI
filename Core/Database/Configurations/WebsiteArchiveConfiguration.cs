@@ -11,15 +11,16 @@ namespace Core.Database.Configurations
             builder.ToTable(nameof(WebsiteArchive));
 
             builder.HasKey(x => x.WebsiteArchiveId);
-            builder.HasIndex(b => b.PublicId).IsUnique();
-            builder.HasIndex(b => b.ShortId).IsUnique();
+            builder.HasIndex(x => x.PublicId).IsUnique();
+            builder.HasIndex(x => x.ShortId).IsUnique();
 
-            builder.Property(a => a.PublicId).IsRequired();
-            builder.Property(a => a.ShortId).IsRequired();
-            builder.Property(a => a.Name).HasMaxLength(255).IsRequired();
-            builder.Property(a => a.SourceUrl).IsRequired();
-            builder.Property(c => c.ArchiveTypeId).IsRequired().HasDefaultValue(Domain.Enums.ArchiveType.Pdf);
-            builder.Property(c => c.EntityStatusId).IsRequired().HasDefaultValue(Domain.Enums.Status.Error);
+            builder.Property(x => x.PublicId).IsRequired();
+            builder.Property(x => x.ShortId).IsRequired();
+            builder.Property(x => x.Name).HasMaxLength(255).IsRequired();
+            builder.Property(x => x.SourceUrl).IsRequired();
+            builder.Property(x => x.ArchiveTypeId).IsRequired().HasDefaultValue(Domain.Enums.ArchiveType.Pdf);
+            builder.Property(x => x.EntityStatusId).IsRequired().HasDefaultValue(Domain.Enums.Status.Error);
+            builder.Property(x => x.ApiUserId).IsRequired();
         }
     }
 }

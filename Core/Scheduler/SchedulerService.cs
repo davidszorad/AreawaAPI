@@ -6,6 +6,7 @@ using Core.Database;
 using Core.Database.Entities;
 using Core.Shared;
 using Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Scheduler
 {
@@ -22,8 +23,10 @@ namespace Core.Scheduler
             _queueService = queueService;
         }
 
-        public async Task<Guid> CreateAsync(CreateArchivedWebsiteCommand command, CancellationToken cancellationToken = default)
+        public async Task<Guid> CreateAsync(CreateArchivedWebsiteCommand command, Guid userPublicId, CancellationToken cancellationToken = default)
         {
+            var user = await _areawaDbContext.ApiUser.FirstAsync(x => x.PublicId == userPublicId, cancellationToken: cancellationToken);
+            
             var websiteArchiveEntity = new WebsiteArchive
             {
                 Name = command.Name,
@@ -32,7 +35,8 @@ namespace Core.Scheduler
                 ArchiveTypeId = command.ArchiveType,
                 PublicId = Guid.NewGuid(),
                 ShortId = ShortIdGenerator.Generate(),
-                EntityStatusId = Status.Pending
+                EntityStatusId = Status.Pending,
+                ApiUser = user
             };
 
             _areawaDbContext.WebsiteArchive.Add(websiteArchiveEntity);

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Core.Database.Entities;
 
@@ -10,5 +11,7 @@ public class ApiUser : AuditableBaseEntity
     public string LastName { get; set; }
     public string Email { get; set; }
     public bool IsActive { get; set; }
-    public Guid ApiKey { get; set; }
+    public bool IsPremium { get; set; }
+
+    public ICollection<WebsiteArchive> WebsiteArchives { get; set; }
 }
