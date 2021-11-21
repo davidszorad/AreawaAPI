@@ -19,15 +19,34 @@ namespace Core.CategoriesManagement
             _areawaDbContext = areawaDbContext;
         }
 
-        public async Task<ICollection<GetCategoryQuery>> GetCategoriesAsync(Guid userPublicId, CancellationToken cancellationToken = default)
+        public async Task<ICollection<GetCategoryGroupQuery>> GetCategoriesAsync(Guid userPublicId, CancellationToken cancellationToken = default)
         {
+            // 1. pridat usera do entit, website archive a category a category group
+            // 2. vytvorit novu servicu pre usera na kontrolu is active a is premium / mozno aj obe naraz tam kde treba skontrolovat ispremium musi byt aj isactive zaroven
+            // 3. is active kontrolobvat hned na vstupe do controllera tam zmenit staticku metodu v headerparser na classu vyuzivajucu userservice
+            // 4. is premium zase kontrolovat uz nizsie v core; niektore veci co su viazane na controller tak tam a neist zbytocne do core
+            // 5. cosmos db service with user, date, request counts / type of requests logging and add api endpoint for my stats
+            
+            
+            var categoryGroups = await _areawaDbContext
+                .CategoryGroup
+                .Include(x => x.ApiUser)
+                .Include(x => x.Categories)
+                .ThenInclude(c => c.ApiUser)
+                .Where(x => x.ApiUser.IsActive && x.ApiUser.PublicId == userPublicId)
+                .Where(x => x.Categories.All(c => c.ApiUser.IsActive))
+                .ToListAsync(cancellationToken);
+
             var categories = await _areawaDbContext
                 .Category
+                .Include(x => x.ApiUser)
                 .Include(x => x.CategoryGroup)
-                .Include(x => x.WebsiteArchiveCategories)
-                .ToListAsync(cancellationToken: cancellationToken);
+                .ThenInclude(g => g.ApiUser)
+                .Where(x => x.ApiUser.IsActive && x.ApiUser.PublicId == userPublicId)
+                .Where(x => x.CategoryGroup.ApiUser.IsActive && x.CategoryGroup.ApiUser.PublicId == userPublicId)
+                .ToListAsync(cancellationToken);
 
-            return categories.ConvertAll(x => x.Map());
+            return categories.Map();
         }
 
         public async Task<Guid> CreateCategoryAsync(Guid userPublicId, UpsertCategoryCommand command, CancellationToken cancellationToken = default)

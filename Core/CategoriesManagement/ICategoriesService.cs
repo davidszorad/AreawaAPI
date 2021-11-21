@@ -7,7 +7,7 @@ namespace Core.CategoriesManagement
 {
     public interface ICategoriesService
     {
-        Task<ICollection<GetCategoryQuery>> GetCategoriesAsync(Guid userPublicId, CancellationToken cancellationToken = default);
+        Task<ICollection<GetCategoryGroupQuery>> GetCategoriesAsync(Guid userPublicId, CancellationToken cancellationToken = default);
         Task<Guid> CreateCategoryAsync(Guid userPublicId, UpsertCategoryCommand command, CancellationToken cancellationToken = default);
         Task<Guid> CreateCategoryGroupAsync(Guid userPublicId, UpsertCategoryGroupCommand command, CancellationToken cancellationToken = default);
         Task<Guid> UpdateCategoryAsync(Guid userPublicId, Guid publicId, UpsertCategoryCommand command, CancellationToken cancellationToken = default);

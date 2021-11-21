@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Core.Database;
 using Core.Database.Entities;
 
-namespace Core.User;
+namespace Core.UserManagement;
 
 public class UserService : IUserService
 {

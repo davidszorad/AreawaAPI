@@ -14,4 +14,6 @@ public class ApiUser : AuditableBaseEntity
     public bool IsPremium { get; set; }
 
     public ICollection<WebsiteArchive> WebsiteArchives { get; set; }
+    public ICollection<Category> Categories { get; set; }
+    public ICollection<CategoryGroup> CategoryGroups { get; set; }
 }

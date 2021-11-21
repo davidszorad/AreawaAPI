@@ -3,7 +3,7 @@ using Core.Processor;
 using Core.Reader;
 using Core.Scheduler;
 using Core.Shared;
-using Core.User;
+using Core.UserManagement;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.Configuration

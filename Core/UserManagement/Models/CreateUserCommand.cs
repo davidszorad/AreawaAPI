@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Core.User;
+namespace Core.UserManagement;
 
 public class CreateUserCommand
 {

@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Core.CategoriesManagement;
 using Microsoft.AspNetCore.Mvc;
@@ -92,7 +93,7 @@ namespace Areawa.Controllers
         }
 
         [HttpDelete("{publicId:guid}")]
-        public async Task<IActionResult> Delete(Guid publicId)
+        public async Task<IActionResult> Delete([FromHeader(Name="X-Email")][Required] string userEmail, Guid publicId)
         {
             if (!HeaderParser.TryGetGetApiKey(Request, out var userPublicId))
             {
@@ -103,7 +104,7 @@ namespace Areawa.Controllers
         }
         
         [HttpDelete("group/{publicId:guid}")]
-        public async Task<IActionResult> DeleteGroup(Guid publicId)
+        public async Task<IActionResult> DeleteGroup([FromHeader(Name="X-Email")][Required] string userEmail, Guid publicId)
         {
             if (!HeaderParser.TryGetGetApiKey(Request, out var userPublicId))
             {

@@ -26,5 +26,19 @@ internal class ApiUserConfiguration : ConfigurationBase, IEntityTypeConfiguratio
             .HasForeignKey(x => x.ApiUserId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
+        
+        builder
+            .HasMany(x => x.Categories)
+            .WithOne(x => x.ApiUser)
+            .HasForeignKey(x => x.ApiUserId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder
+            .HasMany(x => x.CategoryGroups)
+            .WithOne(x => x.ApiUser)
+            .HasForeignKey(x => x.ApiUserId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

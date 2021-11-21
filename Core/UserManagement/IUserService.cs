@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Core.User;
+namespace Core.UserManagement;
 
 public interface IUserService
 {

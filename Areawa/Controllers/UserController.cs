@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Core.User;
+using Core.UserManagement;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Areawa.Controllers;

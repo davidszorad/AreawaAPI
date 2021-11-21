@@ -11,6 +11,9 @@ namespace Core.Database.Entities
 
         public long? CategoryGroupId { get; set; }
         public CategoryGroup CategoryGroup { get; set; }
+        
+        public long ApiUserId { get; set; }
+        public ApiUser ApiUser { get; set; }
 
         public ICollection<WebsiteArchiveCategory> WebsiteArchiveCategories { get; set; }
     }
