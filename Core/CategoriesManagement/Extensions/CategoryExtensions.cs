@@ -1,24 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Database.Entities;
 
 namespace Core.CategoriesManagement.Extensions;
 
 internal static class CategoryExtensions
 {
-    public static GetCategoryGroupQuery Map(this Database.Entities.CategoryGroup entity)
-    {
-        return new GetCategoryGroupQuery
-        {
-            PublicId = entity.PublicId,
-            Name = entity.Name,
-            Created = entity.CreatedOn,
-            Updated = entity.UpdatedOn,
-            Categories = entity.Categories.Select(x => x.Map()).ToList()
-        };
-    }
-    
-    public static ICollection<GetCategoryGroupQuery> Map(this ICollection<Database.Entities.Category> entities)
+    public static ICollection<GetCategoryGroupQuery> Map(this ICollection<Category> entities, ICollection<CategoryGroup> emptyCategoryGroups)
     {
         var result = new List<GetCategoryGroupQuery>();
 
@@ -35,50 +24,68 @@ internal static class CategoryExtensions
             
             if (entity.CategoryGroup == null)
             {
-                if (result.All(x => x.PublicId != null))
-                {
-                    var noCategoryGroup = new GetCategoryGroupQuery
-                    {
-                        PublicId = null,
-                        Name = null,
-                        Created = DateTime.UtcNow,
-                        Updated = DateTime.UtcNow
-                    };
-                    result.Add(noCategoryGroup);    
-                }
-
-                result.Single(x => x.PublicId == null).Categories.Add(category);
+                AddCategoryWithNoCategoryGroup(result, category);
             }
             else
             {
-                if (result.All(x => x.PublicId != entity.CategoryGroup.PublicId))
-                {
-                    var noCategoryGroup = new GetCategoryGroupQuery
-                    {
-                        PublicId = entity.CategoryGroup.PublicId,
-                        Name = entity.CategoryGroup.Name,
-                        Created = entity.CategoryGroup.CreatedOn,
-                        Updated = entity.CategoryGroup.UpdatedOn
-                    };
-                    result.Add(noCategoryGroup);    
-                }
-                
-                result.Single(x => x.PublicId == entity.CategoryGroup.PublicId).Categories.Add(category);
+                AddCategory(result, entity, category);
             }
         }
 
+        AddEmptyCategoryGroups(emptyCategoryGroups, result);
+
         return result;
     }
-    
-    private static GetCategoryQuery Map(this Database.Entities.Category entity)
+
+    private static void AddEmptyCategoryGroups(ICollection<CategoryGroup> emptyCategoryGroups, ICollection<GetCategoryGroupQuery> result)
     {
-        return new GetCategoryQuery
+        foreach (var emptyCategoryGroup in emptyCategoryGroups)
         {
-            PublicId = entity.PublicId,
-            Name = entity.Name,
-            UsageCount = 0,
-            Created = entity.CreatedOn,
-            Updated = entity.UpdatedOn
-        };
+            if (result.All(x => x.PublicId != emptyCategoryGroup.PublicId))
+            {
+                var categoryGroup = new GetCategoryGroupQuery
+                {
+                    PublicId = emptyCategoryGroup.PublicId,
+                    Name = emptyCategoryGroup.Name,
+                    Created = emptyCategoryGroup.CreatedOn,
+                    Updated = emptyCategoryGroup.UpdatedOn
+                };
+                result.Add(categoryGroup);
+            }
+        }
+    }
+
+    private static void AddCategory(ICollection<GetCategoryGroupQuery> result, Category entity, GetCategoryQuery category)
+    {
+        if (result.All(x => x.PublicId != entity.CategoryGroup.PublicId))
+        {
+            var categoryGroup = new GetCategoryGroupQuery
+            {
+                PublicId = entity.CategoryGroup.PublicId,
+                Name = entity.CategoryGroup.Name,
+                Created = entity.CategoryGroup.CreatedOn,
+                Updated = entity.CategoryGroup.UpdatedOn
+            };
+            result.Add(categoryGroup);
+        }
+
+        result.Single(x => x.PublicId == entity.CategoryGroup.PublicId).Categories.Add(category);
+    }
+
+    private static void AddCategoryWithNoCategoryGroup(ICollection<GetCategoryGroupQuery> result, GetCategoryQuery category)
+    {
+        if (result.All(x => x.PublicId != null))
+        {
+            var noCategoryGroup = new GetCategoryGroupQuery
+            {
+                PublicId = null,
+                Name = null,
+                Created = DateTime.UtcNow,
+                Updated = DateTime.UtcNow
+            };
+            result.Add(noCategoryGroup);
+        }
+
+        result.Single(x => x.PublicId == null).Categories.Add(category);
     }
 }

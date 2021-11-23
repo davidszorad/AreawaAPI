@@ -21,8 +21,6 @@ namespace Core.CategoriesManagement
 
         public async Task<ICollection<GetCategoryGroupQuery>> GetCategoriesAsync(Guid userPublicId, CancellationToken cancellationToken = default)
         {
-            // TODO: include category groups with no categories
-            
             var categories = await _areawaDbContext
                 .Category
                 .Include(x => x.ApiUser)
@@ -32,7 +30,13 @@ namespace Core.CategoriesManagement
                 .Where(x => x.CategoryGroup == null || (x.CategoryGroup.ApiUser.IsActive && x.CategoryGroup.ApiUser.PublicId == userPublicId))
                 .ToListAsync(cancellationToken);
 
-            return categories.Map();
+            var emptyCategoryGroups = await _areawaDbContext
+                .CategoryGroup
+                .Include(x => x.Categories)
+                .Where(x => x.Categories.Count == 0)
+                .ToListAsync(cancellationToken);
+
+            return categories.Map(emptyCategoryGroups);
         }
 
         public async Task<Guid> CreateCategoryAsync(Guid userPublicId, UpsertCategoryCommand command, CancellationToken cancellationToken = default)
