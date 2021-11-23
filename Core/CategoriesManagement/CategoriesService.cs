@@ -44,16 +44,19 @@ namespace Core.CategoriesManagement
 
         public async Task<Guid> CreateCategoryAsync(Guid userPublicId, UpsertCategoryCommand command, CancellationToken cancellationToken = default)
         {
+            var apiUser = await _areawaDbContext.ApiUser.FirstAsync(x => x.PublicId == userPublicId, cancellationToken);
+            
             var category = new Category
             {
                 Name = command.Name,
-                PublicId = Guid.NewGuid()
+                PublicId = Guid.NewGuid(),
+                ApiUser = apiUser
             };
 
             if (command.CategoryGroupPublicId.HasValue)
             {
                 var categoryGroup = await _areawaDbContext.CategoryGroup
-                    .FirstAsync(x => x.PublicId.Equals(command.CategoryGroupPublicId.Value), cancellationToken);
+                    .FirstAsync(x => x.PublicId.Equals(command.CategoryGroupPublicId.Value) && x.ApiUserId == apiUser.ApiUserId, cancellationToken);
 
                 category.CategoryGroup = categoryGroup;
             }
@@ -66,10 +69,13 @@ namespace Core.CategoriesManagement
 
         public async Task<Guid> CreateCategoryGroupAsync(Guid userPublicId, UpsertCategoryGroupCommand command, CancellationToken cancellationToken = default)
         {
+            var apiUser = await _areawaDbContext.ApiUser.FirstAsync(x => x.PublicId == userPublicId, cancellationToken);
+            
             var categoryGroup = new CategoryGroup
             {
                 Name = command.Name,
-                PublicId = Guid.NewGuid()
+                PublicId = Guid.NewGuid(),
+                ApiUser = apiUser
             };
 
             _areawaDbContext.CategoryGroup.Add(categoryGroup);
@@ -80,8 +86,10 @@ namespace Core.CategoriesManagement
 
         public async Task<Guid> UpdateCategoryAsync(Guid userPublicId, Guid publicId, UpsertCategoryCommand command, CancellationToken cancellationToken = default)
         {
+            var apiUser = await _areawaDbContext.ApiUser.FirstAsync(x => x.PublicId == userPublicId, cancellationToken);
+            
             var category = await _areawaDbContext.Category
-                .FirstAsync(x => x.PublicId.Equals(publicId), cancellationToken);
+                .FirstAsync(x => x.PublicId.Equals(publicId) && x.ApiUserId == apiUser.ApiUserId, cancellationToken);
 
             category.Name = command.Name;
             category.CategoryGroup = null;
@@ -89,7 +97,7 @@ namespace Core.CategoriesManagement
             if (command.CategoryGroupPublicId.HasValue)
             {
                 var categoryGroup = await _areawaDbContext.CategoryGroup
-                    .FirstAsync(x => x.PublicId.Equals(command.CategoryGroupPublicId.Value), cancellationToken);
+                    .FirstAsync(x => x.PublicId.Equals(command.CategoryGroupPublicId.Value) && x.ApiUserId == apiUser.ApiUserId, cancellationToken);
 
                 category.CategoryGroup = categoryGroup;
             }
@@ -101,8 +109,10 @@ namespace Core.CategoriesManagement
 
         public async Task<Guid> UpdateCategoryGroupAsync(Guid userPublicId, Guid publicId, UpsertCategoryGroupCommand command, CancellationToken cancellationToken = default)
         {
+            var apiUser = await _areawaDbContext.ApiUser.FirstAsync(x => x.PublicId == userPublicId, cancellationToken);
+            
             var categoryGroup = await _areawaDbContext.CategoryGroup
-                .FirstAsync(x => x.PublicId.Equals(publicId), cancellationToken);
+                .FirstAsync(x => x.PublicId.Equals(publicId) && x.ApiUserId == apiUser.ApiUserId, cancellationToken);
 
             categoryGroup.Name = command.Name;
             
@@ -113,9 +123,11 @@ namespace Core.CategoriesManagement
 
         public async Task<bool> DeleteCategoryAsync(Guid userPublicId, Guid publicId, CancellationToken cancellationToken = default)
         {
+            var apiUser = await _areawaDbContext.ApiUser.FirstAsync(x => x.PublicId == userPublicId, cancellationToken);
+            
             var category = await _areawaDbContext.Category
                 .Include(x => x.WebsiteArchiveCategories)
-                .FirstAsync(x => x.PublicId.Equals(publicId), cancellationToken);
+                .FirstAsync(x => x.PublicId.Equals(publicId) && x.ApiUserId == apiUser.ApiUserId, cancellationToken);
 
             if (category.WebsiteArchiveCategories.Any())
             {
@@ -129,9 +141,11 @@ namespace Core.CategoriesManagement
 
         public async Task<bool> DeleteCategoryGroupAsync(Guid userPublicId, Guid publicId, CancellationToken cancellationToken = default)
         {
+            var apiUser = await _areawaDbContext.ApiUser.FirstAsync(x => x.PublicId == userPublicId, cancellationToken);
+            
             var categoryGroup = await _areawaDbContext.CategoryGroup
                 .Include(x => x.Categories)
-                .FirstAsync(c => c.PublicId.Equals(publicId), cancellationToken);
+                .FirstAsync(c => c.PublicId.Equals(publicId) && c.ApiUserId == apiUser.ApiUserId, cancellationToken);
 
             if (categoryGroup.Categories.Count > 0)
             {
