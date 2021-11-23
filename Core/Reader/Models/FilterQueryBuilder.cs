@@ -9,6 +9,12 @@ namespace Core.Reader
         private readonly FilterQuery _filterQuery = new();
         private bool _isGettingAllItems = true;
 
+        public FilterQueryBuilder SetUserPublicId(Guid value)
+        {
+            _filterQuery.UserPublicId = value;
+            return this;
+        }
+        
         public FilterQueryBuilder SetPublicId(Guid value)
         {
             _filterQuery.PublicId = value;
@@ -66,6 +72,11 @@ namespace Core.Reader
 
         private bool IsValid()
         {
+            if (!_filterQuery.UserPublicId.HasValue)
+            {
+                return false;
+            }
+            
             if (_filterQuery.PublicId.HasValue || !string.IsNullOrWhiteSpace(_filterQuery.ShortId) || _isGettingAllItems)
             {
                 return true;

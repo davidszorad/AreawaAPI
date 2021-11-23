@@ -32,6 +32,7 @@ namespace Areawa
             builder.Services.AddTransient<IScreenshotCreator, ScreenshotCreator>();
             builder.Services.AddTransient<IStorageService, AzureBlobStorageService>();
             builder.Services.AddTransient<IQueueService, AzureStorageQueueService>();
+            builder.Services.AddTransient<IApiKeyValidator, ApiKeyValidator>();
 
             builder.Services.AddDbContext<AreawaDbContext>(options => options.UseSqlServer(ConfigStore.GetDbConnectionString()));
 
@@ -39,6 +40,7 @@ namespace Areawa
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Areawa", Version = "v1" });
+                c.OperationFilter<ApiKeyHeaderSwaggerAttribute>();
             });
 
             var app = builder.Build();
@@ -56,6 +58,9 @@ namespace Areawa
                 //?? app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 //?? app.UseHsts();
+                
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Areawa v1"));
             }
 
             app.UseHttpsRedirection();

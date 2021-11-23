@@ -15,6 +15,7 @@ namespace Core.Database.Configurations
 
             builder.Property(a => a.PublicId).IsRequired();
             builder.Property(a => a.Name).HasMaxLength(255).IsRequired();
+            builder.Property(x => x.ApiUserId).IsRequired();
         }
     }
     
@@ -29,6 +30,7 @@ namespace Core.Database.Configurations
 
             builder.Property(a => a.PublicId).IsRequired();
             builder.Property(a => a.Name).HasMaxLength(255).IsRequired();
+            builder.Property(x => x.ApiUserId).IsRequired();
 
             builder
                 .HasMany(x => x.Categories)

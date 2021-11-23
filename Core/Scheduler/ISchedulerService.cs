@@ -6,6 +6,6 @@ namespace Core.Scheduler
 {
     public interface ISchedulerService
     {
-        Task<Guid> CreateAsync(CreateArchivedWebsiteCommand command, CancellationToken cancellationToken = default);
+        Task<Guid> CreateAsync(CreateArchivedWebsiteCommand command, Guid userPublicId, CancellationToken cancellationToken = default);
     }
 }

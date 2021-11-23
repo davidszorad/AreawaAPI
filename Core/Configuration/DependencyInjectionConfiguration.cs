@@ -3,6 +3,7 @@ using Core.Processor;
 using Core.Reader;
 using Core.Scheduler;
 using Core.Shared;
+using Core.UserManagement;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.Configuration
@@ -16,6 +17,7 @@ namespace Core.Configuration
             services.AddTransient<IProcessorService, ProcessorService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IPoisonQueueService, PoisonQueueService>();
+            services.AddTransient<IUserService, UserService>();
             return services;
         }
     }

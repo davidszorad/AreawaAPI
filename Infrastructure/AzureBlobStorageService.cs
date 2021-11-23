@@ -13,9 +13,9 @@ public class AzureBlobStorageService : IStorageService
     public async Task<string> UploadAsync(Stream stream, string folder, string file, CancellationToken cancellationToken = default)
     {
         var containerClient = await CreateContainerAsync(folder.ToLower(), cancellationToken);
-        BlobClient blobClient = containerClient.GetBlobClient(file);
+        BlobClient blobClient = containerClient.GetBlobClient(file.ToLower());
         await blobClient.UploadAsync(stream, true, cancellationToken);
-        return $"{folder}/{file}";
+        return $"{folder.ToLower()}/{file.ToLower()}";
     }
 
     public async Task DeleteFolderAsync(string folder, CancellationToken cancellationToken = default)

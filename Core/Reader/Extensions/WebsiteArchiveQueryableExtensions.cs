@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Reader
 {
@@ -16,6 +17,7 @@ namespace Core.Reader
                 return query;
             }
 
+            query = query.AddUserFilter(filterQuery);
             query = query.AddIdFilter(filterQuery);
             query = query.AddStatusFilter(filterQuery);
 
@@ -28,6 +30,18 @@ namespace Core.Reader
             return query;
         }
 
+        private static IQueryable<WebsiteArchive> AddUserFilter(this IQueryable<WebsiteArchive> query, FilterQuery filterQuery)
+        {
+            if (filterQuery.UserPublicId.HasValue)
+            {
+                query = query
+                    .Include(x => x.ApiUser)
+                    .Where(x => x.ApiUser.PublicId == filterQuery.UserPublicId.Value);
+            }
+
+            return query;
+        }
+        
         private static IQueryable<WebsiteArchive> AddIdFilter(this IQueryable<WebsiteArchive> query, FilterQuery filterQuery)
         {
             if (filterQuery.PublicId.HasValue)

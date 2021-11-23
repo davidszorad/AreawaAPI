@@ -4,6 +4,7 @@ using Core.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core.Database.Migrations
 {
     [DbContext(typeof(AreawaDbContext))]
-    partial class AreawaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211120182848_UpdateWebsiteArchive")]
+    partial class UpdateWebsiteArchive
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,9 +98,6 @@ namespace Core.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("CategoryId"), 1L, 1);
 
-                    b.Property<long>("ApiUserId")
-                        .HasColumnType("bigint");
-
                     b.Property<long?>("CategoryGroupId")
                         .HasColumnType("bigint");
 
@@ -118,8 +117,6 @@ namespace Core.Database.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.HasIndex("ApiUserId");
-
                     b.HasIndex("CategoryGroupId");
 
                     b.HasIndex("PublicId")
@@ -136,9 +133,6 @@ namespace Core.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("CategoryGroupId"), 1L, 1);
 
-                    b.Property<long>("ApiUserId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -154,8 +148,6 @@ namespace Core.Database.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("CategoryGroupId");
-
-                    b.HasIndex("ApiUserId");
 
                     b.HasIndex("PublicId")
                         .IsUnique();
@@ -261,31 +253,12 @@ namespace Core.Database.Migrations
 
             modelBuilder.Entity("Core.Database.Entities.Category", b =>
                 {
-                    b.HasOne("Core.Database.Entities.ApiUser", "ApiUser")
-                        .WithMany("Categories")
-                        .HasForeignKey("ApiUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Core.Database.Entities.CategoryGroup", "CategoryGroup")
                         .WithMany("Categories")
                         .HasForeignKey("CategoryGroupId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("ApiUser");
-
                     b.Navigation("CategoryGroup");
-                });
-
-            modelBuilder.Entity("Core.Database.Entities.CategoryGroup", b =>
-                {
-                    b.HasOne("Core.Database.Entities.ApiUser", "ApiUser")
-                        .WithMany("CategoryGroups")
-                        .HasForeignKey("ApiUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("ApiUser");
                 });
 
             modelBuilder.Entity("Core.Database.Entities.WebsiteArchive", b =>
@@ -293,7 +266,7 @@ namespace Core.Database.Migrations
                     b.HasOne("Core.Database.Entities.ApiUser", "ApiUser")
                         .WithMany("WebsiteArchives")
                         .HasForeignKey("ApiUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Core.Database.Entities.ArchiveType", null)
@@ -332,10 +305,6 @@ namespace Core.Database.Migrations
 
             modelBuilder.Entity("Core.Database.Entities.ApiUser", b =>
                 {
-                    b.Navigation("Categories");
-
-                    b.Navigation("CategoryGroups");
-
                     b.Navigation("WebsiteArchives");
                 });
 
