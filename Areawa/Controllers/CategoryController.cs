@@ -11,27 +11,33 @@ namespace Areawa.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoriesService _categoriesService;
+        private readonly IApiKeyValidator _apiKeyValidator;
 
-        public CategoryController(ICategoriesService categoriesService)
+        public CategoryController(
+            ICategoriesService categoriesService,
+            IApiKeyValidator apiKeyValidator)
         {
             _categoriesService = categoriesService;
+            _apiKeyValidator = apiKeyValidator;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            if (!HeaderParser.TryGetGetApiKey(Request, out var userPublicId))
+            var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
+            if (!apiKeyValidatorResult.isValid)
             {
                 return BadRequest();
             }
 
-            return Ok(await _categoriesService.GetCategoriesAsync(userPublicId));
+            return Ok(await _categoriesService.GetCategoriesAsync(apiKeyValidatorResult.userPublicId));
         }
         
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] UpsertCategoryCommand command)
         {
-            if (!HeaderParser.TryGetGetApiKey(Request, out var userPublicId))
+            var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
+            if (!apiKeyValidatorResult.isValid)
             {
                 return BadRequest();
             }
@@ -41,13 +47,14 @@ namespace Areawa.Controllers
                 return BadRequest(ModelState);
             }
 
-            return Ok(await _categoriesService.CreateCategoryAsync(userPublicId, command));
+            return Ok(await _categoriesService.CreateCategoryAsync(apiKeyValidatorResult.userPublicId, command));
         }
         
         [HttpPost("group/create")]
         public async Task<IActionResult> CreateGroup([FromBody] UpsertCategoryGroupCommand command)
         {
-            if (!HeaderParser.TryGetGetApiKey(Request, out var userPublicId))
+            var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
+            if (!apiKeyValidatorResult.isValid)
             {
                 return BadRequest();
             }
@@ -57,13 +64,14 @@ namespace Areawa.Controllers
                 return BadRequest(ModelState);
             }
 
-            return Ok(await _categoriesService.CreateCategoryGroupAsync(userPublicId, command));
+            return Ok(await _categoriesService.CreateCategoryGroupAsync(apiKeyValidatorResult.userPublicId, command));
         }
         
         [HttpPut("update/{publicId:guid}")]
         public async Task<IActionResult> Update(Guid publicId, [FromBody] UpsertCategoryCommand command)
         {
-            if (!HeaderParser.TryGetGetApiKey(Request, out var userPublicId))
+            var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
+            if (!apiKeyValidatorResult.isValid)
             {
                 return BadRequest();
             }
@@ -73,13 +81,14 @@ namespace Areawa.Controllers
                 return BadRequest(ModelState);
             }
 
-            return Ok(await _categoriesService.UpdateCategoryAsync(userPublicId, publicId, command));
+            return Ok(await _categoriesService.UpdateCategoryAsync(apiKeyValidatorResult.userPublicId, publicId, command));
         }
         
         [HttpPut("group/update/{publicId:guid}")]
         public async Task<IActionResult> UpdateGroup(Guid publicId, [FromBody] UpsertCategoryGroupCommand command)
         {
-            if (!HeaderParser.TryGetGetApiKey(Request, out var userPublicId))
+            var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
+            if (!apiKeyValidatorResult.isValid)
             {
                 return BadRequest();
             }
@@ -89,29 +98,31 @@ namespace Areawa.Controllers
                 return BadRequest(ModelState);
             }
 
-            return Ok(await _categoriesService.UpdateCategoryGroupAsync(userPublicId, publicId, command));
+            return Ok(await _categoriesService.UpdateCategoryGroupAsync(apiKeyValidatorResult.userPublicId, publicId, command));
         }
 
         [HttpDelete("{publicId:guid}")]
         public async Task<IActionResult> Delete([FromHeader(Name="X-Email")][Required] string userEmail, Guid publicId)
         {
-            if (!HeaderParser.TryGetGetApiKey(Request, out var userPublicId))
+            var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
+            if (!apiKeyValidatorResult.isValid)
             {
                 return BadRequest();
             }
             
-            return Ok(await _categoriesService.DeleteCategoryAsync(userPublicId, publicId));
+            return Ok(await _categoriesService.DeleteCategoryAsync(apiKeyValidatorResult.userPublicId, publicId));
         }
         
         [HttpDelete("group/{publicId:guid}")]
         public async Task<IActionResult> DeleteGroup([FromHeader(Name="X-Email")][Required] string userEmail, Guid publicId)
         {
-            if (!HeaderParser.TryGetGetApiKey(Request, out var userPublicId))
+            var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
+            if (!apiKeyValidatorResult.isValid)
             {
                 return BadRequest();
             }
             
-            return Ok(await _categoriesService.DeleteCategoryGroupAsync(userPublicId, publicId));
+            return Ok(await _categoriesService.DeleteCategoryGroupAsync(apiKeyValidatorResult.userPublicId, publicId));
         }
     }
 }

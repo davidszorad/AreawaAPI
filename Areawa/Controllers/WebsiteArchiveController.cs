@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Areawa.Models;
+﻿using Areawa.Models;
 using Core.Reader;
 using Core.Scheduler;
 using Microsoft.AspNetCore.Mvc;
@@ -16,27 +14,31 @@ public class WebsiteArchiveController : ControllerBase
     private readonly ILogger<WebsiteArchiveController> _logger;
     private readonly IReaderService _readerService;
     private readonly ISchedulerService _schedulerService;
+    private readonly IApiKeyValidator _apiKeyValidator;
 
     public WebsiteArchiveController(
         ILogger<WebsiteArchiveController> logger,
         IReaderService readerService,
-        ISchedulerService schedulerService)
+        ISchedulerService schedulerService,
+        IApiKeyValidator apiKeyValidator)
     {
         _logger = logger;
         _readerService = readerService;
         _schedulerService = schedulerService;
+        _apiKeyValidator = apiKeyValidator;
     }
 
     [HttpPost("search")]
     public async Task<IActionResult> Search([FromBody] WebsiteArchiveQuery websiteArchiveQuery)
     {
-        if (!HeaderParser.TryGetGetApiKey(Request, out var userPublicId))
+        var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
+        if (!apiKeyValidatorResult.isValid)
         {
             return BadRequest();
         }
             
         var filterQueryBuilder = new FilterQueryBuilder()
-            .SetUserPublicId(userPublicId)
+            .SetUserPublicId(apiKeyValidatorResult.userPublicId)
             .SetOrdering(websiteArchiveQuery.SortBy, websiteArchiveQuery.IsSortDescending)
             .SetPaging(websiteArchiveQuery.Page, websiteArchiveQuery.PageSize);
 
@@ -64,7 +66,8 @@ public class WebsiteArchiveController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] CreateArchivedWebsiteCommand createArchivedWebsiteCommand)
     {
-        if (!HeaderParser.TryGetGetApiKey(Request, out var userPublicId))
+        var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
+        if (!apiKeyValidatorResult.isValid)
         {
             return BadRequest();
         }
@@ -74,6 +77,6 @@ public class WebsiteArchiveController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        return Ok(await _schedulerService.CreateAsync(createArchivedWebsiteCommand, userPublicId));
+        return Ok(await _schedulerService.CreateAsync(createArchivedWebsiteCommand, apiKeyValidatorResult.userPublicId));
     }
 }

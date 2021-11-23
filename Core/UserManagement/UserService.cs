@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core.Database;
 using Core.Database.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.UserManagement;
 
@@ -29,5 +30,17 @@ public class UserService : IUserService
 
         _areawaDbContext.ApiUser.Add(user);
         await _areawaDbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<bool> IsActiveAsync(Guid publicId, CancellationToken cancellationToken = default)
+    {
+        var user = await _areawaDbContext.ApiUser.FirstOrDefaultAsync(x => x.PublicId == publicId, cancellationToken);
+        return user is { IsActive: true };
+    }
+
+    public async Task<bool> IsPremiumAsync(Guid publicId, CancellationToken cancellationToken = default)
+    {
+        var user = await _areawaDbContext.ApiUser.FirstOrDefaultAsync(x => x.PublicId == publicId, cancellationToken);
+        return user is { IsActive: true, IsPremium: true };
     }
 }

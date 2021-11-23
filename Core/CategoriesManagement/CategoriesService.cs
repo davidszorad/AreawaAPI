@@ -21,13 +21,6 @@ namespace Core.CategoriesManagement
 
         public async Task<ICollection<GetCategoryGroupQuery>> GetCategoriesAsync(Guid userPublicId, CancellationToken cancellationToken = default)
         {
-            // 1. pridat usera do entit, website archive a category a category group
-            // 2. vytvorit novu servicu pre usera na kontrolu is active a is premium / mozno aj obe naraz tam kde treba skontrolovat ispremium musi byt aj isactive zaroven
-            // 3. is active kontrolobvat hned na vstupe do controllera tam zmenit staticku metodu v headerparser na classu vyuzivajucu userservice
-            // 4. is premium zase kontrolovat uz nizsie v core; niektore veci co su viazane na controller tak tam a neist zbytocne do core
-            // 5. cosmos db service with user, date, request counts / type of requests logging and add api endpoint for my stats
-            
-            
             var categoryGroups = await _areawaDbContext
                 .CategoryGroup
                 .Include(x => x.ApiUser)
