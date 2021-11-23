@@ -25,20 +25,20 @@ internal class ApiUserConfiguration : ConfigurationBase, IEntityTypeConfiguratio
             .WithOne(x => x.ApiUser)
             .HasForeignKey(x => x.ApiUserId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
         
         builder
             .HasMany(x => x.Categories)
             .WithOne(x => x.ApiUser)
             .HasForeignKey(x => x.ApiUserId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
         
         builder
             .HasMany(x => x.CategoryGroups)
             .WithOne(x => x.ApiUser)
             .HasForeignKey(x => x.ApiUserId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
