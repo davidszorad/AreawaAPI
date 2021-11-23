@@ -28,13 +28,14 @@ internal static class CategoryExtensions
             {
                 PublicId = entity.PublicId,
                 Name = entity.Name,
-                UsageCount = 0
+                UsageCount = 0,
+                Created = entity.CreatedOn,
+                Updated = entity.UpdatedOn
             };
             
             if (entity.CategoryGroup == null)
             {
-                var ncg = result.SingleOrDefault(x => x.PublicId == null);
-                if (ncg == default)
+                if (result.All(x => x.PublicId != null))
                 {
                     var noCategoryGroup = new GetCategoryGroupQuery
                     {
@@ -48,8 +49,23 @@ internal static class CategoryExtensions
 
                 result.Single(x => x.PublicId == null).Categories.Add(category);
             }
+            else
+            {
+                if (result.All(x => x.PublicId != entity.CategoryGroup.PublicId))
+                {
+                    var noCategoryGroup = new GetCategoryGroupQuery
+                    {
+                        PublicId = entity.CategoryGroup.PublicId,
+                        Name = entity.CategoryGroup.Name,
+                        Created = entity.CategoryGroup.CreatedOn,
+                        Updated = entity.CategoryGroup.UpdatedOn
+                    };
+                    result.Add(noCategoryGroup);    
+                }
+                
+                result.Single(x => x.PublicId == entity.CategoryGroup.PublicId).Categories.Add(category);
+            }
         }
-
 
         return result;
     }

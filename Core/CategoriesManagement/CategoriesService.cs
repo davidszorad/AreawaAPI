@@ -21,22 +21,15 @@ namespace Core.CategoriesManagement
 
         public async Task<ICollection<GetCategoryGroupQuery>> GetCategoriesAsync(Guid userPublicId, CancellationToken cancellationToken = default)
         {
-            var categoryGroups = await _areawaDbContext
-                .CategoryGroup
-                .Include(x => x.ApiUser)
-                .Include(x => x.Categories)
-                .ThenInclude(c => c.ApiUser)
-                .Where(x => x.ApiUser.IsActive && x.ApiUser.PublicId == userPublicId)
-                .Where(x => x.Categories.All(c => c.ApiUser.IsActive))
-                .ToListAsync(cancellationToken);
-
+            // TODO: include category groups with no categories
+            
             var categories = await _areawaDbContext
                 .Category
                 .Include(x => x.ApiUser)
                 .Include(x => x.CategoryGroup)
                 .ThenInclude(g => g.ApiUser)
                 .Where(x => x.ApiUser.IsActive && x.ApiUser.PublicId == userPublicId)
-                .Where(x => x.CategoryGroup.ApiUser.IsActive && x.CategoryGroup.ApiUser.PublicId == userPublicId)
+                .Where(x => x.CategoryGroup == null || (x.CategoryGroup.ApiUser.IsActive && x.CategoryGroup.ApiUser.PublicId == userPublicId))
                 .ToListAsync(cancellationToken);
 
             return categories.Map();
