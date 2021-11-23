@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,13 +22,6 @@ internal static class CategoryExtensions
     {
         var result = new List<GetCategoryGroupQuery>();
 
-        var noCategoryGroup = new GetCategoryGroupQuery
-        {
-            PublicId = null,
-            Name = null
-        };
-        result.Add(noCategoryGroup);
-
         foreach (var entity in entities)
         {
             var category = new GetCategoryQuery
@@ -39,6 +33,19 @@ internal static class CategoryExtensions
             
             if (entity.CategoryGroup == null)
             {
+                var ncg = result.SingleOrDefault(x => x.PublicId == null);
+                if (ncg == default)
+                {
+                    var noCategoryGroup = new GetCategoryGroupQuery
+                    {
+                        PublicId = null,
+                        Name = null,
+                        Created = DateTime.UtcNow,
+                        Updated = DateTime.UtcNow
+                    };
+                    result.Add(noCategoryGroup);    
+                }
+
                 result.Single(x => x.PublicId == null).Categories.Add(category);
             }
         }
