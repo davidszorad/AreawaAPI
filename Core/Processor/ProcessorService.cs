@@ -67,14 +67,8 @@ namespace Core.Processor
             catch (Exception)
             {
                 await ChangeStatusAsync(websiteArchive, Status.Error, cancellationToken);
-                
-                // TODO: log error
-                
-                return (isSuccess: false, Status.Error);
+                throw;
             }
-            
-            // TODO: retrieve from queue (in Azure func)
-            // TODO: remove from queue / add to poison queue / retry mechanism (in Azure func)
         }
 
         private async Task ChangeStatusAsync(WebsiteArchive websiteArchive, Status status, CancellationToken cancellationToken = default)
