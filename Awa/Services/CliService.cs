@@ -8,12 +8,10 @@ namespace Awa;
 
 internal class CliService
 {
-    private readonly IShit _shit;
     private readonly IScreenshotCreator _screenshotCreator;
 
-    public CliService(IShit shit, IScreenshotCreator screenshotCreator)
+    public CliService(IScreenshotCreator screenshotCreator)
     {
-        _shit = shit;
         _screenshotCreator = screenshotCreator;
     }
 

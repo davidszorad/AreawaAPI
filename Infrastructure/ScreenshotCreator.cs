@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Configuration;
 using Core.Shared;
 using Domain.Enums;
 using Domain.Models;
@@ -13,14 +15,19 @@ public class ScreenshotCreator : IScreenshotCreator
 {
     public async Task<Stream> TakeScreenshotStreamAsync(ArchiveFile file, CancellationToken cancellationToken = default)
     {
-        var browserFetcherOptions = new BrowserFetcherOptions
+        var browserFetcher = new BrowserFetcher();
+        if (!IsMac())
         {
-            Path = Path.Combine("/sem", ".local-chromium") 
-        };
-        var browserFetcher = new BrowserFetcher(browserFetcherOptions);
+            var browserFetcherOptions = new BrowserFetcherOptions
+            {
+                Path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), ConfigurationConstants.ProfileFolder, ".local-chromium")
+            };
+            browserFetcher = new BrowserFetcher(browserFetcherOptions);
+        }
         await browserFetcher.DownloadAsync();
         var revisionInfo = await browserFetcher.GetRevisionInfoAsync();
         await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true, ExecutablePath = browserFetcher.GetExecutablePath(revisionInfo.Revision) });
+        
         await using var page = await browser.NewPageAsync();
         // await page.SetViewportAsync(new ViewPortOptions
         // {
@@ -33,20 +40,26 @@ public class ScreenshotCreator : IScreenshotCreator
         switch (file.Extension)
         {
             case ArchiveType.Pdf:
-                await page.PdfAsync("/sem/subor.pdf");
-                return await page.PdfStreamAsync();
+                var pdfStream = await page.PdfStreamAsync();
+                if (IsMac() && Directory.Exists(".local-chromium"))
+                {
+                    Directory.Delete(".local-chromium", true);
+                }
+                return pdfStream;
             case ArchiveType.Png:
-                return await page.ScreenshotStreamAsync();
+                var imageStream = await page.ScreenshotStreamAsync();
+                if (IsMac() && Directory.Exists(".local-chromium"))
+                {
+                    Directory.Delete(".local-chromium", true);
+                }
+                return imageStream;
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
-}
-
-public class Shit : IShit
-{
-    public string Get()
+    
+    private static bool IsMac()
     {
-        return "what the fuck;";
+        return RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
     }
 }

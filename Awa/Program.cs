@@ -12,7 +12,6 @@ internal class App
         var host = new HostBuilder()
             .ConfigureServices(x =>
             {
-                x.AddTransient<IShit, Shit>();
                 x.AddTransient<IScreenshotCreator, ScreenshotCreator>();
                 x.AddTransient<CliService>();
                 x.AddTransient<CliLoginService>();

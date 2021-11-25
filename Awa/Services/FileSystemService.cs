@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Configuration;
 
 [assembly: InternalsVisibleTo("Awa.UnitTests")]
 
@@ -9,7 +10,7 @@ internal static class FileSystemService
     public static string GetProfileFolder()
     {
         var rootFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        var directory = Path.Combine(rootFolderPath, "areawa");
+        var directory = Path.Combine(rootFolderPath, ConfigurationConstants.ProfileFolder);
         if (!Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);
@@ -25,7 +26,13 @@ internal static class FileSystemService
     
     public static async Task<string> ReadTextAsync(string fileName, CancellationToken cancellationToken = default)
     {
-        return await File.ReadAllTextAsync(Path.Combine(GetProfileFolder(), $"{fileName}.txt"), cancellationToken);
+        var filePath = Path.Combine(GetProfileFolder(), $"{fileName}.txt");
+        if (!File.Exists(filePath))
+        {
+            return string.Empty;
+        }
+        
+        return await File.ReadAllTextAsync(filePath, cancellationToken);
     }
 
     public static void DeleteFile(string fileName)

@@ -15,7 +15,6 @@ internal class App
         var host = new HostBuilder()
             .ConfigureServices(x =>
             {
-                x.AddTransient<IShit, Shit>();
                 x.AddTransient<IScreenshotCreator, ScreenshotCreator>();
                 x.AddTransient<MyService>();
             })
@@ -44,12 +43,10 @@ internal class App
 
 internal class MyService
 {
-    private readonly IShit _shit;
     private readonly IScreenshotCreator _screenshotCreator;
 
-    public MyService(IShit shit, IScreenshotCreator screenshotCreator)
+    public MyService(IScreenshotCreator screenshotCreator)
     {
-        _shit = shit;
         _screenshotCreator = screenshotCreator;
     }
 
