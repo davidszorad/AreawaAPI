@@ -49,6 +49,10 @@ internal class App
         The value for --int-option is: 123
         The value for --bool-option is: False
         The value for --file-option is: null
+        
+        
+        
+        dotnet tool install --global --add-source C:\p_dev\Areawa\Areawa.CLI\bin\Debug Areawa.CLI
          */
     }
 }
