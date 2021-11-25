@@ -1,5 +1,6 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Invocation;
+using Areawa.CLI;
 using Core.Shared;
 using Domain.Enums;
 using Domain.Models;
@@ -132,6 +133,9 @@ internal class MyService
             SourceUrl = "https://dev-trips.com/dev/how-to-create-classes-that-protect-its-data"
         };
 
+        var spinner = new Spinner();
+        spinner.Start();
+
         await _screenshotCreator.TakeScreenshotStreamAsync(file);
         
         
@@ -148,7 +152,7 @@ internal class MyService
             temperature = (temperature - 32) *5 / 9;
             unit = "Cee";
         }
-
+        spinner.Stop();
         Console.WriteLine($"Result: {temperature} \x00B0{unit}");
     }
 }
