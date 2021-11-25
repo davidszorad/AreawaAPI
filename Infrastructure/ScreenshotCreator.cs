@@ -13,9 +13,14 @@ public class ScreenshotCreator : IScreenshotCreator
 {
     public async Task<Stream> TakeScreenshotStreamAsync(ArchiveFile file, CancellationToken cancellationToken = default)
     {
-        var browserFetcher = new BrowserFetcher();
+        var browserFetcherOptions = new BrowserFetcherOptions
+        {
+            Path = Path.Combine("/sem", ".local-chromium") 
+        };
+        var browserFetcher = new BrowserFetcher(browserFetcherOptions);
         await browserFetcher.DownloadAsync();
-        await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true });
+        var revisionInfo = await browserFetcher.GetRevisionInfoAsync();
+        await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true, ExecutablePath = browserFetcher.GetExecutablePath(revisionInfo.Revision) });
         await using var page = await browser.NewPageAsync();
         // await page.SetViewportAsync(new ViewPortOptions
         // {
