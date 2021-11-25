@@ -79,4 +79,16 @@ public class WebsiteArchiveController : ControllerBase
 
         return Ok(await _schedulerService.CreateAsync(createArchivedWebsiteCommand, apiKeyValidatorResult.userPublicId));
     }
+
+    [HttpPost("upload")]
+    public async Task<IActionResult> UploadScreenshot()
+    {
+        var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
+        if (!apiKeyValidatorResult.isValid)
+        {
+            return BadRequest();
+        }
+
+        return Ok();
+    }
 }

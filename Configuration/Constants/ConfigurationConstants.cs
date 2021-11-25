@@ -10,7 +10,8 @@
         public const string QueueIncomingProcessorRequests = "incoming-processor-requests";
         public const int MaxDequeueCount = 5;
         public const string FileNameWithApiKey = "identity";
-        public const string ApiRootUrl = "https://areawaapi.azurewebsites.net";
-        public const string ApiScreenshotUrl = "api/screenshot";
+        //public const string ApiRootUrl = "https://areawaapi.azurewebsites.net";
+        public const string ApiRootUrl = "https://localhost:5001";
+        public const string ApiScreenshotUrl = "api/website-archive/upload";
     }
 }

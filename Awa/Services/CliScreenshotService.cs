@@ -54,7 +54,7 @@ internal class CliScreenshotService
         };
         var stream = await _screenshotCreator.TakeScreenshotStreamAsync(file, cancellationToken);
 
-        //await _httpService.PostAsync(apiKey, stream, cancellationToken);
+        await _httpService.PostAsync(apiKey, stream, cancellationToken);
         
         _spinner.Stop();
         
