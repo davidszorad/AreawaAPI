@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.UnitTests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Areawa.Workers", "Areawa.Workers\Areawa.Workers.csproj", "{42E16ACD-8A63-48C9-9FA1-B0C01A790A96}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Areawa.CLI", "Areawa.CLI\Areawa.CLI.csproj", "{D809E1FF-974A-4A90-8802-1BF8CF72FAF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{42E16ACD-8A63-48C9-9FA1-B0C01A790A96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42E16ACD-8A63-48C9-9FA1-B0C01A790A96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42E16ACD-8A63-48C9-9FA1-B0C01A790A96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D809E1FF-974A-4A90-8802-1BF8CF72FAF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D809E1FF-974A-4A90-8802-1BF8CF72FAF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D809E1FF-974A-4A90-8802-1BF8CF72FAF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D809E1FF-974A-4A90-8802-1BF8CF72FAF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

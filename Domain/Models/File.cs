@@ -1,8 +1,7 @@
 ﻿using System;
-using System.IO;
 using Domain.Enums;
 
-namespace Core.Shared;
+namespace Domain.Models;
 
 public class ArchiveFile
 {

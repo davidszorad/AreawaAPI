@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core.Shared;
 using Domain.Enums;
+using Domain.Models;
 using PuppeteerSharp;
 
 namespace Infrastructure;
@@ -33,5 +34,13 @@ public class ScreenshotCreator : IScreenshotCreator
             default:
                 throw new ArgumentOutOfRangeException();
         }
+    }
+}
+
+public class Shit : IShit
+{
+    public string Get()
+    {
+        return "what the fuck;";
     }
 }

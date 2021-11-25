@@ -8,6 +8,7 @@ using Core.Database;
 using Core.Database.Entities;
 using Core.Shared;
 using Domain.Enums;
+using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using ArchiveType = Domain.Enums.ArchiveType;
 

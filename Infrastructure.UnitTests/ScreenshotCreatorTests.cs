@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Core.Shared;
 using Domain.Enums;
+using Domain.Models;
 using Microsoft.AspNetCore.Hosting;
 using Moq;
 using NUnit.Framework;

@@ -4,6 +4,7 @@ using Configuration;
 using Core.Processor;
 using Core.Shared;
 using Domain.Enums;
+using Domain.Models;
 using NUnit.Framework;
 
 namespace Infrastructure.UnitTests;
