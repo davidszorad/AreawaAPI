@@ -1,8 +1,9 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Invocation;
 using Core.Shared;
+using Domain.Enums;
+using Domain.Models;
 using Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -14,6 +15,7 @@ internal class App
             .ConfigureServices(x =>
             {
                 x.AddTransient<IShit, Shit>();
+                x.AddTransient<IScreenshotCreator, ScreenshotCreator>();
                 x.AddTransient<MyService>();
             })
             .Build();
@@ -53,33 +55,12 @@ internal class App
 internal class MyService
 {
     private readonly IShit _shit;
+    private readonly IScreenshotCreator _screenshotCreator;
 
-    public MyService(IShit shit)
+    public MyService(IShit shit, IScreenshotCreator screenshotCreator)
     {
         _shit = shit;
-    }
-
-    public int DoSomething(string[] args)
-    {
-        var temperature = new Argument<double>
-            ("temperature", "Temperature value");
-
-        var unit = new Option<string>
-            ("--unit", "Unit of measurement");
-        unit.IsRequired = true;
-        unit.AddAlias("--u");
-
-        var cmd = new RootCommand();
-        cmd.AddArgument(temperature);
-        cmd.AddOption(unit);
-
-        cmd.Handler = CommandHandler.Create
-            <double, string>(ShowOutput);
-
-        return cmd.Invoke(args);
-        
-        
-        Console.WriteLine(_shit.Get());
+        _screenshotCreator = screenshotCreator;
     }
 
     public Command Rename()
@@ -134,15 +115,26 @@ internal class MyService
 
         // Note that the parameters of the handler method are matched according to the names of the options
         createCommand.Handler = CommandHandler.Create
-            <double, string>(ShowOutput);
+            <double, string>(ShowOutputAsync);
 
         // Parse the incoming args and invoke the handler
         return createCommand;
         
     }
     
-    static void ShowOutput(double temperature, string unit)
+    private async Task ShowOutputAsync(double temperature, string unit)
     {
+        var file = new ArchiveFile
+        {
+            Filename = "subor",
+            Extension = ArchiveType.Pdf,
+            Folder = "docasnyfolder",
+            SourceUrl = "https://dev-trips.com/dev/how-to-create-classes-that-protect-its-data"
+        };
+
+        await _screenshotCreator.TakeScreenshotStreamAsync(file);
+        
+        
         // C to F
         if(unit =="C")
         {

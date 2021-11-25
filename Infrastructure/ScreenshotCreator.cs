@@ -28,6 +28,7 @@ public class ScreenshotCreator : IScreenshotCreator
         switch (file.Extension)
         {
             case ArchiveType.Pdf:
+                await page.PdfAsync("/sem/subor.pdf");
                 return await page.PdfStreamAsync();
             case ArchiveType.Png:
                 return await page.ScreenshotStreamAsync();
