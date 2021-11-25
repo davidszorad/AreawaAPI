@@ -13,7 +13,7 @@ internal class CliLoginService
         _spinner = new Spinner();
     }
     
-    public Command RegisterLogin()
+    public Command Register()
     {
         var command = new Command("login")
         {
