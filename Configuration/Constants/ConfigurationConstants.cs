@@ -9,5 +9,6 @@
         public const string AzureStorageConnectionString = "AzureStorageConnectionString";
         public const string QueueIncomingProcessorRequests = "incoming-processor-requests";
         public const int MaxDequeueCount = 5;
+        public const string FileNameWithApiKey = "903foisf";
     }
 }

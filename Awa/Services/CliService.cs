@@ -1,53 +1,17 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Invocation;
-using Areawa.CLI;
 using Core.Shared;
 using Domain.Enums;
 using Domain.Models;
-using Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
-internal class App
-{
-    private static async Task<int> Main(string[] args)
-    {
-        var host = new HostBuilder()
-            .ConfigureServices(x =>
-            {
-                x.AddTransient<IShit, Shit>();
-                x.AddTransient<IScreenshotCreator, ScreenshotCreator>();
-                x.AddTransient<MyService>();
-            })
-            .Build();
+namespace Awa;
 
-        var myService = host.Services.GetRequiredService<MyService>();
-
-
-        
-        await Task.FromResult(0);
-        
-        
-        var rootCommand = new RootCommand
-        {
-            Name = "FART",
-            Description = "File Association and Rename Tool"
-        };
-
-        //return myService.DoSomething(args);
-        rootCommand.Add(myService.Rename());
-        rootCommand.Add(myService.Create());
-        //return rootCommand.InvokeAsync(args).Result;
-        return await rootCommand.InvokeAsync(args);
-    }
-}
-
-internal class MyService
+internal class CliService
 {
     private readonly IShit _shit;
     private readonly IScreenshotCreator _screenshotCreator;
 
-    public MyService(IShit shit, IScreenshotCreator screenshotCreator)
+    public CliService(IShit shit, IScreenshotCreator screenshotCreator)
     {
         _shit = shit;
         _screenshotCreator = screenshotCreator;
