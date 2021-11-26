@@ -77,11 +77,16 @@ public class WebsiteArchiveController : ControllerBase
         {
             return BadRequest();
         }
+        
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
 
         var screenshotStream = file.OpenReadStream();
-        
-        var archivePath = await _storageService.UploadAsync(screenshotStream, "20211126-test", "subor.pdf");
 
-        return Ok();
+        var resultId = await _websiteArchiveCreatorService.CreateAsync(command, apiKeyValidatorResult.userPublicId, screenshotStream);
+
+        return Ok($"Item created. ID: {resultId}");
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Core.Database;
@@ -28,7 +29,7 @@ public class WebsiteArchiveCreatorService : IWebsiteArchiveCreatorService
         _storageService = storageService;
     }
     
-    public async Task<string> CreateAsync(CreateArchivedWebsiteCommand command, Guid userPublicId, CancellationToken cancellationToken = default)
+    public async Task<string> CreateAsync(CreateArchivedWebsiteCommand command, Guid userPublicId, Stream stream, CancellationToken cancellationToken = default)
     {
         var user = await _areawaDbContext.ApiUser.FirstAsync(x => x.PublicId == userPublicId, cancellationToken);
             
@@ -55,8 +56,7 @@ public class WebsiteArchiveCreatorService : IWebsiteArchiveCreatorService
         
         await ChangeStatusAsync(websiteArchive, Status.Processing, cancellationToken);
                 
-        var screenshotStream = await _screenshotCreator.TakeScreenshotStreamAsync(websiteArchive.SourceUrl, websiteArchive.ArchiveTypeId, cancellationToken);
-        var archivePath = await _storageService.UploadAsync(screenshotStream, GetArchivePath(websiteArchive).folder, GetArchivePath(websiteArchive).filename, cancellationToken);
+        var archivePath = await _storageService.UploadAsync(stream, GetArchivePath(websiteArchive).folder, GetArchivePath(websiteArchive).filename, cancellationToken);
         await ChangeArchivePathAsync(websiteArchive, archivePath, cancellationToken);
         await ChangeStatusAsync(websiteArchive, Status.Ok, cancellationToken);
         
