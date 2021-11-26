@@ -68,7 +68,7 @@ public class WebsiteArchiveController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost("upload")]
+    [HttpPost("create")]
     [RequestSizeLimit(20_000_000)] //default 30 MB (~28.6 MiB) max request body size limit -- https://github.com/aspnet/Announcements/issues/267
     public async Task<IActionResult> UploadScreenshot([FromQuery] CreateArchivedWebsiteCommand command, IFormFile file)
     {

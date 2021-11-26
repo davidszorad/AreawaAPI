@@ -39,7 +39,7 @@ internal class HttpService
     }
 
     private static string GetUrl(CreateArchivedWebsiteCommand command) =>
-        $"{ConfigurationConstants.ApiRootUrl}/{ConfigurationConstants.ApiScreenshotUrl}" +
+        $"{ConfigurationConstants.ApiRootUrl}/{ConfigurationConstants.ApiUrlWebsiteArchiveCreate}" +
         $"?{nameof(CreateArchivedWebsiteCommand.Name)}={command.Name}" +
         $"&{nameof(CreateArchivedWebsiteCommand.Description)}={command.Description}" +
         $"&{nameof(CreateArchivedWebsiteCommand.SourceUrl)}={command.SourceUrl}" +

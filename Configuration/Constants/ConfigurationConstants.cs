@@ -11,6 +11,6 @@
         public const string FileNameWithApiKey = "identity";
         //public const string ApiRootUrl = "https://areawaapi.azurewebsites.net";
         public const string ApiRootUrl = "https://localhost:5001";
-        public const string ApiScreenshotUrl = "api/website-archive/upload";
+        public const string ApiUrlWebsiteArchiveCreate = "api/website-archive/create";
     }
 }
