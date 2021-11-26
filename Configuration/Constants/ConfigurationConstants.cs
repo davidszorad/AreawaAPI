@@ -7,7 +7,6 @@
 
         public const string ProfileFolder = "areawa";
         public const string AzureStorageConnectionString = "AzureStorageConnectionString";
-        public const string QueueIncomingProcessorRequests = "incoming-processor-requests";
         public const int MaxDequeueCount = 5;
         public const string FileNameWithApiKey = "identity";
         //public const string ApiRootUrl = "https://areawaapi.azurewebsites.net";

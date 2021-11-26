@@ -1,8 +1,8 @@
-﻿using Core.Shared;
+﻿using System;
+using Core.Shared;
 using Domain.Enums;
-using System;
 
-namespace Core.Reader
+namespace Core.WebsiteArchiveReader
 {
     public class FilterQueryBuilder
     {

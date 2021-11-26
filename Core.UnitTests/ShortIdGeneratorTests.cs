@@ -1,5 +1,5 @@
 using System;
-using Core.Scheduler;
+using Core.WebsiteArchiveCreator;
 using NUnit.Framework;
 
 namespace Core.UnitTests

@@ -1,16 +1,18 @@
-﻿using Core.Database;
-using Core.Shared;
-using Microsoft.EntityFrameworkCore;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using Core.Database;
+using Core.Reader;
+using Core.Shared;
+using Core.WebsiteArchiveReader;
+using Microsoft.EntityFrameworkCore;
 
-namespace Core.Reader
+namespace Core.WebsiteArchiveReader
 {
-    public class ReaderService : IReaderService
+    public class WebsiteArchiveReaderService : IWebsiteArchiveReaderService
     {
         private readonly AreawaDbContext _areawaDbContext;
 
-        public ReaderService(AreawaDbContext areawaDbContext)
+        public WebsiteArchiveReaderService(AreawaDbContext areawaDbContext)
         {
             _areawaDbContext = areawaDbContext;
         }

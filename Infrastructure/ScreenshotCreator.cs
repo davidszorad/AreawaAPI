@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 using Configuration;
 using Core.Shared;
 using Domain.Enums;
-using Domain.Models;
 using PuppeteerSharp;
 
 namespace Infrastructure;
 
 public class ScreenshotCreator : IScreenshotCreator
 {
-    public async Task<Stream> TakeScreenshotStreamAsync(ArchiveFile file, CancellationToken cancellationToken = default)
+    public async Task<Stream> TakeScreenshotStreamAsync(string sourceUrl, ArchiveType archiveType, CancellationToken cancellationToken = default)
     {
         var browserFetcher = new BrowserFetcher();
         if (!IsMac())
@@ -34,10 +33,10 @@ public class ScreenshotCreator : IScreenshotCreator
         //     Width = 1920,
         //     Height = 50000
         // });
-        await page.GoToAsync(file.SourceUrl);
+        await page.GoToAsync(sourceUrl);
         await Task.Delay(5000, cancellationToken);
 
-        switch (file.Extension)
+        switch (archiveType)
         {
             case ArchiveType.Pdf:
                 var pdfStream = await page.PdfStreamAsync();

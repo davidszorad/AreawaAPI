@@ -3,7 +3,6 @@ using System.CommandLine.Invocation;
 using Areawa.CLI;
 using Core.Shared;
 using Domain.Enums;
-using Domain.Models;
 using Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -111,18 +110,10 @@ internal class MyService
     
     private async Task ShowOutputAsync(double temperature, string unit)
     {
-        var file = new ArchiveFile
-        {
-            Filename = "subor",
-            Extension = ArchiveType.Pdf,
-            Folder = "docasnyfolder",
-            SourceUrl = "https://dev-trips.com/dev/how-to-create-classes-that-protect-its-data"
-        };
-
         var spinner = new Spinner();
         spinner.Start();
 
-        await _screenshotCreator.TakeScreenshotStreamAsync(file);
+        await _screenshotCreator.TakeScreenshotStreamAsync("https://dev-trips.com/dev/how-to-create-classes-that-protect-its-data", ArchiveType.Pdf);
         
         
         // C to F

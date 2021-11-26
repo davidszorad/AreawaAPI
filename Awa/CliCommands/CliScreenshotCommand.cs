@@ -3,7 +3,6 @@ using System.CommandLine.Invocation;
 using Configuration;
 using Core.Shared;
 using Domain.Enums;
-using Domain.Models;
 
 namespace Awa;
 
@@ -43,16 +42,9 @@ internal class CliScreenshotCommand
         var source = new CancellationTokenSource();
         CancellationToken cancellationToken = source.Token;
 
-        var apiKey = await FileSystemService.ReadTextAsync(ConfigurationConstants.FileNameWithApiKey);
+        var apiKey = await FileSystemService.ReadTextAsync(ConfigurationConstants.FileNameWithApiKey, cancellationToken);
         
-        var file = new ArchiveFile
-        {
-            Filename = "subor",
-            Extension = ArchiveType.Pdf,
-            Folder = "docasnyfolder",
-            SourceUrl = url
-        };
-        var stream = await _screenshotCreator.TakeScreenshotStreamAsync(file, cancellationToken);
+        var stream = await _screenshotCreator.TakeScreenshotStreamAsync(url, ArchiveType.Pdf, cancellationToken);
 
         await _httpService.PostAsync(apiKey, stream, cancellationToken);
         

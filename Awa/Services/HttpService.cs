@@ -1,27 +1,21 @@
 using System.Net;
-using System.Text.Json;
 using Configuration;
+using Core.WebsiteArchiveCreator;
 using Domain.Enums;
-using Domain.Models;
 
 namespace Awa;
 
 internal class HttpService
 {
     private static HttpClient _httpClient = new();
-    
-    public HttpService()
-    {
-        
-    }
 
     public async Task PostAsync(string apiKey, Stream paramFileStream, CancellationToken cancellationToken = default)
     {
-        var archiveFile = new ArchiveFile
+        var command = new CreateArchivedWebsiteCommand
         {
-            Filename = "subor",
-            Extension = ArchiveType.Pdf,
-            Folder = "docasnyfolder",
+            Name = "subor",
+            ArchiveType = ArchiveType.Pdf,
+            Description = "docasnyfolder",
             SourceUrl = "https://dev-trips.com/dev/how-to-create-classes-that-protect-its-data"
         };
         
@@ -32,7 +26,7 @@ internal class HttpService
         var httpRequestMessage = new HttpRequestMessage
         {
             Method = HttpMethod.Post,
-            RequestUri = new Uri(GetUrl(archiveFile)),
+            RequestUri = new Uri(GetUrl(command)),
             Headers = { 
                 { HttpRequestHeader.Accept.ToString(), "application/json" },
                 { "X-ApiKey", apiKey }
@@ -44,10 +38,10 @@ internal class HttpService
         response.EnsureSuccessStatusCode();
     }
 
-    private static string GetUrl(ArchiveFile archiveFile)
-        => $"{ConfigurationConstants.ApiRootUrl}/{ConfigurationConstants.ApiScreenshotUrl}" +
-           $"?{nameof(ArchiveFile.Filename)}={archiveFile.Filename}" +
-           $"&{nameof(ArchiveFile.Extension)}={archiveFile.Extension}" +
-           $"&{nameof(ArchiveFile.Folder)}={archiveFile.Folder}" +
-           $"&{nameof(ArchiveFile.SourceUrl)}={archiveFile.SourceUrl}";
+    private static string GetUrl(CreateArchivedWebsiteCommand command) =>
+        $"{ConfigurationConstants.ApiRootUrl}/{ConfigurationConstants.ApiScreenshotUrl}" +
+        $"?{nameof(CreateArchivedWebsiteCommand.Name)}={command.Name}" +
+        $"&{nameof(CreateArchivedWebsiteCommand.Description)}={command.Description}" +
+        $"&{nameof(CreateArchivedWebsiteCommand.SourceUrl)}={command.SourceUrl}" +
+        $"&{nameof(CreateArchivedWebsiteCommand.ArchiveType)}={command.ArchiveType}";
 }

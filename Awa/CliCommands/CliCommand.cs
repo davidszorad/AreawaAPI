@@ -2,7 +2,6 @@
 using System.CommandLine.Invocation;
 using Core.Shared;
 using Domain.Enums;
-using Domain.Models;
 
 namespace Awa;
 
@@ -76,18 +75,10 @@ internal class CliCommand
     
     private async Task ShowOutputAsync(double temperature, string unit)
     {
-        var file = new ArchiveFile
-        {
-            Filename = "subor",
-            Extension = ArchiveType.Pdf,
-            Folder = "docasnyfolder",
-            SourceUrl = "https://dev-trips.com/dev/how-to-create-classes-that-protect-its-data"
-        };
-
         var spinner = new Spinner();
         spinner.Start();
 
-        await _screenshotCreator.TakeScreenshotStreamAsync(file);
+        await _screenshotCreator.TakeScreenshotStreamAsync("https://dev-trips.com/dev/how-to-create-classes-that-protect-its-data", ArchiveType.Pdf);
         
         
         // C to F
