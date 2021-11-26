@@ -28,12 +28,11 @@ internal class HttpService
         HttpContent fileStreamContent = new StreamContent(paramFileStream);
         var formData = new MultipartFormDataContent();
         formData.Add(fileStreamContent, "file", "file");
-        formData.Add(new StringContent(JsonSerializer.Serialize(archiveFile)), "archiveFile");
         
         var httpRequestMessage = new HttpRequestMessage
         {
             Method = HttpMethod.Post,
-            RequestUri = new Uri($"{ConfigurationConstants.ApiRootUrl}/{ConfigurationConstants.ApiScreenshotUrl}"),
+            RequestUri = new Uri(GetUrl(archiveFile)),
             Headers = { 
                 { HttpRequestHeader.Accept.ToString(), "application/json" },
                 { "X-ApiKey", apiKey }
@@ -44,4 +43,11 @@ internal class HttpService
         var response = await _httpClient.SendAsync(httpRequestMessage, cancellationToken);
         response.EnsureSuccessStatusCode();
     }
+
+    private static string GetUrl(ArchiveFile archiveFile)
+        => $"{ConfigurationConstants.ApiRootUrl}/{ConfigurationConstants.ApiScreenshotUrl}" +
+           $"?{nameof(ArchiveFile.Filename)}={archiveFile.Filename}" +
+           $"&{nameof(ArchiveFile.Extension)}={archiveFile.Extension}" +
+           $"&{nameof(ArchiveFile.Folder)}={archiveFile.Folder}" +
+           $"&{nameof(ArchiveFile.SourceUrl)}={archiveFile.SourceUrl}";
 }
