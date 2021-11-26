@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Core.Shared;
+using Domain.Models;
 using Microsoft.AspNetCore.Http;
 
 namespace Areawa.Controllers;
@@ -87,7 +88,7 @@ public class WebsiteArchiveController : ControllerBase
 
     [HttpPost("upload")]
     [RequestSizeLimit(20_000_000)] //default 30 MB (~28.6 MiB) max request body size limit -- https://github.com/aspnet/Announcements/issues/267
-    public async Task<IActionResult> UploadScreenshot(IFormFile file)
+    public async Task<IActionResult> UploadScreenshot([FromForm] ArchiveFile archiveFile, IFormFile file)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
         if (!apiKeyValidatorResult.isValid)
