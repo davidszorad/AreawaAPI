@@ -7,13 +7,13 @@ using Domain.Models;
 
 namespace Awa;
 
-internal class CliScreenshotService
+internal class CliScreenshotCommand
 {
     private readonly IScreenshotCreator _screenshotCreator;
     private readonly HttpService _httpService;
     private readonly Spinner _spinner;
     
-    public CliScreenshotService(IScreenshotCreator screenshotCreator)
+    public CliScreenshotCommand(IScreenshotCreator screenshotCreator)
     {
         _screenshotCreator = screenshotCreator;
         _httpService = new HttpService();

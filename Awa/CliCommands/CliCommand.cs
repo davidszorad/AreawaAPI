@@ -6,11 +6,11 @@ using Domain.Models;
 
 namespace Awa;
 
-internal class CliService
+internal class CliCommand
 {
     private readonly IScreenshotCreator _screenshotCreator;
 
-    public CliService(IScreenshotCreator screenshotCreator)
+    public CliCommand(IScreenshotCreator screenshotCreator)
     {
         _screenshotCreator = screenshotCreator;
     }

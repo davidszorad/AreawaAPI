@@ -13,15 +13,15 @@ internal class App
             .ConfigureServices(x =>
             {
                 x.AddTransient<IScreenshotCreator, ScreenshotCreator>();
-                x.AddTransient<CliService>();
-                x.AddTransient<CliLoginService>();
-                x.AddTransient<CliScreenshotService>();
+                x.AddTransient<CliCommand>();
+                x.AddTransient<CliLoginCommand>();
+                x.AddTransient<CliScreenshotCommand>();
             })
             .Build();
 
-        var cliService = host.Services.GetRequiredService<CliService>();
-        var cliLoginService = host.Services.GetRequiredService<CliLoginService>();
-        var cliScreenshotService = host.Services.GetRequiredService<CliScreenshotService>();
+        var cliCommand = host.Services.GetRequiredService<CliCommand>();
+        var cliLoginCommand = host.Services.GetRequiredService<CliLoginCommand>();
+        var cliScreenshotCommand = host.Services.GetRequiredService<CliScreenshotCommand>();
 
         var rootCommand = new RootCommand
         {
@@ -29,10 +29,10 @@ internal class App
             Description = "CLI for Areawa App"
         };
 
-        rootCommand.Add(cliService.Rename());
-        rootCommand.Add(cliService.Create());
-        rootCommand.Add(cliLoginService.Register());
-        rootCommand.Add(cliScreenshotService.Register());
+        rootCommand.Add(cliCommand.Rename());
+        rootCommand.Add(cliCommand.Create());
+        rootCommand.Add(cliLoginCommand.Register());
+        rootCommand.Add(cliScreenshotCommand.Register());
         return await rootCommand.InvokeAsync(args);
     }
 }

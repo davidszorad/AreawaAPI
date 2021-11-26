@@ -4,11 +4,11 @@ using Configuration;
 
 namespace Awa;
 
-internal class CliLoginService
+internal class CliLoginCommand
 {
     private readonly Spinner _spinner;
     
-    public CliLoginService()
+    public CliLoginCommand()
     {
         _spinner = new Spinner();
     }
