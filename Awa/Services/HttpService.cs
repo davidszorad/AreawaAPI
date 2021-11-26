@@ -21,7 +21,7 @@ internal class HttpService
         var httpRequestMessage = new HttpRequestMessage
         {
             Method = HttpMethod.Post,
-            RequestUri = new Uri(Path.Combine(ConfigurationConstants.ApiRootUrl, ConfigurationConstants.ApiScreenshotUrl)),
+            RequestUri = new Uri($"{ConfigurationConstants.ApiRootUrl}/{ConfigurationConstants.ApiScreenshotUrl}"),
             Headers = { 
                 { HttpRequestHeader.Accept.ToString(), "application/json" },
                 { "X-ApiKey", apiKey }
