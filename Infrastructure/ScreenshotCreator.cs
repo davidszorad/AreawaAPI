@@ -33,11 +33,16 @@ public class ScreenshotCreator : IScreenshotCreator
         await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true, ExecutablePath = browserFetcher.GetExecutablePath(revisionInfo.Revision) });
         
         await using var page = await browser.NewPageAsync();
-        // TODO: await page.SetViewportAsync(new ViewPortOptions
-        // {
-        //     Width = 1920,
-        //     Height = 50000
-        // });
+
+        if (archiveType == ArchiveType.Png)
+        {
+            await page.SetViewportAsync(new ViewPortOptions
+            {
+                Width = 1920,
+                Height = 50000
+            });
+        }
+        
         await page.GoToAsync(sourceUrl);
         await Task.Delay(5000, cancellationToken);
 
