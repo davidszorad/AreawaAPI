@@ -94,6 +94,8 @@ internal class CliScreenshotCommand
         
         // TODO: stream disposing
         // TODO: httpclient factory
+        // TODO: update readme
+        // TODO: update command argument descriptions
     }
 
     private bool TryGetArchiveType(bool isPdf, bool isImage, IConsole console, out ArchiveType? archiveType)

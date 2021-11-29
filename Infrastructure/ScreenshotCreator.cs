@@ -33,7 +33,7 @@ public class ScreenshotCreator : IScreenshotCreator
         await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true, ExecutablePath = browserFetcher.GetExecutablePath(revisionInfo.Revision) });
         
         await using var page = await browser.NewPageAsync();
-        // await page.SetViewportAsync(new ViewPortOptions
+        // TODO: await page.SetViewportAsync(new ViewPortOptions
         // {
         //     Width = 1920,
         //     Height = 50000
@@ -47,14 +47,14 @@ public class ScreenshotCreator : IScreenshotCreator
                 var pdfStream = await page.PdfStreamAsync();
                 if (RuntimeInfoService.IsMac() && Directory.Exists(".local-chromium"))
                 {
-                    Directory.Delete(".local-chromium", true);
+                    Directory.Delete(".local-chromium", true); //TODO: upratat
                 }
                 return pdfStream;
             case ArchiveType.Png:
                 var imageStream = await page.ScreenshotStreamAsync();
                 if (RuntimeInfoService.IsMac() && Directory.Exists(".local-chromium"))
                 {
-                    Directory.Delete(".local-chromium", true);
+                    Directory.Delete(".local-chromium", true); //TODO: upratat
                 }
                 return imageStream;
             default:
