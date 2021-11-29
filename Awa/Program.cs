@@ -13,13 +13,11 @@ internal class App
             .ConfigureServices(x =>
             {
                 x.AddTransient<IScreenshotCreator, ScreenshotCreator>();
-                x.AddTransient<CliCommand>();
                 x.AddTransient<CliLoginCommand>();
                 x.AddTransient<CliScreenshotCommand>();
             })
             .Build();
 
-        var cliCommand = host.Services.GetRequiredService<CliCommand>();
         var cliLoginCommand = host.Services.GetRequiredService<CliLoginCommand>();
         var cliScreenshotCommand = host.Services.GetRequiredService<CliScreenshotCommand>();
 
@@ -29,8 +27,6 @@ internal class App
             Description = "CLI for Areawa App"
         };
 
-        rootCommand.Add(cliCommand.Rename());
-        rootCommand.Add(cliCommand.Create());
         rootCommand.Add(cliLoginCommand.Register());
         rootCommand.Add(cliScreenshotCommand.Register());
         return await rootCommand.InvokeAsync(args);

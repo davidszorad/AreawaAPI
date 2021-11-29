@@ -1,7 +1,6 @@
 using System.Net;
 using Configuration;
 using Core.WebsiteArchiveCreator;
-using Domain.Enums;
 
 namespace Awa;
 
@@ -9,19 +8,11 @@ internal class HttpService
 {
     private static HttpClient _httpClient = new();
 
-    public async Task PostAsync(string apiKey, Stream paramFileStream, CancellationToken cancellationToken = default)
+    public async Task PostAsync(string apiKey, Stream paramFileStream, CreateArchivedWebsiteCommand command, CancellationToken cancellationToken = default)
     {
-        var command = new CreateArchivedWebsiteCommand
-        {
-            Name = "subor",
-            ArchiveType = ArchiveType.Pdf,
-            Description = "docasnyfolder",
-            SourceUrl = "https://dev-trips.com/dev/how-to-create-classes-that-protect-its-data"
-        };
-        
         HttpContent fileStreamContent = new StreamContent(paramFileStream);
         var formData = new MultipartFormDataContent();
-        formData.Add(fileStreamContent, "file", "file");
+        formData.Add(fileStreamContent, "file", "filename");
         
         var httpRequestMessage = new HttpRequestMessage
         {

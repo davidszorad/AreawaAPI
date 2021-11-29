@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Configuration;
@@ -14,8 +13,13 @@ public class ScreenshotCreator : IScreenshotCreator
 {
     public async Task<Stream> TakeScreenshotStreamAsync(string sourceUrl, ArchiveType archiveType, CancellationToken cancellationToken = default)
     {
+        return await TakeScreenshotStreamAsync(sourceUrl, archiveType, () => { }, cancellationToken);
+    }
+
+    public async Task<Stream> TakeScreenshotStreamAsync(string sourceUrl, ArchiveType archiveType, Action runBeforeScreenshot, CancellationToken cancellationToken = default)
+    {
         var browserFetcher = new BrowserFetcher();
-        if (!IsMac())
+        if (!RuntimeInfoService.IsMac())
         {
             var browserFetcherOptions = new BrowserFetcherOptions
             {
@@ -24,6 +28,7 @@ public class ScreenshotCreator : IScreenshotCreator
             browserFetcher = new BrowserFetcher(browserFetcherOptions);
         }
         await browserFetcher.DownloadAsync();
+        runBeforeScreenshot?.Invoke();
         var revisionInfo = await browserFetcher.GetRevisionInfoAsync();
         await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true, ExecutablePath = browserFetcher.GetExecutablePath(revisionInfo.Revision) });
         
@@ -40,14 +45,14 @@ public class ScreenshotCreator : IScreenshotCreator
         {
             case ArchiveType.Pdf:
                 var pdfStream = await page.PdfStreamAsync();
-                if (IsMac() && Directory.Exists(".local-chromium"))
+                if (RuntimeInfoService.IsMac() && Directory.Exists(".local-chromium"))
                 {
                     Directory.Delete(".local-chromium", true);
                 }
                 return pdfStream;
             case ArchiveType.Png:
                 var imageStream = await page.ScreenshotStreamAsync();
-                if (IsMac() && Directory.Exists(".local-chromium"))
+                if (RuntimeInfoService.IsMac() && Directory.Exists(".local-chromium"))
                 {
                     Directory.Delete(".local-chromium", true);
                 }
@@ -55,10 +60,5 @@ public class ScreenshotCreator : IScreenshotCreator
             default:
                 throw new ArgumentOutOfRangeException();
         }
-    }
-    
-    private static bool IsMac()
-    {
-        return RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
     }
 }

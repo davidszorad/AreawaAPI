@@ -1,5 +1,6 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.CommandLine.IO;
 using Configuration;
 
 namespace Awa;
@@ -24,12 +25,12 @@ internal class CliLoginCommand
 
         command.Description = "Areawa login via API key.";
 
-        command.Handler = CommandHandler.Create<string>(LoginAsync);
+        command.Handler = CommandHandler.Create<string, IConsole>(LoginAsync);
 
         return command;
     }
     
-    private async Task LoginAsync(string key)
+    private async Task LoginAsync(string key, IConsole console)
     {
         _spinner.Start();
 
@@ -37,6 +38,6 @@ internal class CliLoginCommand
         
         _spinner.Stop();
         
-        Console.WriteLine($"Done. API key {key} was logged in.");
+        console.Out.WriteLine($"Done. API key {key} was logged in.");
     }
 }
