@@ -45,20 +45,22 @@ public class ScreenshotCreator : IScreenshotCreator
         {
             case ArchiveType.Pdf:
                 var pdfStream = await page.PdfStreamAsync();
-                if (RuntimeInfoService.IsMac() && Directory.Exists(".local-chromium"))
-                {
-                    Directory.Delete(".local-chromium", true); //TODO: upratat
-                }
+                CleanChromiumFolder();
                 return pdfStream;
             case ArchiveType.Png:
                 var imageStream = await page.ScreenshotStreamAsync();
-                if (RuntimeInfoService.IsMac() && Directory.Exists(".local-chromium"))
-                {
-                    Directory.Delete(".local-chromium", true); //TODO: upratat
-                }
+                CleanChromiumFolder();
                 return imageStream;
             default:
                 throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void CleanChromiumFolder()
+    {
+        if (RuntimeInfoService.IsMac() && Directory.Exists(".local-chromium"))
+        {
+            Directory.Delete(".local-chromium", true);
         }
     }
 }
