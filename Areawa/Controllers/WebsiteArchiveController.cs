@@ -1,9 +1,12 @@
 ﻿using Areawa.Models;
-using Core.Reader;
-using Core.Scheduler;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Core.Shared;
+using Core.WebsiteArchiveCreator;
+using Core.WebsiteArchiveReader;
+using Domain.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace Areawa.Controllers;
 
@@ -12,20 +15,23 @@ namespace Areawa.Controllers;
 public class WebsiteArchiveController : ControllerBase
 {
     private readonly ILogger<WebsiteArchiveController> _logger;
-    private readonly IReaderService _readerService;
-    private readonly ISchedulerService _schedulerService;
+    private readonly IWebsiteArchiveReaderService _websiteArchiveReaderService;
+    private readonly IWebsiteArchiveCreatorService _websiteArchiveCreatorService;
     private readonly IApiKeyValidator _apiKeyValidator;
+    private readonly IStorageService _storageService;
 
     public WebsiteArchiveController(
         ILogger<WebsiteArchiveController> logger,
-        IReaderService readerService,
-        ISchedulerService schedulerService,
-        IApiKeyValidator apiKeyValidator)
+        IWebsiteArchiveReaderService websiteArchiveReaderService,
+        IWebsiteArchiveCreatorService websiteArchiveCreatorService,
+        IApiKeyValidator apiKeyValidator,
+        IStorageService storageService)
     {
         _logger = logger;
-        _readerService = readerService;
-        _schedulerService = schedulerService;
+        _websiteArchiveReaderService = websiteArchiveReaderService;
+        _websiteArchiveCreatorService = websiteArchiveCreatorService;
         _apiKeyValidator = apiKeyValidator;
+        _storageService = storageService;
     }
 
     [HttpPost("search")]
@@ -59,15 +65,16 @@ public class WebsiteArchiveController : ControllerBase
 
         var filterQuery = filterQueryBuilder.Build();
 
-        var result = await _readerService.GetAsync(filterQuery);
+        var result = await _websiteArchiveReaderService.GetAsync(filterQuery);
         return Ok(result);
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> Create([FromBody] CreateArchivedWebsiteCommand createArchivedWebsiteCommand)
+    [RequestSizeLimit(20_000_000)] //default 30 MB (~28.6 MiB) max request body size limit -- https://github.com/aspnet/Announcements/issues/267
+    public async Task<IActionResult> UploadScreenshot([FromQuery] CreateArchivedWebsiteCommand command, IFormFile file)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
-        if (!apiKeyValidatorResult.isValid)
+        if (!apiKeyValidatorResult.isValid || !Request.HasFormContentType)
         {
             return BadRequest();
         }
@@ -77,6 +84,12 @@ public class WebsiteArchiveController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        return Ok(await _schedulerService.CreateAsync(createArchivedWebsiteCommand, apiKeyValidatorResult.userPublicId));
+        var screenshotStream = file.OpenReadStream();
+
+        var result = await _websiteArchiveCreatorService.CreateAsync(command, apiKeyValidatorResult.userPublicId, screenshotStream);
+
+        return result.status == Status.SourceNotFound ? 
+            Problem("Source not found.") : 
+            Ok($"Item created. ID: { result.shortId }");
     }
 }

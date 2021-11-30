@@ -1,10 +1,10 @@
-﻿using Core.Shared;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using Core.Shared;
 
-namespace Core.Reader
+namespace Core.WebsiteArchiveReader
 {
-    public interface IReaderService
+    public interface IWebsiteArchiveReaderService
     {
         Task<QueryResult<GetArchivedWebsiteQuery>> GetAsync(FilterQuery filterQuery, CancellationToken cancellationToken = default);
     }

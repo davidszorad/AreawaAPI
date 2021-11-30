@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Domain.Enums;
 
-namespace Core.Scheduler
+namespace Core.WebsiteArchiveCreator
 {
     public class CreateArchivedWebsiteCommand
     {

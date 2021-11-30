@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Core.UnitTests")]
 
-namespace Core.Scheduler
+namespace Core.WebsiteArchiveCreator
 {
     internal static class ShortIdGenerator
     {
