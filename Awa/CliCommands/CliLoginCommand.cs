@@ -20,7 +20,7 @@ internal class CliLoginCommand
         {
             new Argument<string>(
                 "key", 
-                "API Key")
+                "API key")
         };
 
         command.Description = "Areawa login via API key.";

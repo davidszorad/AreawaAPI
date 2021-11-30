@@ -29,7 +29,7 @@ internal class CliScreenshotCommand
         {
             new Argument<string>(
                 "url", 
-                "URL"),
+                "URL that will be exported as a screenshot"),
             new Option<string>(new [] { "--name", "--n" }, "Name of website archive")
             {
                 IsRequired = true
@@ -38,11 +38,11 @@ internal class CliScreenshotCommand
             {
                 IsRequired = true
             },
-            new Option(new[] { "--pdf", "-pdf", "--p" }, "PDF option"),
-            new Option(new[] { "--image", "--img" }, "Image option")
+            new Option(new[] { "--pdf", "--p" }, "PDF output option"),
+            new Option(new[] { "--image", "--img", "--i" }, "Image output option")
         };
 
-        command.Description = "Areawa new archive...";
+        command.Description = "Generate and save a screenshot of a website.";
 
         command.Handler = CommandHandler.Create<string, string, string, bool, bool, IConsole>(TakeScreenshotAsync);
 
@@ -92,10 +92,8 @@ internal class CliScreenshotCommand
         _spinner.Stop();
         console.Out.WriteLine($"Done. { result }");
         
-        // TODO: stream disposing
         // TODO: httpclient factory
         // TODO: update readme
-        // TODO: update command argument descriptions
     }
 
     private bool TryGetArchiveType(bool isPdf, bool isImage, IConsole console, out ArchiveType? archiveType)

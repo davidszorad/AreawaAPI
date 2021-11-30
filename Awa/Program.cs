@@ -24,7 +24,7 @@ internal class App
         var rootCommand = new RootCommand
         {
             Name = "Areawa",
-            Description = "CLI for Areawa App"
+            Description = "CLI for Areawa app"
         };
 
         rootCommand.Add(cliLoginCommand.Register());

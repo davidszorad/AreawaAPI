@@ -9,4 +9,7 @@ The value for --file-option is: null
 
 
 dotnet tool install --global --add-source C:\p_dev\Areawa\Areawa.CLI\bin\Debug Areawa.CLI
+
+
+dotnet pack
 ```
