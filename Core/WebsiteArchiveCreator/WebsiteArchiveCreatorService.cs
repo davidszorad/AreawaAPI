@@ -29,10 +29,15 @@ public class WebsiteArchiveCreatorService : IWebsiteArchiveCreatorService
         _storageService = storageService;
     }
     
-    public async Task<string> CreateAsync(CreateArchivedWebsiteCommand command, Guid userPublicId, Stream stream, CancellationToken cancellationToken = default)
+    public async Task<(Status status, string shortId)> CreateAsync(CreateArchivedWebsiteCommand command, Guid userPublicId, Stream stream, CancellationToken cancellationToken = default)
     {
+        if (!await _httpService.IsStatusOkAsync(command.SourceUrl, cancellationToken))
+        {
+            return (Status.SourceNotFound, string.Empty);
+        }
+        
         var user = await _areawaDbContext.ApiUser.FirstAsync(x => x.PublicId == userPublicId, cancellationToken);
-            
+        
         var websiteArchive = new WebsiteArchive
         {
             Name = command.Name,
@@ -41,38 +46,17 @@ public class WebsiteArchiveCreatorService : IWebsiteArchiveCreatorService
             ArchiveTypeId = command.ArchiveType,
             PublicId = Guid.NewGuid(),
             ShortId = ShortIdGenerator.Generate(),
-            EntityStatusId = Status.Pending,
+            EntityStatusId = Status.Ok,
             ApiUser = user
         };
-
+        
+        var archivePath = await _storageService.UploadAsync(stream, GetArchivePath(websiteArchive).folder, GetArchivePath(websiteArchive).filename, cancellationToken);
+        websiteArchive.ArchiveUrl = archivePath;
+        
         _areawaDbContext.WebsiteArchive.Add(websiteArchive);
         await _areawaDbContext.SaveChangesAsync(cancellationToken);
         
-        if (!await _httpService.IsStatusOkAsync(websiteArchive.SourceUrl, cancellationToken))
-        {
-            await ChangeStatusAsync(websiteArchive, Status.SourceNotFound, cancellationToken);
-            return string.Empty;
-        }
-        
-        await ChangeStatusAsync(websiteArchive, Status.Processing, cancellationToken);
-                
-        var archivePath = await _storageService.UploadAsync(stream, GetArchivePath(websiteArchive).folder, GetArchivePath(websiteArchive).filename, cancellationToken);
-        await ChangeArchivePathAsync(websiteArchive, archivePath, cancellationToken);
-        await ChangeStatusAsync(websiteArchive, Status.Ok, cancellationToken);
-        
-        return websiteArchive.ShortId;
-    }
-    
-    private async Task ChangeStatusAsync(WebsiteArchive websiteArchive, Status status, CancellationToken cancellationToken = default)
-    {
-        websiteArchive.EntityStatusId = status;
-        await _areawaDbContext.SaveChangesAsync(cancellationToken);
-    }
-    
-    private async Task ChangeArchivePathAsync(WebsiteArchive websiteArchive, string archivePath, CancellationToken cancellationToken = default)
-    {
-        websiteArchive.ArchiveUrl = archivePath;
-        await _areawaDbContext.SaveChangesAsync(cancellationToken);
+        return (websiteArchive.EntityStatusId, websiteArchive.ShortId);
     }
     
     private (string folder, string filename) GetArchivePath(WebsiteArchive websiteArchive)

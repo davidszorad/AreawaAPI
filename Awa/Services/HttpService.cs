@@ -26,6 +26,9 @@ internal class HttpService
         };
         
         var response = await _httpClient.SendAsync(httpRequestMessage, cancellationToken);
+        
+        // TODO: process response
+        
         response.EnsureSuccessStatusCode();
     }
 
