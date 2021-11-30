@@ -91,9 +91,6 @@ internal class CliScreenshotCommand
         await stream.DisposeAsync();
         _spinner.Stop();
         console.Out.WriteLine($"Done. { result }");
-        
-        // TODO: httpclient factory
-        // TODO: update readme
     }
 
     private bool TryGetArchiveType(bool isPdf, bool isImage, IConsole console, out ArchiveType? archiveType)

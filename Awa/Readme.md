@@ -1,15 +1,12 @@
-﻿```
-PS C:\p_dev\Areawa\Areawa.CLI> dotnet run create 34 --unit C
-Result: 93,2 °Fee
-PS C:\p_dev\Areawa\Areawa.CLI> dotnet run rename --int-option 123
-The value for --int-option is: 123
-The value for --bool-option is: False
-The value for --file-option is: null
+﻿#Quickstart
 
+To generate a nuget package run:
+`> dotnet pack`
 
+List all globally registered CLI tools:
+`> dotnet tool list --global`
 
-dotnet tool install --global --add-source C:\p_dev\Areawa\Areawa.CLI\bin\Debug Areawa.CLI
+To install generated nuget package:
+`> dotnet tool install --global --add-source <project_root_path>\bin\Debug Awa`
 
-
-dotnet pack
-```
+To execute a command you either run `> awa command` or `> dotnet run command`
