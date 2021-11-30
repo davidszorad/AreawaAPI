@@ -9,8 +9,7 @@
         public const string AzureStorageConnectionString = "AzureStorageConnectionString";
         public const int MaxDequeueCount = 5;
         public const string FileNameWithApiKey = "identity";
-        //public const string ApiRootUrl = "https://areawaapi.azurewebsites.net";
-        public const string ApiRootUrl = "https://localhost:5001";
+        public const string ApiRootUrl = "https://areawaapi.azurewebsites.net";
         public const string ApiUrlWebsiteArchiveCreate = "api/website-archive/create";
     }
 }
