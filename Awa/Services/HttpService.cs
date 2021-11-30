@@ -8,7 +8,7 @@ internal class HttpService
 {
     private static HttpClient _httpClient = new();
 
-    public async Task PostAsync(string apiKey, Stream paramFileStream, CreateArchivedWebsiteCommand command, CancellationToken cancellationToken = default)
+    public async Task<string> PostAsync(string apiKey, Stream paramFileStream, CreateArchivedWebsiteCommand command, CancellationToken cancellationToken = default)
     {
         HttpContent fileStreamContent = new StreamContent(paramFileStream);
         var formData = new MultipartFormDataContent();
@@ -26,10 +26,9 @@ internal class HttpService
         };
         
         var response = await _httpClient.SendAsync(httpRequestMessage, cancellationToken);
-        
-        // TODO: process response
-        
         response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadAsStringAsync(cancellationToken);
     }
 
     private static string GetUrl(CreateArchivedWebsiteCommand command) =>

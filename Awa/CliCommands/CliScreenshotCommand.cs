@@ -86,11 +86,11 @@ internal class CliScreenshotCommand
             SourceUrl = url
         };
             
-        await _httpService.PostAsync(apiKey, stream, createArchivedWebsiteCommand, cancellationToken);
+        var resultId = await _httpService.PostAsync(apiKey, stream, createArchivedWebsiteCommand, cancellationToken);
             
         await stream.DisposeAsync();
         _spinner.Stop();
-        console.Out.WriteLine($"Done");
+        console.Out.WriteLine($"Done. Item created. ID: { resultId }");
         
         // TODO: stream disposing
         // TODO: httpclient factory

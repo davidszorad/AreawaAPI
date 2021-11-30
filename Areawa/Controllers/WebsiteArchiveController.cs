@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Core.Shared;
 using Core.WebsiteArchiveCreator;
 using Core.WebsiteArchiveReader;
+using Domain.Enums;
 using Microsoft.AspNetCore.Http;
 
 namespace Areawa.Controllers;
@@ -85,8 +86,10 @@ public class WebsiteArchiveController : ControllerBase
 
         var screenshotStream = file.OpenReadStream();
 
-        var resultId = await _websiteArchiveCreatorService.CreateAsync(command, apiKeyValidatorResult.userPublicId, screenshotStream);
+        var result = await _websiteArchiveCreatorService.CreateAsync(command, apiKeyValidatorResult.userPublicId, screenshotStream);
 
-        return Ok($"Item created. ID: {resultId}");
+        return result.status == Status.SourceNotFound ? 
+            Problem("Source not found.") : 
+            Ok($"Item created. ID: { result.shortId }");
     }
 }
