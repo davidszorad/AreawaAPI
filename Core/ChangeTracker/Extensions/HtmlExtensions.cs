@@ -2,9 +2,9 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
-[assembly: InternalsVisibleTo("Infrastructure.UnitTests")]
+[assembly: InternalsVisibleTo("Core.UnitTests")]
 
-namespace Infrastructure;
+namespace Core.ChangeTracker.Extensions;
 
 internal static class HtmlExtensions
 {

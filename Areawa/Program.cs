@@ -33,6 +33,7 @@ namespace Areawa
             builder.Services.AddTransient<IStorageService, AzureBlobStorageService>();
             builder.Services.AddTransient<IQueueService, AzureStorageQueueService>();
             builder.Services.AddTransient<IApiKeyValidator, ApiKeyValidator>();
+            builder.Services.AddTransient<IHttpService, HttpService>();
 
             builder.Services.AddDbContext<AreawaDbContext>(options => options.UseSqlServer(ConfigStore.GetDbConnectionString()));
 

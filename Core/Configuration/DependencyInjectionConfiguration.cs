@@ -1,4 +1,5 @@
 using Core.CategoriesManagement;
+using Core.ChangeTracker;
 using Core.Shared;
 using Core.UserManagement;
 using Core.WebsiteArchiveCreator;
@@ -16,6 +17,7 @@ namespace Core.Configuration
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IPoisonQueueService, PoisonQueueService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IChangeTrackerService, ChangeTrackerService>();
             return services;
         }
     }
