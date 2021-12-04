@@ -14,7 +14,7 @@ public class CreateWatchDogCommand
     public string Url { get; set; }
     
     [Required]
-    public WatchDogRetryPeriod RetryPeriod { get; set; }
+    public RetryPeriod RetryPeriod { get; set; }
     
     [Required]
     [StringLength(250)]

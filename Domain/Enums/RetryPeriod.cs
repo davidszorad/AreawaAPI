@@ -1,6 +1,6 @@
 namespace Domain.Enums;
 
-public enum WatchDogRetryPeriod
+public enum RetryPeriod
 {
     OneWeek = 1,
     OneMonth = 2,

@@ -13,7 +13,7 @@ public class WatchDog : AuditableBaseEntity
     public string ContentHash { get; set; }
     public bool IsActive { get; set; }
     public Domain.Enums.Status EntityStatusId { get; set; }
-    public Domain.Enums.WatchDogRetryPeriod RetryPeriodId { get; set; }
+    public Domain.Enums.RetryPeriod RetryPeriodId { get; set; }
     public long ApiUserId { get; set; }
     public ApiUser ApiUser { get; set; }
 }

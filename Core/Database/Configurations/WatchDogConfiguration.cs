@@ -18,7 +18,7 @@ internal class WatchDogConfiguration : IEntityTypeConfiguration<Entities.WatchDo
         builder.Property(x => x.StartSelector).HasMaxLength(250).IsRequired();
         builder.Property(x => x.EndSelector).HasMaxLength(100).IsRequired(false);
         builder.Property(x => x.EntityStatusId).IsRequired().HasDefaultValue(Domain.Enums.Status.Error);
-        builder.Property(x => x.WatchDogId).IsRequired().HasDefaultValue(Domain.Enums.WatchDogRetryPeriod.OneWeek);
+        builder.Property(x => x.RetryPeriodId).IsRequired().HasDefaultValue(Domain.Enums.RetryPeriod.OneWeek);
         builder.Property(x => x.ApiUserId).IsRequired();
     }
 }

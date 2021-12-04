@@ -188,13 +188,13 @@ public class WatchDogService : IWatchDogService
         
         switch (watchDog.RetryPeriodId)
         {
-            case WatchDogRetryPeriod.OneWeek:
+            case RetryPeriod.OneWeek:
                 return ts.Days <= 7;
-            case WatchDogRetryPeriod.OneMonth:
+            case RetryPeriod.OneMonth:
                 return ts.Days <= 30;
-            case WatchDogRetryPeriod.TreeMonths:
+            case RetryPeriod.TreeMonths:
                 return ts.Days <= 90;
-            case WatchDogRetryPeriod.OneYear:
+            case RetryPeriod.OneYear:
                 return ts.Days <= 365;
             default:
                 throw new ArgumentOutOfRangeException();
