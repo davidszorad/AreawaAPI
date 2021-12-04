@@ -1,4 +1,4 @@
-using Core.ChangeTracker.Extensions;
+using Core.WatchDog;
 using NUnit.Framework;
 
 namespace Core.UnitTests;
