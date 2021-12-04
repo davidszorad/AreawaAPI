@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Configuration;
 using Core.Database;
 using Core.Shared;
 using Domain.Enums;
@@ -14,13 +15,16 @@ namespace Core.WatchDog;
 public class WatchDogService : IWatchDogService
 {
     private readonly IHttpService _httpService;
+    private readonly IQueueService _queueService;
     private readonly AreawaDbContext _dbContext;
 
     public WatchDogService(
         IHttpService httpService,
+        IQueueService queueService,
         AreawaDbContext dbContext)
     {
         _httpService = httpService;
+        _queueService = queueService;
         _dbContext = dbContext;
     }
     
@@ -66,7 +70,7 @@ public class WatchDogService : IWatchDogService
         _dbContext.WatchDog.Add(watchDog);
         await _dbContext.SaveChangesAsync(cancellationToken);
         
-        // TODO: add to queue
+        await _queueService.InsertMessageAsync(ConfigurationConstants.WatchDogIncomingQueue, watchDog.PublicId.ToString(), cancellationToken);
 
         return watchDog.PublicId;
     }

@@ -11,5 +11,6 @@
         public const string FileNameWithApiKey = "identity";
         public const string ApiRootUrl = "https://areawaapi.azurewebsites.net";
         public const string ApiUrlWebsiteArchiveCreate = "api/website-archive/create";
+        public const string WatchDogIncomingQueue = "watchdog-incoming";
     }
 }

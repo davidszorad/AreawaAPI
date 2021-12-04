@@ -17,7 +17,7 @@ public class WatchDogWorker
     }
 
     [Function("WatchDogWorkerProcessNew")]
-    public async Task WatchDogWorkerProcessNewAsync([QueueTrigger("incoming-processor-requests", Connection = "AzureStorageConnectionString")] Guid queueItem, 
+    public async Task WatchDogWorkerProcessNewAsync([QueueTrigger("watchdog-incoming", Connection = "AzureStorageConnectionString")] Guid queueItem, 
         int dequeueCount, ILogger logger, CancellationToken cancellationToken)
     {
         await _watchDogService.ProcessNewAsync(queueItem, cancellationToken);
