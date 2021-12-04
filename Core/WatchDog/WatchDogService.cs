@@ -37,6 +37,22 @@ public class WatchDogService : IWatchDogService
         };
     }
 
+    public async Task<string> PreviewAsync(CreateWatchDogCommand command, CancellationToken cancellationToken = default)
+    {
+        if (!await _httpService.IsStatusOkAsync(command.Url, cancellationToken))
+        {
+            throw new Exception();
+        }
+
+        var watchedHtml = await TryGetWatchedHtmlAsync(command.Url, command.StartSelector, command.EndSelector, cancellationToken);
+        if (!watchedHtml.isSuccess)
+        {
+            throw new Exception();
+        }
+
+        return watchedHtml.content;
+    }
+
     public async Task<Guid> ScheduleAsync(CreateWatchDogCommand command, Guid userPublicId, CancellationToken cancellationToken = default)
     {
         var user = await _dbContext.ApiUser.SingleAsync(x => x.PublicId == userPublicId, cancellationToken);

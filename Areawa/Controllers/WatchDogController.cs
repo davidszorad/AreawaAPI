@@ -18,7 +18,7 @@ public class WatchDogController : ControllerBase
         _apiKeyValidator = apiKeyValidator;
     }
     
-    [HttpPost("source-preview")]
+    [HttpPost("preview/source")]
     public async Task<IActionResult> GetSourcePreview([FromBody] SourcePreviewCommand command)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
@@ -33,6 +33,23 @@ public class WatchDogController : ControllerBase
         }
 
         return Ok(await _watchDogService.GetSourcePreviewAsync(command));
+    }
+    
+    [HttpPost("preview/create")]
+    public async Task<IActionResult> CreatePreview([FromBody] CreateWatchDogCommand command)
+    {
+        var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
+        if (!apiKeyValidatorResult.isValid)
+        {
+            return BadRequest();
+        }
+        
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        return Ok(await _watchDogService.PreviewAsync(command));
     }
 
     [HttpPost("create")]
