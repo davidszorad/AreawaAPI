@@ -17,16 +17,18 @@ public class WatchDogWorker
     }
 
     [Function("WatchDogWorkerProcessNew")]
-    public async Task WatchDogWorkerProcessNewAsync([QueueTrigger("watchdog-incoming", Connection = "AzureStorageConnectionString")] Guid queueItem, 
+    public async Task WatchDogWorkerProcessNewAsync(
+        [QueueTrigger("watchdog-incoming", Connection = "AzureStorageConnectionString")] Guid queueItem, 
         int dequeueCount, ILogger logger, CancellationToken cancellationToken)
     {
         await _watchDogService.ProcessNewAsync(queueItem, cancellationToken);
     }
     
-    // Function("WatchDogWorkerCheckChanges")]
-    // public async Task WatchDogWorkerCheckChangesAsync([QueueTrigger("incoming-processor-requests", Connection = "AzureStorageConnectionString")] string queueItem, 
-    //     int dequeueCount, ILogger logger, CancellationToken cancellationToken)
-    // {
-    //     await _watchDogService.CheckChangesAsync(cancellationToken);
-    // }
+    [Function("WatchDogWorkerCheckChanges")]
+    public async Task WatchDogWorkerCheckChangesAsync(
+        [TimerTrigger("0 */5 * * * *")] TimerInfo myTimer, 
+        ILogger logger, CancellationToken cancellationToken)
+    {
+        await _watchDogService.CheckChangesAsync(cancellationToken);
+    }
 }
