@@ -20,7 +20,7 @@ public class SimpleLogger : ILogger
     private readonly string _name;
     public SimpleLogger(string name) => _name = name;
     
-    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
+    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
     {
         if (formatter == null)
         {
