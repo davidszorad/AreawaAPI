@@ -10,13 +10,9 @@ public class HttpService : IHttpService
 {
     public async Task<string> GetHtmlSourceAsync(string url, CancellationToken cancellationToken = default)
     {
-        using (HttpResponseMessage response = await HttpClientFactory.GetInstance().GetAsync(url, cancellationToken))
-        {
-            using (HttpContent content = response.Content)
-            {
-                return await content.ReadAsStringAsync(cancellationToken);
-            }
-        }
+        using HttpResponseMessage response = await HttpClientFactory.GetInstance().GetAsync(url, cancellationToken);
+        using HttpContent content = response.Content;
+        return await content.ReadAsStringAsync(cancellationToken);
     }
     
     public async Task<bool> IsStatusOkAsync(string url, CancellationToken cancellationToken = default)

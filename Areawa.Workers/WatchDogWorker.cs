@@ -19,18 +19,29 @@ public class WatchDogWorker
     [Function("WatchDogWorkerProcessNew")]
     public async Task WatchDogWorkerProcessNewAsync(
         [QueueTrigger("watchdog-incoming", Connection = "AzureStorageConnectionString")] Guid queueItem, 
-        int dequeueCount, ILogger logger, CancellationToken cancellationToken)
+        int dequeueCount)
     {
-        await _watchDogService.ProcessNewAsync(queueItem, cancellationToken);
+        /*
+         * public async Task WatchDogWorkerProcessNewAsync(
+         * [QueueTrigger("watchdog-incoming", Connection = "AzureStorageConnectionString")] Guid queueItem, 
+         * int dequeueCount, ILogger logger, CancellationToken cancellationToken)
+         */
+        
+        await _watchDogService.ProcessNewAsync(queueItem);
     }
     
     [Function("WatchDogWorkerCheckChanges")]
     public async Task WatchDogWorkerCheckChangesAsync(
-        [TimerTrigger("0 */5 * * * *")] TimerInfo timerInfo, 
-        FunctionContext context, CancellationToken cancellationToken)
+        [TimerTrigger("0 */5 * * * *")] TimerInfo timerInfo)
     {
-        var logger = context.GetLogger("TimerFunction");
-        logger.LogInformation($"Function Ran. Next timer schedule = {timerInfo.ScheduleStatus.Next}");
-        //await _watchDogService.CheckChangesAsync(cancellationToken);
+        /*
+         * public async Task WatchDogWorkerCheckChangesAsync(
+         * [TimerTrigger("0 *~/5 * * * *")] TimerInfo timerInfo, 
+         * FunctionContext context, CancellationToken cancellationToken)
+         */
+        
+        //var logger = context.GetLogger("TimerFunction");
+        //logger.LogInformation($"Function Ran. Next timer schedule = {timerInfo.ScheduleStatus.Next}");
+        await _watchDogService.CheckChangesAsync();
     }
 }
