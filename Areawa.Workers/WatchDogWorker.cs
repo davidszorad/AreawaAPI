@@ -17,7 +17,7 @@ public class WatchDogWorker
     }
 
     [Function("WatchDogWorkerProcessNew")]
-    public async Task WatchDogWorkerProcessNewAsync(
+    public async Task WatchDogWorkerProcessNew(
         [QueueTrigger("watchdog-incoming", Connection = "AzureStorageConnectionString")] Guid queueItem, 
         int dequeueCount)
     {
@@ -31,8 +31,8 @@ public class WatchDogWorker
     }
     
     [Function("WatchDogWorkerCheckChanges")]
-    public async Task WatchDogWorkerCheckChangesAsync(
-        [TimerTrigger("0 */5 * * * *")] TimerInfo timerInfo)
+    public async Task WatchDogWorkerCheckChanges(
+        [TimerTrigger("0 */5 * * * *")] TimerInfo timerInfo, CancellationToken cancellationToken)
     {
         /*
          * public async Task WatchDogWorkerCheckChangesAsync(
@@ -42,6 +42,6 @@ public class WatchDogWorker
         
         //var logger = context.GetLogger("TimerFunction");
         //logger.LogInformation($"Function Ran. Next timer schedule = {timerInfo.ScheduleStatus.Next}");
-        await _watchDogService.CheckChangesAsync();
+        await _watchDogService.CheckChangesAsync(cancellationToken);
     }
 }
