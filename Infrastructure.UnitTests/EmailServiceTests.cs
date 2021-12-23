@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Moq;
 using NUnit.Framework;
@@ -6,10 +6,10 @@ using NUnit.Framework;
 namespace Infrastructure.UnitTests;
 
 [TestFixture]
-public class ScreenshotCreatorTests
+public class EmailServiceTests
 {
     [Test]
-    public async Task TakeScreenshotAsync_ScreenshotIsGenerated_GeneratesPdfOutput()
+    public async Task SendAsync_SendEmail_EmailIsSuccessfullySent()
     {
         var mockEnvironment = new Mock<IWebHostEnvironment>();
         mockEnvironment

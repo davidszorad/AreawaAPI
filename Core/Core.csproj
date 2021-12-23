@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Core.csproj.DotSettings" />
+  </ItemGroup>
+
 </Project>
