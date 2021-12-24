@@ -9,9 +9,9 @@ namespace Infrastructure;
 
 public class EmailService : IEmailService
 {
-    public async Task SendAsync(EmailContent emailContent, CancellationToken cancellationToken = default)
+    public async Task<bool> SendAsync(EmailContent emailContent, CancellationToken cancellationToken = default)
     {
-        var apiKey = ConfigStore.GetValue(ConfigurationConstants.SendGridApiKey);
+        var apiKey = ConfigurationConstants.SendGridApiValue; //ConfigStore.GetValue(ConfigurationConstants.SendGridApiKey);
         var client = new SendGridClient(apiKey);
         var msg = new SendGridMessage
         {
@@ -21,7 +21,6 @@ public class EmailService : IEmailService
         };
         msg.AddTo(new EmailAddress(emailContent.RecipientEmail, emailContent.RecipientName));
         var response = await client.SendEmailAsync(msg, cancellationToken);
-        
-        //Console.WriteLine(response.IsSuccessStatusCode ? "Email queued successfully!" : "Something went wrong!");
+        return response.IsSuccessStatusCode;
     }
 }

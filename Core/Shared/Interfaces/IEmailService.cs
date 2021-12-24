@@ -5,5 +5,5 @@ namespace Core.Shared;
 
 public interface IEmailService
 {
-    Task SendAsync(EmailContent emailContent, CancellationToken cancellationToken = default);
+    Task<bool> SendAsync(EmailContent emailContent, CancellationToken cancellationToken = default);
 }

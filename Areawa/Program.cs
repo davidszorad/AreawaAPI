@@ -11,6 +11,7 @@ using Core.Configuration;
 using Core.Database;
 using Core.Shared;
 using Infrastructure;
+using Infrastructure.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,11 +30,8 @@ namespace Areawa
             //builder.Services.Configure<GeneralSettings>(builder.Configuration.GetSection("GeneralSettings"));
             
             builder.Services.RegisterCoreDependencies();
-            builder.Services.AddTransient<IScreenshotCreator, ScreenshotCreator>();
-            builder.Services.AddTransient<IStorageService, AzureBlobStorageService>();
-            builder.Services.AddTransient<IQueueService, AzureStorageQueueService>();
+            builder.Services.RegisterInfrastructureDependencies();
             builder.Services.AddTransient<IApiKeyValidator, ApiKeyValidator>();
-            builder.Services.AddTransient<IHttpService, HttpService>();
 
             builder.Services.AddDbContext<AreawaDbContext>(options => options.UseSqlServer(ConfigStore.GetDbConnectionString()));
 

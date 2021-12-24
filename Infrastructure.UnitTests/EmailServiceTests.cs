@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Moq;
+using Core.Shared;
 using NUnit.Framework;
 
 namespace Infrastructure.UnitTests;
@@ -11,24 +10,17 @@ public class EmailServiceTests
     [Test]
     public async Task SendAsync_SendEmail_EmailIsSuccessfullySent()
     {
-        var mockEnvironment = new Mock<IWebHostEnvironment>();
-        mockEnvironment
-            .Setup(m => m.WebRootPath)
-            .Returns("");
-            
-        // var archiveFile = new ArchiveFile
-        // {
-        //     SourceUrl = "https://dev-trips.com/dev/core-unit-testing-techniques",
-        //     Filename = "unit-testing",
-        //     Folder = $"{DateTime.UtcNow.Year}-{DateTime.UtcNow:MM}-{DateTime.UtcNow:dd}-{DateTime.UtcNow:HH}-{DateTime.UtcNow:mm}-test",
-        //     Extension = ArchiveType.Pdf
-        // };
-
-        //var screenshotCreator = new ScreenshotCreator(mockEnvironment.Object);
-        var screenshotCreator = new ScreenshotCreator();
-
-        //var result = await screenshotCreator.TakeScreenshotAsync(archiveFile);
-
-        //Assert.That(result, Is.EqualTo("TODO"));
+        var emailContent = new EmailContent
+        {
+            RecipientName = "Client A",
+            RecipientEmail = "szorad.david@gmail.com",
+            Subject = "Merry Christmas from Areawa",
+            Body = "This is a test message."
+        };
+        var emailService = new EmailService();
+        
+        var result = await emailService.SendAsync(emailContent);
+        
+        Assert.That(result, Is.True);
     }
 }
