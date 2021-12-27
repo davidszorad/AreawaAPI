@@ -59,6 +59,22 @@ public class WebsiteArchiveCreatorService : IWebsiteArchiveCreatorService
         
         return (websiteArchive.EntityStatusId, websiteArchive.ShortId);
     }
+
+    public async Task DeactivateAsync(Guid publicId, Guid userPublicId, CancellationToken cancellationToken = default)
+    {
+        var user = await _areawaDbContext.ApiUser.FirstAsync(x => x.PublicId == userPublicId, cancellationToken);
+
+        var websiteArchive = await _areawaDbContext.WebsiteArchive.SingleAsync(x => 
+            x.PublicId == publicId && 
+            x.IsActive && 
+            x.ApiUserId == user.ApiUserId, 
+            cancellationToken);
+
+        websiteArchive.IsActive = false;
+
+        await _storageService.DeleteFolderAsync(GetArchivePath(websiteArchive).folder, cancellationToken);
+        await _areawaDbContext.SaveChangesAsync(cancellationToken);
+    }
     
     private (string folder, string filename) GetArchivePath(WebsiteArchive websiteArchive)
     {
