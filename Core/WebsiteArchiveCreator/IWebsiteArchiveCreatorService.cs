@@ -9,4 +9,5 @@ namespace Core.WebsiteArchiveCreator;
 public interface IWebsiteArchiveCreatorService
 {
     Task<(Status status, string shortId)> CreateAsync(CreateArchivedWebsiteCommand command, Guid userPublicId, Stream stream, CancellationToken cancellationToken = default);
+    Task DeactivateAsync(Guid publicId, Guid userPublicId, CancellationToken cancellationToken = default);
 }

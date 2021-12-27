@@ -1,4 +1,5 @@
-﻿using Areawa.Models;
+﻿using System;
+using Areawa.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -91,5 +92,18 @@ public class WebsiteArchiveController : ControllerBase
         return result.status == Status.SourceNotFound ? 
             Problem("Source not found.") : 
             Ok($"Item created. ID: { result.shortId }");
+    }
+    
+    [HttpDelete("{publicId}")]
+    public async Task<IActionResult> Delete(Guid publicId)
+    {
+        var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
+        if (!apiKeyValidatorResult.isValid)
+        {
+            return BadRequest();
+        }
+
+        await _websiteArchiveCreatorService.DeactivateAsync(publicId, apiKeyValidatorResult.userPublicId);
+        return Ok();
     }
 }
