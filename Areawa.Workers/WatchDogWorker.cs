@@ -22,7 +22,6 @@ public class WatchDogWorker
         int dequeueCount)
     {
         /*
-         * public async Task WatchDogWorkerProcessNewAsync(
          * [QueueTrigger("watchdog-incoming", Connection = "AzureStorageConnectionString")] Guid queueItem, 
          * int dequeueCount, ILogger logger, CancellationToken cancellationToken)
          */
@@ -35,7 +34,6 @@ public class WatchDogWorker
         [TimerTrigger("0 */5 * * * *")] TimerInfo timerInfo, CancellationToken cancellationToken)
     {
         /*
-         * public async Task WatchDogWorkerCheckChangesAsync(
          * [TimerTrigger("0 *~/5 * * * *")] TimerInfo timerInfo, 
          * FunctionContext context, CancellationToken cancellationToken)
          */
