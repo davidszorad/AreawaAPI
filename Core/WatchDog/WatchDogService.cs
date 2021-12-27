@@ -157,6 +157,10 @@ public class WatchDogService : IWatchDogService
                 var emailMessageTemplate = new EmailMessageTemplate(EmailMessageTemplate.TemplateType.SourceChanged);
                 await _emailService.SendAsync(emailMessageTemplate.GetEmailContent(watchDog), cancellationToken);
             }
+            else
+            {
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }
         }
     }
 
