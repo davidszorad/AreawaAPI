@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 namespace Areawa.Controllers;
 
 [ApiController]
-[Route("/api/website-archive")]
+[Route("/api/wa")]
 public class WebsiteArchiveController : ControllerBase
 {
     private readonly ILogger<WebsiteArchiveController> _logger;
