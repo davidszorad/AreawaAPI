@@ -9,10 +9,6 @@ namespace Core.Database.Entities
         public string Name { get; set; }
 
         public ICollection<WebsiteArchive> WebsiteArchives { get; set; }
-
-        public EntityStatus()
-        {
-            WebsiteArchives = new List<WebsiteArchive>();
-        }
+        public ICollection<WatchDog> ChangeTrackers { get; set; }
     }
 }

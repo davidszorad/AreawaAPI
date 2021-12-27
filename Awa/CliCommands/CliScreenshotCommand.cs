@@ -81,7 +81,7 @@ internal class CliScreenshotCommand
         var createArchivedWebsiteCommand = new CreateArchivedWebsiteCommand
         {
             Name = name,
-            ArchiveType = archiveType.Value,
+            ArchiveType = archiveType ?? ArchiveType.Pdf,
             Description = description,
             SourceUrl = url
         };

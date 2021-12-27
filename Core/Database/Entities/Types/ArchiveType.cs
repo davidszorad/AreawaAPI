@@ -8,10 +8,5 @@ namespace Core.Database.Entities
         public string Name { get; set; }
 
         public ICollection<WebsiteArchive> WebsiteArchives { get; set; }
-
-        public ArchiveType()
-        {
-            WebsiteArchives = new List<WebsiteArchive>();
-        }
     }
 }

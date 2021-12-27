@@ -10,9 +10,11 @@ namespace Core.WebsiteArchiveCreator
         public string Name { get; set; }
 
         [Required]
+        [StringLength(500)]
         public string Description { get; set; }
 
         [Required]
+        [StringLength(255)]
         public string SourceUrl { get; set; }
 
         [Required]

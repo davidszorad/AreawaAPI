@@ -1,13 +1,12 @@
 using System.Net;
 using Configuration;
 using Core.WebsiteArchiveCreator;
+using Infrastructure;
 
 namespace Awa;
 
 internal class HttpService
 {
-    private static HttpClient _httpClient = new();
-
     public async Task<string> PostAsync(string apiKey, Stream paramFileStream, CreateArchivedWebsiteCommand command, CancellationToken cancellationToken = default)
     {
         HttpContent fileStreamContent = new StreamContent(paramFileStream);
@@ -25,7 +24,7 @@ internal class HttpService
             Content = formData
         };
         
-        var response = await _httpClient.SendAsync(httpRequestMessage, cancellationToken);
+        var response = await HttpClientFactory.GetInstance().SendAsync(httpRequestMessage, cancellationToken);
         response.EnsureSuccessStatusCode();
 
         return await response.Content.ReadAsStringAsync(cancellationToken);

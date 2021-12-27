@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Core.Database;
 using Core.WebsiteArchiveReader;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,6 +39,19 @@ namespace Core.Reader
                 query = query
                     .Include(x => x.ApiUser)
                     .Where(x => x.ApiUser.PublicId == filterQuery.UserPublicId.Value);
+            }
+
+            return query;
+        }
+        
+        private static IQueryable<WebsiteArchive> AddUserFilter(this IQueryable<WebsiteArchive> query, FilterQuery filterQuery, AreawaDbContext dbContext)
+        {
+            if (filterQuery.UserPublicId.HasValue)
+            {
+                query = from wa in query
+                    join user in dbContext.ApiUser on wa.ApiUserId equals user.ApiUserId
+                    where user.PublicId == filterQuery.UserPublicId.Value
+                    select wa;
             }
 
             return query;
