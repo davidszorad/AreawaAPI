@@ -17,15 +17,18 @@ public class WatchDogService : IWatchDogService
     private readonly IHttpService _httpService;
     private readonly IQueueService _queueService;
     private readonly AreawaDbContext _dbContext;
+    private readonly IEmailService _emailService;
 
     public WatchDogService(
         IHttpService httpService,
         IQueueService queueService,
-        AreawaDbContext dbContext)
+        AreawaDbContext dbContext,
+        IEmailService emailService)
     {
         _httpService = httpService;
         _queueService = queueService;
         _dbContext = dbContext;
+        _emailService = emailService;
     }
     
     public async Task<string> GetSourcePreviewAsync(SourcePreviewCommand command, CancellationToken cancellationToken = default)
@@ -113,6 +116,10 @@ public class WatchDogService : IWatchDogService
             {
                 watchDog.IsActive = false;
                 await _dbContext.SaveChangesAsync(cancellationToken);
+
+                var emailMessageTemplate = new EmailMessageTemplate(EmailMessageTemplate.TemplateType.CheckPeriodEnded);
+                await _emailService.SendAsync(emailMessageTemplate.GetEmailContent(watchDog), cancellationToken);
+                
                 continue;
             }
             
@@ -120,6 +127,10 @@ public class WatchDogService : IWatchDogService
             {
                 watchDog.EntityStatusId = Status.SourceNotFound;
                 await _dbContext.SaveChangesAsync(cancellationToken);
+                
+                var emailMessageTemplate = new EmailMessageTemplate(EmailMessageTemplate.TemplateType.SourceNotFound);
+                await _emailService.SendAsync(emailMessageTemplate.GetEmailContent(watchDog), cancellationToken);
+                
                 continue;
             }
 
@@ -128,6 +139,10 @@ public class WatchDogService : IWatchDogService
             {
                 watchDog.EntityStatusId = Status.Error;
                 await _dbContext.SaveChangesAsync(cancellationToken);
+                
+                var emailMessageTemplate = new EmailMessageTemplate(EmailMessageTemplate.TemplateType.ErrorWhileParsingHtml);
+                await _emailService.SendAsync(emailMessageTemplate.GetEmailContent(watchDog), cancellationToken);
+                
                 continue;
             }
         
@@ -136,6 +151,9 @@ public class WatchDogService : IWatchDogService
             {
                 watchDog.EntityStatusId = Status.SourceChanged;
                 await _dbContext.SaveChangesAsync(cancellationToken);
+                
+                var emailMessageTemplate = new EmailMessageTemplate(EmailMessageTemplate.TemplateType.SourceChanged);
+                await _emailService.SendAsync(emailMessageTemplate.GetEmailContent(watchDog), cancellationToken);
             }
         }
     }
