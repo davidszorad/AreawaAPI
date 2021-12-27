@@ -11,7 +11,7 @@ public class EmailService : IEmailService
 {
     public async Task<bool> SendAsync(EmailContent emailContent, CancellationToken cancellationToken = default)
     {
-        var apiKey = ConfigurationConstants.SendGridApiValue; //ConfigStore.GetValue(ConfigurationConstants.SendGridApiKey);
+        var apiKey = ConfigStore.GetValue(ConfigurationConstants.SendGridApiKey);
         var client = new SendGridClient(apiKey);
         var msg = new SendGridMessage
         {

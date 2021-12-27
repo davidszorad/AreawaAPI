@@ -112,6 +112,8 @@ public class WatchDogService : IWatchDogService
 
         foreach (var watchDog in watchDogs)
         {
+            watchDog.ScanCount += 1;
+            
             if (!IsWatchDogActive(watchDog))
             {
                 watchDog.IsActive = false;

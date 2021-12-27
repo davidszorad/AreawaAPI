@@ -46,6 +46,10 @@ internal class EmailMessageTemplate
                 return CheckPeriodEndedSubject;
             case TemplateType.SourceNotFound:
                 return SourceNotFoundSubject;
+            case TemplateType.ErrorWhileParsingHtml:
+                return ErrorWhileParsingHtmlSubject;
+            case TemplateType.SourceChanged:
+                return SourceChangedSubject;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -59,6 +63,10 @@ internal class EmailMessageTemplate
                 return CheckPeriodEnded(watchDog);
             case TemplateType.SourceNotFound:
                 return SourceNotFound(watchDog);
+            case TemplateType.ErrorWhileParsingHtml:
+                return ErrorWhileParsingHtml(watchDog);
+            case TemplateType.SourceChanged:
+                return SourceChanged(watchDog);
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -68,6 +76,36 @@ internal class EmailMessageTemplate
     {
         var sb = new StringBuilder();
         sb.AppendLine("Areawa will no longer check for changes because the retry period ended.");
+        AppendDetails(sb, watchDog);
+        return sb.ToString();
+    }
+
+    private string SourceNotFound(Database.Entities.WatchDog watchDog)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("The source was not found.");
+        AppendDetails(sb, watchDog);
+        return sb.ToString();
+    }
+    
+    private string ErrorWhileParsingHtml(Database.Entities.WatchDog watchDog)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("Error while parsing HTML.");
+        AppendDetails(sb, watchDog);
+        return sb.ToString();
+    }
+    
+    private string SourceChanged(Database.Entities.WatchDog watchDog)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("Areawa watchdog has found a change.");
+        AppendDetails(sb, watchDog);
+        return sb.ToString();
+    }
+
+    private void AppendDetails(StringBuilder sb, Database.Entities.WatchDog watchDog)
+    {
         sb.AppendLine(string.Empty);
         sb.AppendLine("Details:");
         sb.AppendLine($"Name: {watchDog.Name}");
@@ -75,12 +113,7 @@ internal class EmailMessageTemplate
         sb.AppendLine($"ID: {watchDog.PublicId}");
         sb.AppendLine($"Retry period: {GetRetryPeriodDays(watchDog.RetryPeriodId)}");
         sb.AppendLine($"Created on: {watchDog.CreatedOn.ToString("yyyy MMMM dd")}");
-        return sb.ToString();
-    }
-
-    private string SourceNotFound(Database.Entities.WatchDog watchDog)
-    {
-        return "";
+        sb.AppendLine($"Scan count: {watchDog.ScanCount}x");
     }
 
     private int GetRetryPeriodDays(RetryPeriod retryPeriod)
