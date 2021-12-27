@@ -21,6 +21,7 @@ namespace Core.Database.Configurations
             builder.Property(x => x.ArchiveTypeId).IsRequired().HasDefaultValue(Domain.Enums.ArchiveType.Pdf);
             builder.Property(x => x.EntityStatusId).IsRequired().HasDefaultValue(Domain.Enums.Status.Error);
             builder.Property(x => x.ApiUserId).IsRequired();
+            builder.Property(x => x.IsActive).IsRequired().HasDefaultValue(true);
         }
     }
 }
