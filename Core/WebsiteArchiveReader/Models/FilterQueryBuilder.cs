@@ -50,6 +50,12 @@ namespace Core.WebsiteArchiveReader
             return this;
         }
 
+        public FilterQueryBuilder OnlyActive()
+        {
+            _filterQuery.IsActive = true;
+            return this;
+        }
+
         public FilterQuery Build()
         {
             if (!IsValid())

@@ -43,9 +43,10 @@ public class WebsiteArchiveController : ControllerBase
         {
             return BadRequest();
         }
-            
+
         var filterQueryBuilder = new FilterQueryBuilder()
             .SetUserPublicId(apiKeyValidatorResult.userPublicId)
+            .OnlyActive()
             .SetOrdering(websiteArchiveQuery.SortBy, websiteArchiveQuery.IsSortDescending)
             .SetPaging(websiteArchiveQuery.Page, websiteArchiveQuery.PageSize);
 

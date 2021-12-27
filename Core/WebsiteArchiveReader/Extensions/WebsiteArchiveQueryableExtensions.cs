@@ -29,6 +29,11 @@ namespace Core.Reader
                 query = query.ApplyPaging(filterQuery);
             }
 
+            if (filterQuery.IsActive.HasValue && filterQuery.IsActive.Value)
+            {
+                query = query.Where(x => x.IsActive == true);
+            }
+
             return query;
         }
 
