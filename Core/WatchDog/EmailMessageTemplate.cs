@@ -57,49 +57,26 @@ internal class EmailMessageTemplate
     
     private string GetBody(Database.Entities.WatchDog watchDog)
     {
+        var sb = new StringBuilder();
+        
         switch (_templateType)
         {
             case TemplateType.CheckPeriodEnded:
-                return CheckPeriodEnded(watchDog);
+                sb.AppendLine("Areawa will no longer check for changes because the retry period ended.");
+                break;
             case TemplateType.SourceNotFound:
-                return SourceNotFound(watchDog);
+                sb.AppendLine("The source was not found.");
+                break;
             case TemplateType.ErrorWhileParsingHtml:
-                return ErrorWhileParsingHtml(watchDog);
+                sb.AppendLine("Error while parsing HTML.");
+                break;
             case TemplateType.SourceChanged:
-                return SourceChanged(watchDog);
+                sb.AppendLine("Areawa watchdog has found a change.");
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
-    }
-    
-    private string CheckPeriodEnded(Database.Entities.WatchDog watchDog)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("Areawa will no longer check for changes because the retry period ended.");
-        AppendDetails(sb, watchDog);
-        return sb.ToString();
-    }
-
-    private string SourceNotFound(Database.Entities.WatchDog watchDog)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("The source was not found.");
-        AppendDetails(sb, watchDog);
-        return sb.ToString();
-    }
-    
-    private string ErrorWhileParsingHtml(Database.Entities.WatchDog watchDog)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("Error while parsing HTML.");
-        AppendDetails(sb, watchDog);
-        return sb.ToString();
-    }
-    
-    private string SourceChanged(Database.Entities.WatchDog watchDog)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("Areawa watchdog has found a change.");
+        
         AppendDetails(sb, watchDog);
         return sb.ToString();
     }
