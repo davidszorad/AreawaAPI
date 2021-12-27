@@ -19,8 +19,8 @@ internal class EmailMessageTemplate
     
     private static string CheckPeriodEndedSubject => "Areawa - Retry period ended";
     private static string SourceNotFoundSubject => "Areawa - Source not found";
-    private static string ErrorWhileParsingHtmlSubject => "Areawa - Source not found";
-    private static string SourceChangedSubject => "Areawa - Source not found";
+    private static string ErrorWhileParsingHtmlSubject => "Areawa - Error while parsing HTML";
+    private static string SourceChangedSubject => "Areawa - Source changed";
 
     public EmailMessageTemplate(TemplateType templateType)
     {
@@ -33,29 +33,29 @@ internal class EmailMessageTemplate
         {
             RecipientEmail = watchDog.ApiUser.Email,
             RecipientName = $"{watchDog.ApiUser.FirstName} {watchDog.ApiUser.LastName}",
-            Subject = GetSubject(),
+            Subject = GetSubject(watchDog.Name),
             Body = GetBody(watchDog)
         };
     }
     
-    public string GetSubject()
+    private string GetSubject(string title)
     {
         switch (_templateType)
         {
             case TemplateType.CheckPeriodEnded:
-                return CheckPeriodEndedSubject;
+                return $"{CheckPeriodEndedSubject} - {title}";
             case TemplateType.SourceNotFound:
-                return SourceNotFoundSubject;
+                return $"{SourceNotFoundSubject} - {title}";
             case TemplateType.ErrorWhileParsingHtml:
-                return ErrorWhileParsingHtmlSubject;
+                return $"{ErrorWhileParsingHtmlSubject} - {title}";
             case TemplateType.SourceChanged:
-                return SourceChangedSubject;
+                return $"{SourceChangedSubject} - {title}";
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
     
-    public string GetBody(Database.Entities.WatchDog watchDog)
+    private string GetBody(Database.Entities.WatchDog watchDog)
     {
         switch (_templateType)
         {
