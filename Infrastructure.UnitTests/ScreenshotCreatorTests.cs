@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Moq;
 using NUnit.Framework;
 
@@ -11,10 +10,10 @@ public class ScreenshotCreatorTests
     [Test]
     public async Task TakeScreenshotAsync_ScreenshotIsGenerated_GeneratesPdfOutput()
     {
-        var mockEnvironment = new Mock<IWebHostEnvironment>();
-        mockEnvironment
-            .Setup(m => m.WebRootPath)
-            .Returns("");
+        // var mockEnvironment = new Mock<IWebHostEnvironment>();
+        // mockEnvironment
+        //     .Setup(m => m.WebRootPath)
+        //     .Returns("");
             
         // var archiveFile = new ArchiveFile
         // {
