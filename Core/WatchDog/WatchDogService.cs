@@ -108,7 +108,11 @@ public class WatchDogService : IWatchDogService
 
     public async Task CheckChangesAsync(CancellationToken cancellationToken = default)
     {
-        var watchDogs = await _dbContext.WatchDog.Where(x => x.IsActive && x.EntityStatusId == Status.Ok).ToListAsync(cancellationToken);
+        var watchDogs = await _dbContext
+            .WatchDog
+            .Include(x => x.ApiUser)
+            .Where(x => x.IsActive && x.EntityStatusId == Status.Ok)
+            .ToListAsync(cancellationToken);
 
         foreach (var watchDog in watchDogs)
         {
