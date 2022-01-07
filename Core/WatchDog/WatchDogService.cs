@@ -113,6 +113,7 @@ public class WatchDogService : IWatchDogService
                 join u in _dbContext.ApiUser on wd.ApiUserId equals u.ApiUserId
                 where wd.IsActive && wd.EntityStatusId == Status.Ok && u.IsActive && u.IsPremium
                 select wd)
+            .Include(x => x.ApiUser)
             .ToListAsync(cancellationToken);
         
         foreach (var watchDog in watchDogs)
