@@ -113,6 +113,8 @@ public class WatchDogService : IWatchDogService
             .Include(x => x.ApiUser)
             .Where(x => x.IsActive && x.EntityStatusId == Status.Ok)
             .ToListAsync(cancellationToken);
+        
+        // todo: api user has ot be premium and active
 
         foreach (var watchDog in watchDogs)
         {
