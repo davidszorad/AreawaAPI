@@ -31,7 +31,7 @@ public class WatchDogWorker
     
     [Function("WatchDogWorkerCheckChanges")]
     public async Task WatchDogWorkerCheckChanges(
-        [TimerTrigger("0 */5 * * * *")] TimerInfo timerInfo)
+        [TimerTrigger("0 0 */2 * * *")] TimerInfo timerInfo)
     {
         /*
          * [TimerTrigger("0 *~/5 * * * *")] TimerInfo timerInfo, 
