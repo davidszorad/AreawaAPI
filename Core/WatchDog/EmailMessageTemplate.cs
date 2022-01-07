@@ -15,12 +15,12 @@ internal class EmailMessageTemplate
         SourceChanged = 4
     }
 
-    private TemplateType _templateType;
+    private readonly TemplateType _templateType;
     
     private static string CheckPeriodEndedSubject => "Areawa - Retry period ended";
     private static string SourceNotFoundSubject => "Areawa - Source not found";
-    private static string ErrorWhileParsingHtmlSubject => "Areawa - Source not found";
-    private static string SourceChangedSubject => "Areawa - Source not found";
+    private static string ErrorWhileParsingHtmlSubject => "Areawa - Error while parsing HTML";
+    private static string SourceChangedSubject => "Areawa - Source changed";
 
     public EmailMessageTemplate(TemplateType templateType)
     {
@@ -29,77 +29,53 @@ internal class EmailMessageTemplate
 
     public EmailContent GetEmailContent(Database.Entities.WatchDog watchDog)
     {
-        return new EmailContent
-        {
-            RecipientEmail = watchDog.ApiUser.Email,
-            RecipientName = $"{watchDog.ApiUser.FirstName} {watchDog.ApiUser.LastName}",
-            Subject = GetSubject(),
-            Body = GetBody(watchDog)
-        };
+        var content = new EmailContent();
+        content.RecipientEmail = watchDog.ApiUser.Email;
+        content.RecipientName = $"{watchDog.ApiUser.FirstName} {watchDog.ApiUser.LastName}";
+        content.Subject = GetSubject(watchDog.Name);
+        content.Body = GetBody(watchDog);
+        return content;
     }
     
-    public string GetSubject()
+    private string GetSubject(string title)
     {
         switch (_templateType)
         {
             case TemplateType.CheckPeriodEnded:
-                return CheckPeriodEndedSubject;
+                return $"{CheckPeriodEndedSubject} - {title}";
             case TemplateType.SourceNotFound:
-                return SourceNotFoundSubject;
+                return $"{SourceNotFoundSubject} - {title}";
             case TemplateType.ErrorWhileParsingHtml:
-                return ErrorWhileParsingHtmlSubject;
+                return $"{ErrorWhileParsingHtmlSubject} - {title}";
             case TemplateType.SourceChanged:
-                return SourceChangedSubject;
+                return $"{SourceChangedSubject} - {title}";
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
     
-    public string GetBody(Database.Entities.WatchDog watchDog)
+    private string GetBody(Database.Entities.WatchDog watchDog)
     {
+        var sb = new StringBuilder();
+        
         switch (_templateType)
         {
             case TemplateType.CheckPeriodEnded:
-                return CheckPeriodEnded(watchDog);
+                sb.AppendLine("Areawa will no longer check for changes because the retry period ended.");
+                break;
             case TemplateType.SourceNotFound:
-                return SourceNotFound(watchDog);
+                sb.AppendLine("The source was not found.");
+                break;
             case TemplateType.ErrorWhileParsingHtml:
-                return ErrorWhileParsingHtml(watchDog);
+                sb.AppendLine("Error while parsing HTML.");
+                break;
             case TemplateType.SourceChanged:
-                return SourceChanged(watchDog);
+                sb.AppendLine("Areawa watchdog has found a change.");
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
-    }
-    
-    private string CheckPeriodEnded(Database.Entities.WatchDog watchDog)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("Areawa will no longer check for changes because the retry period ended.");
-        AppendDetails(sb, watchDog);
-        return sb.ToString();
-    }
-
-    private string SourceNotFound(Database.Entities.WatchDog watchDog)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("The source was not found.");
-        AppendDetails(sb, watchDog);
-        return sb.ToString();
-    }
-    
-    private string ErrorWhileParsingHtml(Database.Entities.WatchDog watchDog)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("Error while parsing HTML.");
-        AppendDetails(sb, watchDog);
-        return sb.ToString();
-    }
-    
-    private string SourceChanged(Database.Entities.WatchDog watchDog)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("Areawa watchdog has found a change.");
+        
         AppendDetails(sb, watchDog);
         return sb.ToString();
     }

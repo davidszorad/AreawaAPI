@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 namespace Areawa.Controllers;
 
 [ApiController]
-[Route("/api/website-archive")]
+[Route("/api/wa")]
 public class WebsiteArchiveController : ControllerBase
 {
     private readonly ILogger<WebsiteArchiveController> _logger;
@@ -43,9 +43,10 @@ public class WebsiteArchiveController : ControllerBase
         {
             return BadRequest();
         }
-            
+
         var filterQueryBuilder = new FilterQueryBuilder()
             .SetUserPublicId(apiKeyValidatorResult.userPublicId)
+            .OnlyActive()
             .SetOrdering(websiteArchiveQuery.SortBy, websiteArchiveQuery.IsSortDescending)
             .SetPaging(websiteArchiveQuery.Page, websiteArchiveQuery.PageSize);
 

@@ -31,7 +31,7 @@ public class WatchDogWorker
     
     [Function("WatchDogWorkerCheckChanges")]
     public async Task WatchDogWorkerCheckChanges(
-        [TimerTrigger("0 */5 * * * *")] TimerInfo timerInfo, CancellationToken cancellationToken)
+        [TimerTrigger("0 */15 * * * *")] TimerInfo timerInfo)
     {
         /*
          * [TimerTrigger("0 *~/5 * * * *")] TimerInfo timerInfo, 
@@ -40,6 +40,6 @@ public class WatchDogWorker
         
         //var logger = context.GetLogger("TimerFunction");
         //logger.LogInformation($"Function Ran. Next timer schedule = {timerInfo.ScheduleStatus.Next}");
-        await _watchDogService.CheckChangesAsync(cancellationToken);
+        await _watchDogService.CheckChangesAsync();
     }
 }

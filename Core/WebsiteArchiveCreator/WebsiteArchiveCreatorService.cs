@@ -48,7 +48,8 @@ public class WebsiteArchiveCreatorService : IWebsiteArchiveCreatorService
             PublicId = Guid.NewGuid(),
             ShortId = ShortIdGenerator.Generate(),
             EntityStatusId = Status.Ok,
-            ApiUser = user
+            ApiUser = user,
+            IsActive = true
         };
         
         var archivePath = await _storageService.UploadAsync(stream, GetArchivePath(websiteArchive).folder, GetArchivePath(websiteArchive).filename, cancellationToken);

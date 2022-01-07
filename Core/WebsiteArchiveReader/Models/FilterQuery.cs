@@ -14,6 +14,7 @@ namespace Core.WebsiteArchiveReader
         public Guid? PublicId { get; internal set; }
         public string ShortId { get; internal set; }
         public Status? EntityStatus { get; set; }
+        public bool? IsActive { get; set; }
 
         public SortBy SortBy { get; internal set; }
         public bool IsSortDescending { get; internal set; }

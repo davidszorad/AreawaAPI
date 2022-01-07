@@ -108,8 +108,14 @@ public class WatchDogService : IWatchDogService
 
     public async Task CheckChangesAsync(CancellationToken cancellationToken = default)
     {
-        var watchDogs = await _dbContext.WatchDog.Where(x => x.IsActive).ToListAsync(cancellationToken);
-
+        var watchDogs = await (
+                from wd in _dbContext.WatchDog
+                join u in _dbContext.ApiUser on wd.ApiUserId equals u.ApiUserId
+                where wd.IsActive && wd.EntityStatusId == Status.Ok && u.IsActive && u.IsPremium
+                select wd)
+            .Include(x => x.ApiUser)
+            .ToListAsync(cancellationToken);
+        
         foreach (var watchDog in watchDogs)
         {
             watchDog.ScanCount += 1;
@@ -156,6 +162,10 @@ public class WatchDogService : IWatchDogService
                 
                 var emailMessageTemplate = new EmailMessageTemplate(EmailMessageTemplate.TemplateType.SourceChanged);
                 await _emailService.SendAsync(emailMessageTemplate.GetEmailContent(watchDog), cancellationToken);
+            }
+            else
+            {
+                await _dbContext.SaveChangesAsync(cancellationToken);
             }
         }
     }

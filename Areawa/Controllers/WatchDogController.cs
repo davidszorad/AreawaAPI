@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Areawa.Controllers;
 
+[Route("/api/watchdog")]
 public class WatchDogController : ControllerBase
 {
     private readonly IWatchDogService _watchDogService;
