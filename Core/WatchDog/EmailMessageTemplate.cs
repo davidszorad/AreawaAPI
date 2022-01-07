@@ -15,7 +15,7 @@ internal class EmailMessageTemplate
         SourceChanged = 4
     }
 
-    private TemplateType _templateType;
+    private readonly TemplateType _templateType;
     
     private static string CheckPeriodEndedSubject => "Areawa - Retry period ended";
     private static string SourceNotFoundSubject => "Areawa - Source not found";
@@ -29,6 +29,14 @@ internal class EmailMessageTemplate
 
     public EmailContent GetEmailContent(Database.Entities.WatchDog watchDog)
     {
+        var tmp1 = watchDog.ApiUser.Email;
+        var tmp2 = watchDog.ApiUser.FirstName;
+        var tmp3 = watchDog.ApiUser.LastName;
+        var tmp4 = watchDog.Name;
+        var tmp5 = GetSubject("name");
+        var tmp6 = GetBody(watchDog);
+        
+        
         return new EmailContent
         {
             RecipientEmail = watchDog.ApiUser.Email,
