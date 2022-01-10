@@ -29,14 +29,13 @@ internal class EmailMessageTemplate
 
     public EmailContent GetEmailContent(Database.Entities.WatchDog watchDog)
     {
-        var content = new EmailContent
+        return new EmailContent
         {
             RecipientEmail = watchDog.ApiUser.Email,
             RecipientName = $"{watchDog.ApiUser.FirstName} {watchDog.ApiUser.LastName}",
             Subject = GetSubject(watchDog.Name),
             Body = GetBody(watchDog)
         };
-        return content;
     }
     
     private string GetSubject(string title)
