@@ -51,7 +51,8 @@ internal class ScreenshotService
                 SourceUrl = url
             };
             
-            var result = await _httpService.PostAsync(apiKey, stream, createArchivedWebsiteCommand, cancellationToken);
+            var shortId = await _httpService.PostAsync(apiKey, createArchivedWebsiteCommand, cancellationToken);
+            var result = await _httpService.PostAsync(apiKey, shortId, stream, cancellationToken);
             
             await stream.DisposeAsync();
             return $"Done. { result }";

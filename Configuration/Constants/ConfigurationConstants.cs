@@ -11,6 +11,7 @@
         public const string FileNameWithApiKey = "identity";
         public const string ApiRootUrl = "https://areawaapi.azurewebsites.net";
         public const string ApiUrlWebsiteArchiveCreate = "api/wa/create";
+        public const string ApiUrlWebsiteArchiveUpload = "api/wa/upload";
         public const string WatchDogIncomingQueue = "watchdog-incoming";
         public const string SenderEmail = "areawa@dev-trips.com";
         public const string SenderName = "Areawa";
