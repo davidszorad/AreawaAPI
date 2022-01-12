@@ -68,7 +68,7 @@ public class WebsiteArchiveTests
         
         _dbContext.ApiUser.Add(new ApiUser { PublicId = Guid.NewGuid(), FirstName = "Test", LastName = "Test", Email = "test@test.com", IsActive = true, IsPremium = true });
         await _dbContext.SaveChangesAsync();
-        var userPublicId = (await _dbContext.ApiUser.Where(x => x.Email.Equals("test@test.com", StringComparison.OrdinalIgnoreCase)).SingleAsync()).PublicId;
+        var userPublicId = (await _dbContext.ApiUser.Where(x => x.Email.Equals("test@test.com")).SingleAsync()).PublicId;
 
         var creatorResult = await websiteArchiveCreatorService.CreateAsync(command, userPublicId);
         

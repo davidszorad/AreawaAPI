@@ -109,7 +109,7 @@ public class WebsiteArchiveController : ControllerBase
 
         var screenshotStream = file.OpenReadStream();
 
-        var result = await _websiteArchiveCreatorService.UploadAsync(shortId, apiKeyValidatorResult.userPublicId, screenshotStream);
+        var result = await _websiteArchiveCreatorService.UploadAsync(shortId, screenshotStream);
 
         return result.status == Status.Ok ? 
             Ok($"Item created. ID: { result.shortId }") :

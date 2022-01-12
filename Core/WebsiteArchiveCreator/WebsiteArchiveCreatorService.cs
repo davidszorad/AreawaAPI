@@ -55,11 +55,9 @@ public class WebsiteArchiveCreatorService : IWebsiteArchiveCreatorService
         return (websiteArchive.EntityStatusId, websiteArchive.ShortId);
     }
 
-    public async Task<(Status status, string shortId)> UploadAsync(string shortId, Guid userPublicId, Stream stream, CancellationToken cancellationToken = default)
+    public async Task<(Status status, string shortId)> UploadAsync(string shortId, Stream stream, CancellationToken cancellationToken = default)
     {
-        var user = await _areawaDbContext.ApiUser.FirstAsync(x => x.PublicId == userPublicId, cancellationToken);
-        
-        var websiteArchive = await _areawaDbContext.WebsiteArchive.SingleAsync(x => x.ShortId.Equals(shortId, StringComparison.OrdinalIgnoreCase), cancellationToken);
+        var websiteArchive = await _areawaDbContext.WebsiteArchive.SingleAsync(x => x.ShortId.Equals(shortId), cancellationToken);
         
         var archivePath = await _storageService.UploadAsync(stream, GetArchivePath(websiteArchive).folder, GetArchivePath(websiteArchive).filename, cancellationToken);
         websiteArchive.ArchiveUrl = archivePath;
