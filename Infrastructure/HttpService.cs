@@ -22,7 +22,8 @@ public class HttpService : IHttpService
             var checkingResponse = await HttpClientFactory.GetInstance().GetAsync(url, cancellationToken);
             return checkingResponse.IsSuccessStatusCode &&
                    checkingResponse.RequestMessage?.RequestUri != null &&
-                   checkingResponse.RequestMessage.RequestUri.Equals(new Uri(url));
+                   (checkingResponse.RequestMessage.RequestUri.ToString().Contains(url) ||
+                    url.Contains(checkingResponse.RequestMessage.RequestUri.ToString()));
         }
         catch (HttpRequestException)
         {
