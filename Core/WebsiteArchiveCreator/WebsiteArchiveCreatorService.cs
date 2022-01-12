@@ -87,8 +87,8 @@ public class WebsiteArchiveCreatorService : IWebsiteArchiveCreatorService
     {
         return websiteArchive.ArchiveTypeId switch
         {
-            ArchiveType.Pdf => (folder: websiteArchive.ShortId.ToLower(), filename: $"{websiteArchive.Name.Trim().Replace(" ", "-").ToLower()}.pdf"),
-            ArchiveType.Png => (folder: websiteArchive.ShortId.ToLower(), filename: $"{websiteArchive.Name.Trim().Replace(" ", "-").ToLower()}.png"),
+            ArchiveType.Pdf => (folder: websiteArchive.ShortId.ToLower(), filename: $"{websiteArchive.Name.ReplaceNotAllowedChars().ToLower()}.pdf"),
+            ArchiveType.Png => (folder: websiteArchive.ShortId.ToLower(), filename: $"{websiteArchive.Name.ReplaceNotAllowedChars().ToLower()}.png"),
             _ => throw new ArgumentOutOfRangeException()
         };
     }
