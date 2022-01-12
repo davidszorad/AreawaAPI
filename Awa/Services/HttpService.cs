@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Json;
 using System.Text;
 using Configuration;
 using Core.WebsiteArchiveCreator;
@@ -37,21 +38,10 @@ internal class HttpService
         {
             throw new ArgumentNullException(nameof(CreateArchivedWebsiteCommand));
         }
-        
-        var content = new StringContent(command.ToString() ?? string.Empty, Encoding.UTF8, "application/json");
-        
-        var httpRequestMessage = new HttpRequestMessage
-        {
-            Method = HttpMethod.Post,
-            RequestUri = new Uri(GetCreateUrl()),
-            Headers = { 
-                { HttpRequestHeader.Accept.ToString(), "application/json" },
-                { "X-ApiKey", apiKey }
-            },
-            Content = content
-        };
-        
-        var response = await HttpClientFactory.GetInstance().SendAsync(httpRequestMessage, cancellationToken);
+
+        var httpClient = HttpClientFactory.GetInstance();
+        httpClient.DefaultRequestHeaders.Add( "X-ApiKey", apiKey);
+        var response = await httpClient.PostAsJsonAsync(GetCreateUrl(), command, cancellationToken);
         response.EnsureSuccessStatusCode();
 
         return await response.Content.ReadAsStringAsync(cancellationToken);
