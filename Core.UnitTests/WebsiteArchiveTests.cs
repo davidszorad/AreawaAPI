@@ -71,14 +71,14 @@ public class WebsiteArchiveTests
         var userPublicId = (await _dbContext.ApiUser.Where(x => x.Email.Equals("test@test.com", StringComparison.OrdinalIgnoreCase)).SingleAsync()).PublicId;
 
         var creatorResult = await websiteArchiveCreatorService.CreateAsync(command, userPublicId);
-        Assert.That(creatorResult.status, Is.EqualTo(Status.Processing));
-
+        
         var filterQuery = new FilterQueryBuilder()
             .SetUserPublicId(userPublicId)
             .SetShortId(creatorResult.shortId)
             .Build();
         var readerResult = await websiteArchiveReaderService.GetAsync(filterQuery);
         
+        Assert.That(creatorResult.status, Is.EqualTo(Status.Processing));
         Assert.That(readerResult.Items.Count(), Is.EqualTo(1));
         Assert.That(readerResult.Items.First().Name, Is.EqualTo(command.Name));
         Assert.That(readerResult.Items.First().Description, Is.EqualTo(command.Description));
