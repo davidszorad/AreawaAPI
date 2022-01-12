@@ -24,7 +24,7 @@ public class EntityFrameworkTests
             .UseLoggerFactory(loggerFactory);
         var context = new AreawaDbContext(builder.Options);
         
-        // add any query on top of context that will be executed on SQL server DB
+        // TODO: add any query on top of context that will be executed on SQL server DB
         
         await Task.FromResult(0);
     }

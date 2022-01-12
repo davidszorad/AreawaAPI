@@ -14,18 +14,15 @@ namespace Core.WebsiteArchiveCreator;
 public class WebsiteArchiveCreatorService : IWebsiteArchiveCreatorService
 {
     private readonly AreawaDbContext _areawaDbContext;
-    private readonly IScreenshotCreator _screenshotCreator;
     private readonly IStorageService _storageService;
     private readonly IHttpService _httpService;
 
     public WebsiteArchiveCreatorService(
         AreawaDbContext areawaDbContext,
-        IScreenshotCreator screenshotCreator,
         IStorageService storageService,
         IHttpService httpService)
     {
         _areawaDbContext = areawaDbContext;
-        _screenshotCreator = screenshotCreator;
         _storageService = storageService;
         _httpService = httpService;
     }

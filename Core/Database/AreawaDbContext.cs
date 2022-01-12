@@ -45,7 +45,6 @@ namespace Core.Database
         {
             modelBuilder.HasDefaultSchema(ConfigurationBase.SchemaAreawa);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
             base.OnModelCreating(modelBuilder);
         }
     }
