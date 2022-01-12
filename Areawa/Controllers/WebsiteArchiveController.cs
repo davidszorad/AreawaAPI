@@ -102,9 +102,9 @@ public class WebsiteArchiveController : ControllerBase
             return BadRequest();
         }
         
-        if (!ModelState.IsValid)
+        if (string.IsNullOrWhiteSpace(shortId))
         {
-            return BadRequest(ModelState);
+            return BadRequest(shortId);
         }
 
         var screenshotStream = file.OpenReadStream();
