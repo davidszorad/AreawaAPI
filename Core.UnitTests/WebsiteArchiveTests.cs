@@ -78,6 +78,11 @@ public class WebsiteArchiveTests
             .SetShortId(creatorResult.shortId)
             .Build();
         var readerResult = await websiteArchiveReaderService.GetAsync(filterQuery);
+        
         Assert.That(readerResult.Items.Count(), Is.EqualTo(1));
+        Assert.That(readerResult.Items.First().Name, Is.EqualTo(command.Name));
+        Assert.That(readerResult.Items.First().Description, Is.EqualTo(command.Description));
+        Assert.That(readerResult.Items.First().SourceUrl, Is.EqualTo(command.SourceUrl));
+        Assert.That(readerResult.Items.First().ArchiveType, Is.EqualTo(command.ArchiveType));
     }
 }
