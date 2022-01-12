@@ -1,20 +1,19 @@
 using System;
 using System.Collections.Generic;
 
-namespace Core.Database.Entities
+namespace Core.Database.Entities;
+
+public class Category : AuditableBaseEntity
 {
-    public class Category : AuditableBaseEntity
-    {
-        public long CategoryId { get; set; }
-        public Guid PublicId { get; set; }
-        public string Name { get; set; }
+    public long CategoryId { get; set; }
+    public Guid PublicId { get; set; }
+    public string Name { get; set; }
 
-        public long? CategoryGroupId { get; set; }
-        public CategoryGroup CategoryGroup { get; set; }
+    public long? CategoryGroupId { get; set; }
+    public CategoryGroup CategoryGroup { get; set; }
         
-        public long ApiUserId { get; set; }
-        public ApiUser ApiUser { get; set; }
+    public long ApiUserId { get; set; }
+    public ApiUser ApiUser { get; set; }
 
-        public ICollection<WebsiteArchiveCategory> WebsiteArchiveCategories { get; set; }
-    }
+    public ICollection<WebsiteArchiveCategory> WebsiteArchiveCategories { get; set; }
 }

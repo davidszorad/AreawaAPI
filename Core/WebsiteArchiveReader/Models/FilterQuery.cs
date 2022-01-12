@@ -2,23 +2,22 @@
 using Core.Shared;
 using Domain.Enums;
 
-namespace Core.WebsiteArchiveReader
+namespace Core.WebsiteArchiveReader;
+
+public class FilterQuery : IQueryObject
 {
-    public class FilterQuery : IQueryObject
+    internal FilterQuery()
     {
-        internal FilterQuery()
-        {
-        }
-
-        public Guid? UserPublicId { get; set; }
-        public Guid? PublicId { get; internal set; }
-        public string ShortId { get; internal set; }
-        public Status? EntityStatus { get; set; }
-        public bool? IsActive { get; set; }
-
-        public SortBy SortBy { get; internal set; }
-        public bool IsSortDescending { get; internal set; }
-        public int Page { get; internal set; }
-        public int PageSize { get; internal set; }
     }
+
+    public Guid? UserPublicId { get; set; }
+    public Guid? PublicId { get; internal set; }
+    public string ShortId { get; internal set; }
+    public Status? EntityStatus { get; set; }
+    public bool? IsActive { get; set; }
+
+    public SortBy SortBy { get; internal set; }
+    public bool IsSortDescending { get; internal set; }
+    public int Page { get; internal set; }
+    public int PageSize { get; internal set; }
 }
