@@ -75,7 +75,7 @@ public class WebsiteArchiveController : ControllerBase
     public async Task<IActionResult> CreateWebsiteArchive([FromBody] CreateArchivedWebsiteCommand command)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
-        if (!apiKeyValidatorResult.isValid || !Request.HasFormContentType)
+        if (!apiKeyValidatorResult.isValid)
         {
             return BadRequest();
         }
