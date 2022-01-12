@@ -22,10 +22,11 @@ public class EntityFrameworkTests
         var builder = new DbContextOptionsBuilder<AreawaDbContext>()
             .UseSqlServer(ConfigStore.GetDbConnectionString())
             .UseLoggerFactory(loggerFactory);
-        var context = new AreawaDbContext(builder.Options);
+        var dbContext = new AreawaDbContext(builder.Options);
         
-        // add any query on top of context that will be executed on SQL server DB
+        // run any query on dbContext that will be executed on sql server db
+        var user = await dbContext.ApiUser.FirstOrDefaultAsync();
         
-        await Task.FromResult(0);
+        Assert.That(user, Is.Not.Null);
     }
 }

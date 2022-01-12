@@ -4,24 +4,23 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Core.UnitTests")]
 
-namespace Core.WebsiteArchiveCreator
+namespace Core.WebsiteArchiveCreator;
+
+internal static class ShortIdGenerator
 {
-    internal static class ShortIdGenerator
+    private static readonly Random Random = new();
+        
+    public static string Generate()
     {
-        private static readonly Random Random = new();
+        return $"{DateTime.UtcNow.Year}-{DateTime.UtcNow:MM}-{DateTime.UtcNow:dd}-" +
+               $"{DateTime.UtcNow:HH}-{DateTime.UtcNow:mm}-" +
+               $"{GenerateRandomString(4)}";
+    }
         
-        public static string Generate()
-        {
-            return $"{DateTime.UtcNow.Year}-{DateTime.UtcNow:MM}-{DateTime.UtcNow:dd}-" +
-                   $"{DateTime.UtcNow:HH}-{DateTime.UtcNow:mm}-" +
-                   $"{GenerateRandomString(4)}";
-        }
-        
-        private static string GenerateRandomString(int length)
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            return new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[Random.Next(s.Length)]).ToArray());
-        }
+    private static string GenerateRandomString(int length)
+    {
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        return new string(Enumerable.Repeat(chars, length)
+            .Select(s => s[Random.Next(s.Length)]).ToArray());
     }
 }

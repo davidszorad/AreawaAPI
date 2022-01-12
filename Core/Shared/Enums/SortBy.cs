@@ -1,10 +1,9 @@
-﻿namespace Core.Shared
+﻿namespace Core.Shared;
+
+public enum SortBy
 {
-    public enum SortBy
-    {
-        Default = 0,
-        Name = 1,
-        Date = 2,
-        Status = 3
-    }
+    Default = 0,
+    Name = 1,
+    Date = 2,
+    Status = 3
 }

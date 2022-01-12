@@ -1,8 +1,7 @@
-﻿namespace Domain.Enums
+﻿namespace Domain.Enums;
+
+public enum ArchiveType
 {
-    public enum ArchiveType
-    {
-        Pdf = 1,
-        Png = 2
-    }
+    Pdf = 1,
+    Png = 2
 }

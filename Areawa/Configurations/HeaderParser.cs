@@ -9,7 +9,7 @@ internal static class HeaderParser
     public static bool TryGetGetApiKey(HttpRequest request, out Guid apiUserPublicId)
     {
         apiUserPublicId = Guid.Empty;
-        var apiKey = request.Headers.FirstOrDefault(x => x.Key.Equals("X-ApiKey"));
+        var apiKey = request.Headers.FirstOrDefault(x => x.Key.Equals("X-ApiKey", StringComparison.OrdinalIgnoreCase));
         if ((apiKey.Key, apiKey.Value) != default && Guid.TryParse(apiKey.Value, out apiUserPublicId))
         {
             return true;

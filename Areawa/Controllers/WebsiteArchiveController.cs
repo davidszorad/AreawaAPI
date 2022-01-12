@@ -72,11 +72,10 @@ public class WebsiteArchiveController : ControllerBase
     }
 
     [HttpPost("create")]
-    [RequestSizeLimit(20_000_000)] //default 30 MB (~28.6 MiB) max request body size limit -- https://github.com/aspnet/Announcements/issues/267
-    public async Task<IActionResult> UploadScreenshot([FromQuery] CreateArchivedWebsiteCommand command, IFormFile file)
+    public async Task<IActionResult> CreateWebsiteArchive([FromBody] CreateArchivedWebsiteCommand command)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
-        if (!apiKeyValidatorResult.isValid || !Request.HasFormContentType)
+        if (!apiKeyValidatorResult.isValid)
         {
             return BadRequest();
         }
@@ -86,13 +85,35 @@ public class WebsiteArchiveController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var screenshotStream = file.OpenReadStream();
-
-        var result = await _websiteArchiveCreatorService.CreateAsync(command, apiKeyValidatorResult.userPublicId, screenshotStream);
+        var result = await _websiteArchiveCreatorService.CreateAsync(command, apiKeyValidatorResult.userPublicId);
 
         return result.status == Status.SourceNotFound ? 
             Problem("Source not found.") : 
-            Ok($"Item created. ID: { result.shortId }");
+            Ok(result.shortId);
+    }
+    
+    [HttpPost("upload")]
+    [RequestSizeLimit(20_000_000)] //default 30 MB (~28.6 MiB) max request body size limit -- https://github.com/aspnet/Announcements/issues/267
+    public async Task<IActionResult> UploadScreenshot([FromQuery] string shortId, IFormFile file)
+    {
+        var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
+        if (!apiKeyValidatorResult.isValid || !Request.HasFormContentType)
+        {
+            return BadRequest();
+        }
+        
+        if (string.IsNullOrWhiteSpace(shortId))
+        {
+            return BadRequest(shortId);
+        }
+
+        var screenshotStream = file.OpenReadStream();
+
+        var result = await _websiteArchiveCreatorService.UploadAsync(shortId, screenshotStream);
+
+        return result.status == Status.Ok ? 
+            Ok($"Item created. ID: { result.shortId }") :
+            Problem("An error happened.");
     }
     
     [HttpDelete("{publicId}")]

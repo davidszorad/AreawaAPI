@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using Domain.Enums;
 
-namespace Core.Database.Entities
-{
-    public class EntityStatus
-    {
-        public Status EntityStatusId { get; set; }
-        public string Name { get; set; }
+namespace Core.Database.Entities;
 
-        public ICollection<WebsiteArchive> WebsiteArchives { get; set; }
-        public ICollection<WatchDog> ChangeTrackers { get; set; }
-    }
+public class EntityStatus
+{
+    public Status EntityStatusId { get; set; }
+    public string Name { get; set; }
+
+    public ICollection<WebsiteArchive> WebsiteArchives { get; set; }
+    public ICollection<WatchDog> ChangeTrackers { get; set; }
 }
