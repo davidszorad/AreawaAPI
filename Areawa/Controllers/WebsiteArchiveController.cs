@@ -72,8 +72,29 @@ public class WebsiteArchiveController : ControllerBase
     }
 
     [HttpPost("create")]
+    public async Task<IActionResult> CreateWebsiteArchive([FromQuery] CreateArchivedWebsiteCommand command)
+    {
+        var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
+        if (!apiKeyValidatorResult.isValid || !Request.HasFormContentType)
+        {
+            return BadRequest();
+        }
+        
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = await _websiteArchiveCreatorService.CreateAsync(command, apiKeyValidatorResult.userPublicId);
+
+        return result.status == Status.SourceNotFound ? 
+            Problem("Source not found.") : 
+            Ok(result.shortId);
+    }
+    
+    [HttpPost("upload")]
     [RequestSizeLimit(20_000_000)] //default 30 MB (~28.6 MiB) max request body size limit -- https://github.com/aspnet/Announcements/issues/267
-    public async Task<IActionResult> UploadScreenshot([FromQuery] CreateArchivedWebsiteCommand command, IFormFile file)
+    public async Task<IActionResult> UploadScreenshot([FromQuery] string shortId, IFormFile file)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
         if (!apiKeyValidatorResult.isValid || !Request.HasFormContentType)
@@ -88,11 +109,11 @@ public class WebsiteArchiveController : ControllerBase
 
         var screenshotStream = file.OpenReadStream();
 
-        var result = await _websiteArchiveCreatorService.CreateAsync(command, apiKeyValidatorResult.userPublicId, screenshotStream);
+        var result = await _websiteArchiveCreatorService.UploadAsync(shortId, apiKeyValidatorResult.userPublicId, screenshotStream);
 
-        return result.status == Status.SourceNotFound ? 
-            Problem("Source not found.") : 
-            Ok($"Item created. ID: { result.shortId }");
+        return result.status == Status.Ok ? 
+            Ok($"Item created. ID: { result.shortId }") :
+            Problem("An error happened.");
     }
     
     [HttpDelete("{publicId}")]
