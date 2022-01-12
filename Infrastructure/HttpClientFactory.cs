@@ -2,7 +2,7 @@ using System.Net.Http;
 
 namespace Infrastructure;
 
-public static class HttpClientFactory
+public class HttpClientFactory
 {
     private static HttpClient _httpClient = new();
 
