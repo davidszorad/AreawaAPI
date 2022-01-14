@@ -7,6 +7,7 @@ using Core.Shared;
 using Core.WebsiteArchiveCreator;
 using Core.WebsiteArchiveReader;
 using Domain.Enums;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 
 namespace Areawa.Controllers;
@@ -36,6 +37,7 @@ public class WebsiteArchiveController : ControllerBase
     }
 
     [HttpPost("search")]
+    [EnableCors("AreawaCorsPolicy")]
     public async Task<IActionResult> Search([FromBody] WebsiteArchiveQuery websiteArchiveQuery)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
