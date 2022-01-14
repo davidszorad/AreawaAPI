@@ -76,10 +76,9 @@ public class Program
 
         app.UseHttpsRedirection();
         //app.UseStaticFiles();
-        app.UseCors("AreawaCorsPolicy");
-
+        
         app.UseRouting();
-
+        app.UseCors("AreawaCorsPolicy");
         app.UseAuthorization();
             
         app.ConfigureExceptionHandler(/*logger*/);
