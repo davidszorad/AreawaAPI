@@ -74,6 +74,7 @@ public class WebsiteArchiveController : ControllerBase
     }
 
     [HttpPost("create")]
+    [EnableCors("AreawaCorsPolicy")]
     public async Task<IActionResult> CreateWebsiteArchive([FromBody] CreateArchivedWebsiteCommand command)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
@@ -95,6 +96,7 @@ public class WebsiteArchiveController : ControllerBase
     }
     
     [HttpPost("upload")]
+    [EnableCors("AreawaCorsPolicy")]
     [RequestSizeLimit(20_000_000)] //default 30 MB (~28.6 MiB) max request body size limit -- https://github.com/aspnet/Announcements/issues/267
     public async Task<IActionResult> UploadScreenshot([FromQuery] string shortId, IFormFile file)
     {
@@ -119,6 +121,7 @@ public class WebsiteArchiveController : ControllerBase
     }
     
     [HttpDelete("{publicId}")]
+    [EnableCors("AreawaCorsPolicy")]
     public async Task<IActionResult> Delete(Guid publicId)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);

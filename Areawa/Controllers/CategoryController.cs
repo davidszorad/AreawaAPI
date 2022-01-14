@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Core.CategoriesManagement;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Areawa.Controllers;
@@ -22,6 +23,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet]
+    [EnableCors("AreawaCorsPolicy")]
     public async Task<IActionResult> Get()
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
@@ -34,6 +36,7 @@ public class CategoryController : ControllerBase
     }
         
     [HttpPost("create")]
+    [EnableCors("AreawaCorsPolicy")]
     public async Task<IActionResult> Create([FromBody] UpsertCategoryCommand command)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
@@ -51,6 +54,7 @@ public class CategoryController : ControllerBase
     }
         
     [HttpPost("group/create")]
+    [EnableCors("AreawaCorsPolicy")]
     public async Task<IActionResult> CreateGroup([FromBody] UpsertCategoryGroupCommand command)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
@@ -68,6 +72,7 @@ public class CategoryController : ControllerBase
     }
         
     [HttpPut("update/{publicId:guid}")]
+    [EnableCors("AreawaCorsPolicy")]
     public async Task<IActionResult> Update(Guid publicId, [FromBody] UpsertCategoryCommand command)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
@@ -85,6 +90,7 @@ public class CategoryController : ControllerBase
     }
         
     [HttpPut("group/update/{publicId:guid}")]
+    [EnableCors("AreawaCorsPolicy")]
     public async Task<IActionResult> UpdateGroup(Guid publicId, [FromBody] UpsertCategoryGroupCommand command)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
@@ -102,6 +108,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpDelete("{publicId:guid}")]
+    [EnableCors("AreawaCorsPolicy")]
     public async Task<IActionResult> Delete([FromHeader(Name="X-Email")][Required] string userEmail, Guid publicId)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
@@ -114,6 +121,7 @@ public class CategoryController : ControllerBase
     }
         
     [HttpDelete("group/{publicId:guid}")]
+    [EnableCors("AreawaCorsPolicy")]
     public async Task<IActionResult> DeleteGroup([FromHeader(Name="X-Email")][Required] string userEmail, Guid publicId)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
