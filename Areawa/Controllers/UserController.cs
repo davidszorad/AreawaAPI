@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Core.UserManagement;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Areawa.Controllers;
@@ -16,6 +17,7 @@ public class UserController : ControllerBase
     }
     
     [HttpPost("create")]
+    [EnableCors("AreawaCorsPolicy")]
     public async Task<IActionResult> Create([FromBody] CreateUserCommand command)
     {
         if (!ModelState.IsValid)

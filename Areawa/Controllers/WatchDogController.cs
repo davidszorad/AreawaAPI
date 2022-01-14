@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Core.WatchDog;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Areawa.Controllers;
@@ -20,6 +21,7 @@ public class WatchDogController : ControllerBase
     }
     
     [HttpPost("preview/source")]
+    [EnableCors("AreawaCorsPolicy")]
     public async Task<IActionResult> GetSourcePreview([FromBody] SourcePreviewCommand command)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
@@ -37,6 +39,7 @@ public class WatchDogController : ControllerBase
     }
     
     [HttpPost("preview/create")]
+    [EnableCors("AreawaCorsPolicy")]
     public async Task<IActionResult> CreatePreview([FromBody] CreateWatchDogCommand command)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
@@ -54,6 +57,7 @@ public class WatchDogController : ControllerBase
     }
 
     [HttpPost("create")]
+    [EnableCors("AreawaCorsPolicy")]
     public async Task<IActionResult> Create([FromBody] CreateWatchDogCommand command)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);
@@ -71,6 +75,7 @@ public class WatchDogController : ControllerBase
     }
 
     [HttpDelete("{publicId}")]
+    [EnableCors("AreawaCorsPolicy")]
     public async Task<IActionResult> Delete(Guid publicId)
     {
         var apiKeyValidatorResult = await _apiKeyValidator.ValidateAsync(Request);

@@ -41,6 +41,18 @@ public class Program
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Areawa", Version = "v1" });
             c.OperationFilter<ApiKeyHeaderSwaggerAttribute>();
         });
+        
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AreawaCorsPolicy", policyBuilder =>
+            {
+                policyBuilder
+                    .WithOrigins(
+                        "http://localhost:4200", "https://localhost:4200", "http://localhost:5001", "https://localhost:5001")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+        });
 
         var app = builder.Build();
             
@@ -64,9 +76,9 @@ public class Program
 
         app.UseHttpsRedirection();
         //app.UseStaticFiles();
-
+        
         app.UseRouting();
-
+        app.UseCors("AreawaCorsPolicy");
         app.UseAuthorization();
             
         app.ConfigureExceptionHandler(/*logger*/);
