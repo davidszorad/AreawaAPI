@@ -59,7 +59,7 @@ public class WebsiteArchiveCreatorService : IWebsiteArchiveCreatorService
     {
         var websiteArchive = await _areawaDbContext.WebsiteArchive.SingleAsync(x => x.ShortId.Equals(shortId), cancellationToken);
         
-        var archivePath = await _storageService.UploadAsync(stream, GetArchivePath(websiteArchive).folder, GetArchivePath(websiteArchive).filename, cancellationToken);
+        var archivePath = await _storageService.UploadAsync(stream, websiteArchive.ArchiveTypeId, GetArchivePath(websiteArchive).folder, GetArchivePath(websiteArchive).filename, cancellationToken);
         websiteArchive.ArchiveUrl = archivePath;
         websiteArchive.EntityStatusId = Status.Ok;
         await _areawaDbContext.SaveChangesAsync(cancellationToken);
