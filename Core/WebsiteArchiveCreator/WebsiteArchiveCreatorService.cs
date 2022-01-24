@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core.Database;
 using Core.Database.Entities;
-using Core.Shared;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using ArchiveType = Domain.Enums.ArchiveType;
@@ -62,6 +61,10 @@ public class WebsiteArchiveCreatorService : IWebsiteArchiveCreatorService
         var archivePath = await _storageService.UploadAsync(stream, websiteArchive.ArchiveTypeId, GetArchivePath(websiteArchive).folder, GetArchivePath(websiteArchive).filename, cancellationToken);
         websiteArchive.ArchiveUrl = archivePath;
         websiteArchive.EntityStatusId = Status.Ok;
+
+        var entry = _areawaDbContext.Entry(websiteArchive);
+        entry.State = EntityState.Modified;
+        
         await _areawaDbContext.SaveChangesAsync(cancellationToken);
         
         return (websiteArchive.EntityStatusId, websiteArchive.ShortId);
