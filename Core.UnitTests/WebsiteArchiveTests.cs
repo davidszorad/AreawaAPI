@@ -37,7 +37,7 @@ public class WebsiteArchiveTests
         _dbContext = DbContextFactory.CreateInMemory();
         
         _mockStorageService
-            .Setup(m => m.UploadAsync(It.IsAny<Stream>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Setup(m => m.UploadAsync(It.IsAny<Stream>(), It.IsAny<ArchiveType>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Returns(Task.FromResult("test"));
         _mockStorageService
             .Setup(m => m.DeleteFolderAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))

@@ -6,6 +6,7 @@
         <PackAsTool>true</PackAsTool>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <PackageVersion>1.220119.1</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>
