@@ -40,7 +40,8 @@ public class AzureBlobStorageService : IStorageService
     {
         string connectionString = ConfigStore.GetValue(ConfigurationConstants.AzureStorageConnectionString);
         var blobServiceClient = new BlobServiceClient(connectionString);
-        BlobContainerClient containerClient = await blobServiceClient.CreateBlobContainerAsync(containerName, PublicAccessType.Blob, cancellationToken: cancellationToken);
+        var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+        await containerClient.CreateIfNotExistsAsync(PublicAccessType.Blob, cancellationToken: cancellationToken);
         return containerClient;
     }
     
