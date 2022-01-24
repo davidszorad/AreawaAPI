@@ -57,7 +57,7 @@ public class WebsiteArchiveCreatorService : IWebsiteArchiveCreatorService
 
     public async Task<(Status status, string shortId)> UploadAsync(string shortId, Stream stream, CancellationToken cancellationToken = default)
     {
-        var websiteArchive = await _areawaDbContext.WebsiteArchive.SingleAsync(x => x.ShortId.Equals(shortId), cancellationToken);
+        var websiteArchive = await _areawaDbContext.WebsiteArchive.SingleAsync(x => x.ShortId.Equals(shortId.ToUpper()), cancellationToken);
         
         var archivePath = await _storageService.UploadAsync(stream, websiteArchive.ArchiveTypeId, GetArchivePath(websiteArchive).folder, GetArchivePath(websiteArchive).filename, cancellationToken);
         websiteArchive.ArchiveUrl = archivePath;
