@@ -1,13 +1,12 @@
-﻿using Core.WebsiteArchiveReader;
-using Domain.Enums;
+﻿using Domain.Enums;
 
-namespace Core.Reader;
+namespace Core.WebsiteArchiveReader;
 
 internal static class WebsiteArchiveExtensions
 {
-    public static GetArchivedWebsiteQuery Map(this Database.Entities.WebsiteArchive entity)
+    public static WebsiteArchiveQueryResult Map(this Database.Entities.WebsiteArchive entity)
     {
-        return new GetArchivedWebsiteQuery
+        return new WebsiteArchiveQueryResult
         {
             PublicId = entity.PublicId,
             ShortId = entity.ShortId,

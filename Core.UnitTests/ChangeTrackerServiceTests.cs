@@ -1,4 +1,4 @@
-using Core.WatchDog;
+using Core.WatchDogCreator;
 using NUnit.Framework;
 
 namespace Core.UnitTests;

@@ -1,10 +1,9 @@
 ﻿using System;
-using Core.Shared;
 using Domain.Enums;
 
 namespace Core.WebsiteArchiveReader;
 
-public class GetArchivedWebsiteQuery : BaseItemResult
+public class WebsiteArchiveQueryResult : BaseQueryResult
 {
     public Guid PublicId { get; set; }
     public string ShortId { get; set; }

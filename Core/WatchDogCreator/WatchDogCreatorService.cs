@@ -6,20 +6,19 @@ using System.Threading;
 using System.Threading.Tasks;
 using Configuration;
 using Core.Database;
-using Core.Shared;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.WatchDog;
+namespace Core.WatchDogCreator;
 
-public class WatchDogService : IWatchDogService
+public class WatchDogCreatorService : IWatchDogCreatorService
 {
     private readonly IHttpService _httpService;
     private readonly IQueueService _queueService;
     private readonly AreawaDbContext _dbContext;
     private readonly IEmailService _emailService;
 
-    public WatchDogService(
+    public WatchDogCreatorService(
         IHttpService httpService,
         IQueueService queueService,
         AreawaDbContext dbContext,

@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using Domain.Enums;
 
-namespace Core.WebsiteArchiveReader;
+namespace Core.WatchDogReader;
 
 public class FilterQueryBuilder
 {
@@ -21,10 +21,9 @@ public class FilterQueryBuilder
         return this;
     }
 
-    public FilterQueryBuilder SetShortId(string value)
+    public FilterQueryBuilder SetIncludeInactive()
     {
-        _filterQuery.ShortId = value;
-        _isGettingAllItems = false;
+        _filterQuery.IncludeInactive = true;
         return this;
     }
 
@@ -46,12 +45,6 @@ public class FilterQueryBuilder
     {
         _filterQuery.SortBy = sortBy;
         _filterQuery.IsSortDescending = isSortDescending;
-        return this;
-    }
-
-    public FilterQueryBuilder OnlyActive()
-    {
-        _filterQuery.IsActive = true;
         return this;
     }
 
@@ -82,7 +75,7 @@ public class FilterQueryBuilder
             return false;
         }
             
-        if (_filterQuery.PublicId.HasValue || !string.IsNullOrWhiteSpace(_filterQuery.ShortId) || _isGettingAllItems)
+        if (_filterQuery.PublicId.HasValue || _isGettingAllItems)
         {
             return true;
         }

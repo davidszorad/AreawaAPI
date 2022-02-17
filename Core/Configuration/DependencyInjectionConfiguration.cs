@@ -1,9 +1,3 @@
-global using Core.CategoriesManagement;
-global using Core.WatchDog;
-global using Core.Shared;
-global using Core.UserManagement;
-global using Core.WebsiteArchiveCreator;
-global using Core.WebsiteArchiveReader;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.Configuration;
@@ -17,7 +11,8 @@ public static class DependencyInjectionConfiguration
         services.AddTransient<ICategoriesService, CategoriesService>();
         services.AddTransient<IPoisonQueueService, PoisonQueueService>();
         services.AddTransient<IUserService, UserService>();
-        services.AddTransient<IWatchDogService, WatchDogService>();
+        services.AddTransient<IWatchDogCreatorService, WatchDogCreatorService>();
+        services.AddTransient<IWatchDogReaderService, WatchDogReaderService>();
         return services;
     }
 }
