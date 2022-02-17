@@ -12,7 +12,9 @@ internal static class WatchDogExtensions
             IsActive = entity.IsActive,
             ScanCount = entity.ScanCount,
             EntityStatusId = entity.EntityStatusId,
-            RetryPeriodId = entity.RetryPeriodId
+            RetryPeriodId = entity.RetryPeriodId,
+            Updated = entity.UpdatedOn,
+            Created = entity.CreatedOn
         };
     }
 }
