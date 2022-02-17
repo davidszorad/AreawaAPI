@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Domain.Enums;
 
-namespace Core.WatchDog;
+namespace Core.WatchDogCreator;
 
 public class SourcePreviewCommand
 {

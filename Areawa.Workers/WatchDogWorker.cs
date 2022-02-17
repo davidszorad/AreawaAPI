@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.WatchDog;
+using Core.WatchDogCreator;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 
@@ -9,11 +9,11 @@ namespace Areawa.Workers;
 
 public class WatchDogWorker
 {
-    private readonly IWatchDogService _watchDogService;
+    private readonly IWatchDogCreatorService _watchDogCreatorService;
 
-    public WatchDogWorker(IWatchDogService watchDogService)
+    public WatchDogWorker(IWatchDogCreatorService watchDogCreatorService)
     {
-        _watchDogService = watchDogService;
+        _watchDogCreatorService = watchDogCreatorService;
     }
 
     [Function("WatchDogWorkerProcessNew")]
@@ -26,7 +26,7 @@ public class WatchDogWorker
          * int dequeueCount, ILogger logger, CancellationToken cancellationToken)
          */
         
-        await _watchDogService.ProcessNewAsync(queueItem);
+        await _watchDogCreatorService.ProcessNewAsync(queueItem);
     }
     
     [Function("WatchDogWorkerCheckChanges")]
@@ -40,6 +40,6 @@ public class WatchDogWorker
         
         //var logger = context.GetLogger("TimerFunction");
         //logger.LogInformation($"Function Ran. Next timer schedule = {timerInfo.ScheduleStatus.Next}");
-        await _watchDogService.CheckChangesAsync();
+        await _watchDogCreatorService.CheckChangesAsync();
     }
 }

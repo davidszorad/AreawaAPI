@@ -1,6 +1,4 @@
-using Core.Database.Entities;
-
-namespace Core.WatchDog;
+namespace Core.WatchDogCreator;
 
 internal static class WebChangeTrackerExtensions
 {

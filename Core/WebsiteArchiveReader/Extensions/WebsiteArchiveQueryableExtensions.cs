@@ -1,14 +1,12 @@
-﻿using Core.Database.Entities;
-using Core.Shared;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Core.Database;
-using Core.WebsiteArchiveReader;
+using Core.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.Reader;
+namespace Core.WebsiteArchiveReader;
 
 internal static class WebsiteArchiveQueryableExtensions
 {

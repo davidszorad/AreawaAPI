@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 [assembly: InternalsVisibleTo("Core.UnitTests")]
 
-namespace Core.WatchDog;
+namespace Core.WatchDogCreator;
 
 internal static class HtmlExtensions
 {

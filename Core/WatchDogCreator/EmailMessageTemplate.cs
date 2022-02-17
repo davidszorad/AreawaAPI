@@ -1,9 +1,8 @@
 using System;
 using System.Text;
-using Core.Shared;
 using Domain.Enums;
 
-namespace Core.WatchDog;
+namespace Core.WatchDogCreator;
 
 internal class EmailMessageTemplate
 {

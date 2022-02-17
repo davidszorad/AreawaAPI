@@ -2,9 +2,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Core.WatchDog;
+namespace Core.WatchDogCreator;
 
-public interface IWatchDogService
+public interface IWatchDogCreatorService
 {
     Task<string> GetSourcePreviewAsync(SourcePreviewCommand command, CancellationToken cancellationToken = default);
     Task<string> PreviewAsync(CreateWatchDogCommand command, CancellationToken cancellationToken = default);

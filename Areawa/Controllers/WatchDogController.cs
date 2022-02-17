@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using Core.WatchDog;
+using Core.WatchDogCreator;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,14 +9,14 @@ namespace Areawa.Controllers;
 [Route("/api/watchdog")]
 public class WatchDogController : ControllerBase
 {
-    private readonly IWatchDogService _watchDogService;
+    private readonly IWatchDogCreatorService _watchDogCreatorService;
     private readonly IApiKeyValidator _apiKeyValidator;
 
     public WatchDogController(
-        IWatchDogService watchDogService,
+        IWatchDogCreatorService watchDogCreatorService,
         IApiKeyValidator apiKeyValidator)
     {
-        _watchDogService = watchDogService;
+        _watchDogCreatorService = watchDogCreatorService;
         _apiKeyValidator = apiKeyValidator;
     }
     
@@ -35,7 +35,7 @@ public class WatchDogController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        return Ok(await _watchDogService.GetSourcePreviewAsync(command));
+        return Ok(await _watchDogCreatorService.GetSourcePreviewAsync(command));
     }
     
     [HttpPost("preview/create")]
@@ -53,7 +53,7 @@ public class WatchDogController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        return Ok(await _watchDogService.PreviewAsync(command));
+        return Ok(await _watchDogCreatorService.PreviewAsync(command));
     }
 
     [HttpPost("create")]
@@ -71,7 +71,7 @@ public class WatchDogController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        return Ok(await _watchDogService.ScheduleAsync(command, apiKeyValidatorResult.userPublicId));
+        return Ok(await _watchDogCreatorService.ScheduleAsync(command, apiKeyValidatorResult.userPublicId));
     }
 
     [HttpDelete("{publicId}")]
@@ -84,7 +84,7 @@ public class WatchDogController : ControllerBase
             return BadRequest();
         }
 
-        await _watchDogService.DeleteAsync(publicId, apiKeyValidatorResult.userPublicId);
+        await _watchDogCreatorService.DeleteAsync(publicId, apiKeyValidatorResult.userPublicId);
         return Ok();
     }
 }

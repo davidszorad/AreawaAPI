@@ -1,7 +1,6 @@
-﻿using Core.WebsiteArchiveReader;
-using Domain.Enums;
+﻿using Domain.Enums;
 
-namespace Core.Reader;
+namespace Core.WebsiteArchiveReader;
 
 internal static class WebsiteArchiveExtensions
 {
