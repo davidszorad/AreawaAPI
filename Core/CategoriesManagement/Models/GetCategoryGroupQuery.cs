@@ -4,7 +4,7 @@ using Core.Shared;
 
 namespace Core.CategoriesManagement;
 
-public class GetCategoryGroupQuery : BaseItemResult
+public class GetCategoryGroupQuery : BaseQueryResult
 {
     public Guid? PublicId { get; set; }
     public string Name { get; set; }

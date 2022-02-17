@@ -3,7 +3,7 @@ using Core.Shared;
 
 namespace Core.CategoriesManagement;
 
-public class GetCategoryQuery : BaseItemResult
+public class GetCategoryQuery : BaseQueryResult
 {
     public Guid PublicId { get; set; }
     public string Name { get; set; }

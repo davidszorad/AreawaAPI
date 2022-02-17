@@ -14,9 +14,9 @@ public class WebsiteArchiveReaderService : IWebsiteArchiveReaderService
         _areawaDbContext = areawaDbContext;
     }
 
-    public async Task<QueryResult<GetArchivedWebsiteQuery>> GetAsync(FilterQuery filterQuery, CancellationToken cancellationToken = default)
+    public async Task<QueryResult<WebsiteArchiveQueryResult>> GetAsync(FilterQuery filterQuery, CancellationToken cancellationToken = default)
     {
-        return new QueryResult<GetArchivedWebsiteQuery>
+        return new QueryResult<WebsiteArchiveQueryResult>
         {
             AllCount = await _areawaDbContext.WebsiteArchive
                 .AddCustomFilters(filterQuery, false)

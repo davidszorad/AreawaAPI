@@ -5,7 +5,7 @@ namespace Core.WatchDogReader;
 
 public class WatchDogReaderService : IWatchDogReaderService
 {
-    public Task<QueryResult<GetArchivedWebsiteQuery>> GetAsync(FilterQuery filterQuery, CancellationToken cancellationToken = default)
+    public Task<QueryResult<WatchDogQueryResult>> GetAsync(FilterQuery filterQuery, CancellationToken cancellationToken = default)
     {
         throw new System.NotImplementedException();
     }

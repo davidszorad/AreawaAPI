@@ -5,5 +5,5 @@ namespace Core.WatchDogReader;
 
 public interface IWatchDogReaderService
 {
-    Task<QueryResult<GetArchivedWebsiteQuery>> GetAsync(FilterQuery filterQuery, CancellationToken cancellationToken = default);
+    Task<QueryResult<WatchDogQueryResult>> GetAsync(FilterQuery filterQuery, CancellationToken cancellationToken = default);
 }

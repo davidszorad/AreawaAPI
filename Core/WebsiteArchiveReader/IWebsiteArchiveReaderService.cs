@@ -5,5 +5,5 @@ namespace Core.WebsiteArchiveReader;
 
 public interface IWebsiteArchiveReaderService
 {
-    Task<QueryResult<GetArchivedWebsiteQuery>> GetAsync(FilterQuery filterQuery, CancellationToken cancellationToken = default);
+    Task<QueryResult<WebsiteArchiveQueryResult>> GetAsync(FilterQuery filterQuery, CancellationToken cancellationToken = default);
 }
