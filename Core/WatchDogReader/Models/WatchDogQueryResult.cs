@@ -10,6 +10,6 @@ public class WatchDogQueryResult : BaseQueryResult
     public string Url { get; set; }
     public bool IsActive { get; set; }
     public long ScanCount { get; set; }
-    public Status EntityStatusId { get; set; }
-    public RetryPeriod RetryPeriodId { get; set; }
+    public Status Status { get; set; }
+    public RetryPeriod RetryPeriod { get; set; }
 }
