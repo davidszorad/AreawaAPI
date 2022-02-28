@@ -9,6 +9,8 @@ internal static class WatchDogExtensions
             PublicId = entity.PublicId,
             Name = entity.Name,
             Url = entity.Url,
+            StartSelector = entity.StartSelector,
+            EndSelector = entity.EndSelector,
             IsActive = entity.IsActive,
             ScanCount = entity.ScanCount,
             Status = entity.EntityStatusId,
