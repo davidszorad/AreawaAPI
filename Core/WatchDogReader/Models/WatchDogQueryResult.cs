@@ -8,6 +8,8 @@ public class WatchDogQueryResult : BaseQueryResult
     public Guid PublicId { get; set; }
     public string Name { get; set; }
     public string Url { get; set; }
+    public string StartSelector { get; set; }
+    public string EndSelector { get; set; }
     public bool IsActive { get; set; }
     public long ScanCount { get; set; }
     public Status Status { get; set; }
