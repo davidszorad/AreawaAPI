@@ -169,6 +169,37 @@ public class WatchDogCreatorService : IWatchDogCreatorService
         }
     }
 
+    public async Task RetryFailedAsync(CancellationToken cancellationToken = default)
+    {
+        var watchDogs = await (
+                from wd in _dbContext.WatchDog
+                join u in _dbContext.ApiUser on wd.ApiUserId equals u.ApiUserId
+                where wd.IsActive && (wd.EntityStatusId == Status.Error || wd.EntityStatusId == Status.SourceNotFound) && u.IsActive && u.IsPremium
+                select wd)
+            .Include(x => x.ApiUser)
+            .ToListAsync(cancellationToken);
+
+        foreach (var watchDog in watchDogs)
+        {
+            if (!IsWatchDogActive(watchDog))
+            {
+                watchDog.IsActive = false;
+                await _dbContext.SaveChangesAsync(cancellationToken);
+
+                var emailMessageTemplate = new EmailMessageTemplate(EmailMessageTemplate.TemplateType.CheckPeriodEnded);
+                await _emailService.SendAsync(emailMessageTemplate.GetEmailContent(watchDog), cancellationToken);
+                
+                continue;
+            }
+            
+            if (await _httpService.IsStatusOkAsync(watchDog.Url, cancellationToken))
+            {
+                watchDog.EntityStatusId = Status.Ok;
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+        }
+    }
+
     public async Task DeleteAsync(Guid publicId, Guid userPublicId, CancellationToken cancellationToken = default)
     {
         var entity = await _dbContext.WatchDog

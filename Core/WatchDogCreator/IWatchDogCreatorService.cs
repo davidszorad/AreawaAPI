@@ -11,5 +11,6 @@ public interface IWatchDogCreatorService
     Task<Guid> ScheduleAsync(CreateWatchDogCommand command, Guid userPublicId, CancellationToken cancellationToken = default);
     Task ProcessNewAsync(Guid publicId, CancellationToken cancellationToken = default);
     Task CheckChangesAsync(CancellationToken cancellationToken = default);
+    Task RetryFailedAsync(CancellationToken cancellationToken = default);
     Task DeleteAsync(Guid publicId, Guid userPublicId, CancellationToken cancellationToken = default);
 }
