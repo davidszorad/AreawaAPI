@@ -196,6 +196,9 @@ public class WatchDogCreatorService : IWatchDogCreatorService
             {
                 watchDog.EntityStatusId = Status.Ok;
                 await _dbContext.SaveChangesAsync(cancellationToken);
+                
+                var emailMessageTemplate = new EmailMessageTemplate(EmailMessageTemplate.TemplateType.ResumedAfterError);
+                await _emailService.SendAsync(emailMessageTemplate.GetEmailContent(watchDog), cancellationToken);
             }
         }
     }

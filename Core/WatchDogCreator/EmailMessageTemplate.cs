@@ -11,7 +11,8 @@ internal class EmailMessageTemplate
         CheckPeriodEnded = 1,
         SourceNotFound = 2,
         ErrorWhileParsingHtml = 3,
-        SourceChanged = 4
+        SourceChanged = 4,
+        ResumedAfterError = 5
     }
 
     private readonly TemplateType _templateType;
@@ -20,6 +21,7 @@ internal class EmailMessageTemplate
     private static string SourceNotFoundSubject => "Areawa - Source not found";
     private static string ErrorWhileParsingHtmlSubject => "Areawa - Error while parsing HTML";
     private static string SourceChangedSubject => "Areawa - Source changed";
+    private static string RetrySucceededSubject => "Areawa - Resumed after error";
 
     public EmailMessageTemplate(TemplateType templateType)
     {
@@ -49,6 +51,8 @@ internal class EmailMessageTemplate
                 return $"{ErrorWhileParsingHtmlSubject} - {title}";
             case TemplateType.SourceChanged:
                 return $"{SourceChangedSubject} - {title}";
+            case TemplateType.ResumedAfterError:
+                return $"{RetrySucceededSubject} - {title}";
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -71,6 +75,9 @@ internal class EmailMessageTemplate
                 break;
             case TemplateType.SourceChanged:
                 sb.AppendLine("Areawa watchdog has found a change.");
+                break;
+            case TemplateType.ResumedAfterError:
+                sb.AppendLine("Areawa watchdog has resumed after error.");
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
