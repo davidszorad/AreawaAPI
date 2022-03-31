@@ -42,4 +42,11 @@ public class WatchDogWorker
         //logger.LogInformation($"Function Ran. Next timer schedule = {timerInfo.ScheduleStatus.Next}");
         await _watchDogCreatorService.CheckChangesAsync();
     }
+    
+    [Function("WatchDogWorkerRetryFailed")]
+    public async Task WatchDogWorkerRetryFailed(
+        [TimerTrigger("0 0 12 * * *")] TimerInfo timerInfo)
+    {
+        await _watchDogCreatorService.RetryFailedAsync();
+    }
 }
